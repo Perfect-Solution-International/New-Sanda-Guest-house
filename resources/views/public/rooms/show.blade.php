@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $room->name . ' - නිවි සඳ (Nivi Sanda) Family Holiday Resort')
+@section('title', $room->name . ' - Nivi Sanda Family Holiday Resort')
 
 @section('content')
 <section class="py-12 bg-white border-b border-slate-200">

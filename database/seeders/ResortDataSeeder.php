@@ -44,7 +44,7 @@ class ResortDataSeeder extends Seeder
 
         // 2. Settings
         $settings = [
-            'resort_name' => 'නිවි සඳ (Nivi Sanda) Family Holiday Resort',
+            'resort_name' => 'Nivi Sanda Family Holiday Resort',
             'resort_tagline' => 'Your Serene Family Haven in Sacred Sella Katharagama',
             'phone' => '+94 77 987 6543',
             'hotline' => '+94 47 223 5566',
@@ -390,7 +390,7 @@ class ResortDataSeeder extends Seeder
                 'guest_name' => 'Lalith Warnakulasooriya & Family',
                 'guest_location' => 'Colombo, Sri Lanka',
                 'rating' => 5,
-                'comment' => 'නිවි සඳ Resort එකේ අපේ පවුලේ අය සමඟ ගත කරපු දවස් 3 ඇත්තටම අමතක නොවන අත්දැකීමක්! Large swimming pool, delicious Sri Lankan rice & curry, and the staff helped us organize the Kataragama Pooja and Yala safari smoothly. Highly recommended for families!',
+                'comment' => 'Our 3-day family vacation at Nivi Sanda Resort was truly an unforgettable experience! Large swimming pool, delicious Sri Lankan rice & curry, and the staff helped us organize the Kataragama Pooja and Yala safari smoothly. Highly recommended for families!',
                 'stay_date' => 'October 2026',
                 'is_approved' => true,
             ],

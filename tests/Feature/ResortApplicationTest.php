@@ -25,7 +25,7 @@ class ResortApplicationTest extends TestCase
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertSee('නිවි සඳ');
+        $response->assertSee('Nivi Sanda');
         $response->assertSee('Family Holiday Resort');
         $response->assertSee('Sella Katharagama');
     }

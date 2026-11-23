@@ -35,7 +35,7 @@
         <div class="bg-brand-900 p-8 text-center text-white space-y-3">
             <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda" class="h-16 mx-auto rounded bg-white p-1 shadow">
             <div>
-                <h1 class="font-serif font-bold text-2xl text-white">නිවි සඳ Resort</h1>
+                <h1 class="font-serif font-bold text-2xl text-white">Nivi Sanda Resort</h1>
                 <p class="text-xs text-gold-400 font-semibold uppercase tracking-widest mt-0.5">Staff & Admin Management Portal</p>
             </div>
         </div>

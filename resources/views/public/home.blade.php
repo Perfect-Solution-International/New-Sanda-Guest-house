@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'නිවි සඳ (Nivi Sanda) Family Holiday Resort - Sella Katharagama')
+@section('title', 'Nivi Sanda Family Holiday Resort - Sella Katharagama')
 
 @section('content')
 
@@ -15,11 +15,11 @@
         </div>
 
         <div class="flex justify-center mb-6">
-            <img src="{{ asset('images/logo.jpg') }}" alt="නිවි සඳ Family Holiday Resort" class="h-28 sm:h-36 w-auto object-contain drop-shadow-2xl rounded-xl border-2 border-gold-400/30">
+            <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda Family Holiday Resort" class="h-28 sm:h-36 w-auto object-contain drop-shadow-2xl rounded-xl border-2 border-gold-400/30">
         </div>
 
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold tracking-tight text-white mb-4 leading-tight">
-            නිවි සඳ <span class="text-gold-400">Family Holiday Resort</span>
+            Nivi Sanda <span class="text-gold-400">Family Holiday Resort</span>
         </h1>
         <p class="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto font-light leading-relaxed mb-8">
             Your serene nature haven nestled amidst the tranquil greenery of Sella Katharagama. Luxury family villas, crystal swimming pool, authentic dining, and Yala Safari adventures.
@@ -172,7 +172,7 @@
                     A Peaceful Sanctuary Where Faith Meets Natural Serenity
                 </h2>
                 <p class="text-slate-600 text-base leading-relaxed">
-                    Sella Katharagama is revered for its ancient spiritual lore, the sacred waters of Menik Ganga, and the untouched beauty of Sri Lanka's southern wilderness. At <strong>නිවි සඳ (Nivi Sanda) Family Holiday Resort</strong>, we have created a haven specifically tailored for families, pilgrimage devotees, and vacationers.
+                    Sella Katharagama is revered for its ancient spiritual lore, the sacred waters of Menik Ganga, and the untouched beauty of Sri Lanka's southern wilderness. At <strong>Nivi Sanda Family Holiday Resort</strong>, we have created a haven specifically tailored for families, pilgrimage devotees, and vacationers.
                 </p>
                 <div class="grid grid-cols-2 gap-4 pt-2">
                     <div class="border-l-4 border-brand-600 pl-4">

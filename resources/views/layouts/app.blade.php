@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'නිවි සඳ (Nivi Sanda) Family Holiday Resort - Sella Katharagama')</title>
+    <title>@yield('title', 'Nivi Sanda Family Holiday Resort - Sella Katharagama')</title>
     <meta name="description" content="Nivi Sanda Family Holiday Resort in Sella Katharagama offers luxury family villas, wooden cabanas, swimming pool, authentic dining, and Yala Safari tours.">
     
     <!-- Google Fonts -->
@@ -97,7 +97,7 @@
                     <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda Family Holiday Resort" class="h-16 w-auto object-contain rounded shadow-sm group-hover:scale-105 transition duration-300">
                     <div>
                         <div class="text-xl sm:text-2xl font-serif font-bold text-brand-900 tracking-tight leading-none">
-                            නිවි සඳ <span class="text-gold-500 font-sans text-lg font-semibold tracking-normal">Resort</span>
+                            Nivi Sanda <span class="text-gold-500 font-sans text-lg font-semibold tracking-normal">Resort</span>
                         </div>
                         <div class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-widest mt-0.5">
                             Family Holiday Resort • Sella Katharagama
@@ -192,7 +192,7 @@
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda Resort" class="h-14 w-auto bg-white/10 rounded p-1">
                         <div>
-                            <div class="font-serif font-bold text-xl text-white">නිවි සඳ Resort</div>
+                            <div class="font-serif font-bold text-xl text-white">Nivi Sanda Resort</div>
                             <div class="text-xs text-gold-400 uppercase tracking-widest font-semibold">Family Holiday Resort</div>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
 
             <!-- Bottom Copyright & Admin portal link -->
             <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-4">
-                <p>&copy; {{ date('Y') }} නිවි සඳ (Nivi Sanda) Family Holiday Resort. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} Nivi Sanda Family Holiday Resort. All rights reserved.</p>
                 <div class="flex items-center gap-4">
                     <a href="{{ route('admin.login') }}" class="text-slate-400 hover:text-gold-400 transition flex items-center gap-1">
                         <i class="fa-solid fa-lock text-[10px]"></i> Resort Staff Login

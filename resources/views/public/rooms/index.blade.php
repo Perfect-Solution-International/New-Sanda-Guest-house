@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Rooms & Luxury Cabanas - නිවි සඳ (Nivi Sanda) Family Holiday Resort')
+@section('title', 'Rooms & Luxury Cabanas - Nivi Sanda Family Holiday Resort')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center bg-cover bg-center" style="background-image: linear-gradient(rgba(14, 45, 28, 0.85), rgba(14, 45, 28, 0.9)), url('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80');">

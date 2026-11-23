@@ -1,7 +1,7 @@
 -- =========================================================
--- Nivi Sanda (නිවි සඳ) Family Holiday Resort - Sella Katharagama
+-- Nivi Sanda Family Holiday Resort - Sella Katharagama
 -- Complete MySQL Database Dump
--- Generated: 2026-11-23 09:05:32
+-- Generated: 2026-11-23 09:23:10
 -- Target: MySQL 5.7+ / 8.0+ / MariaDB
 -- =========================================================
 
@@ -30,8 +30,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `users`
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 'Nivi Sanda General Manager', 'admin@nivisandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$1N9dIBqqOMUToQywTTUXTu6a0AezwqyzEk7yLCdvqLnxYuNi0Ij5W', NULL, '2026-11-23 08:52:16', '2026-11-23 08:52:16');
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (2, 'Front Desk Reception', 'reception@nivisandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$7CzweSod7cefXTTv9N4YhuIwkX4I6f/ktTRgpTWvw4/NZyPAZSnvS', NULL, '2026-11-23 08:52:16', '2026-11-23 08:52:16');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 'Nivi Sanda General Manager', 'admin@nivisandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$bJIZRQppFcqDDg7LpTzzF.D0RdsHbtSgGLL795Rn5il2Rqik/qj1W', NULL, '2026-11-23 08:52:16', '2026-11-23 09:23:08');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (2, 'Front Desk Reception', 'reception@nivisandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$sp45sDVXTOmLTuidil/KquUQM22mIvrYAf22c5xB/gBKTIxNPGHPa', NULL, '2026-11-23 08:52:16', '2026-11-23 09:23:09');
 
 DROP TABLE IF EXISTS `room_types`;
 CREATE TABLE `room_types` (
@@ -269,7 +269,7 @@ CREATE TABLE `reviews` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `reviews`
-INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (1, 'Lalith Warnakulasooriya & Family', 'Colombo, Sri Lanka', 5, 'නිවි සඳ Resort එකේ අපේ පවුලේ අය සමඟ ගත කරපු දවස් 3 ඇත්තටම අමතක නොවන අත්දැකීමක්! Large swimming pool, delicious Sri Lankan rice & curry, and the staff helped us organize the Kataragama Pooja and Yala safari smoothly. Highly recommended for families!', 'October 2026', 1, '2026-11-23 08:52:17', '2026-11-23 08:52:17');
+INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (1, 'Lalith Warnakulasooriya & Family', 'Colombo, Sri Lanka', 5, 'Our 3-day family vacation at Nivi Sanda Resort was truly an unforgettable experience! Large swimming pool, delicious Sri Lankan rice & curry, and the staff helped us organize the Kataragama Pooja and Yala safari smoothly. Highly recommended for families!', 'October 2026', 1, '2026-11-23 08:52:17', '2026-11-23 09:23:09');
 INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (2, 'Nadeeka Priyadharshani', 'Kurunegala', 5, 'Great ambiance in Sella Katharagama. Very clean cabanas with hot water and strong AC. Kids loved the swimming pool so much. Staff was exceptionally welcoming and helpful.', 'November 2026', 1, '2026-11-23 08:52:17', '2026-11-23 08:52:17');
 INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (3, 'Asanka Jayawardena', 'Matara', 5, 'The best family holiday resort near Kataragama! Ample parking for large vans and buses, peaceful green environment away from noise, and great BBQ setup by the pool at night.', 'November 2026', 1, '2026-11-23 08:52:17', '2026-11-23 08:52:17');
 
@@ -303,7 +303,7 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `settings`
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'නිවි සඳ (Nivi Sanda) Family Holiday Resort', '2026-11-23 08:52:16', '2026-11-23 08:52:16');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'Nivi Sanda Family Holiday Resort', '2026-11-23 08:52:16', '2026-11-23 09:23:09');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (2, 'resort_tagline', 'Your Serene Family Haven in Sacred Sella Katharagama', '2026-11-23 08:52:16', '2026-11-23 08:52:16');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (3, 'phone', '+94 77 987 6543', '2026-11-23 08:52:16', '2026-11-23 08:52:16');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (4, 'hotline', '+94 47 223 5566', '2026-11-23 08:52:16', '2026-11-23 08:52:16');

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - නිවි සඳ (Nivi Sanda) Family Holiday Resort')
+@section('title', 'Contact Us - Nivi Sanda Family Holiday Resort')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center">

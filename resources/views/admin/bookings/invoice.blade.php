@@ -30,7 +30,7 @@
             <div class="flex items-center gap-4">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda" class="h-20 w-auto rounded border border-slate-200">
                 <div>
-                    <h1 class="font-serif font-bold text-2xl text-slate-900">නිවි සඳ Family Holiday Resort</h1>
+                    <h1 class="font-serif font-bold text-2xl text-slate-900">Nivi Sanda Family Holiday Resort</h1>
                     <div class="text-xs text-slate-600">Sella Katharagama, Monaragala, Sri Lanka</div>
                     <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@nivisandaresort.com</div>
                 </div>
@@ -131,7 +131,7 @@
         </div>
 
         <div class="text-center text-[10px] text-slate-400 mt-8">
-            Thank you for staying at නිවි සඳ (Nivi Sanda) Family Holiday Resort • May your journey be blessed!
+            Thank you for staying at Nivi Sanda Family Holiday Resort • May your journey be blessed!
         </div>
     </div>
 
