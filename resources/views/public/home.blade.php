@@ -14,10 +14,6 @@
             <i class="fa-solid fa-sparkles"></i> Welcome to Sacred Sella Katharagama
         </div>
 
-        <div class="flex justify-center mb-6">
-            <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda Family Holiday Resort" class="h-28 sm:h-36 w-auto object-contain drop-shadow-2xl rounded-xl border-2 border-gold-400/30">
-        </div>
-
         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold tracking-tight text-white mb-4 leading-tight">
             Nivi Sanda <span class="text-gold-400">Family Holiday Resort</span>
         </h1>
