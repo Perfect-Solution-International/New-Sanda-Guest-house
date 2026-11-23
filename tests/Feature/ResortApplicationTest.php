@@ -120,6 +120,15 @@ class ResortApplicationTest extends TestCase
         $this->assertDatabaseHas('inquiries', ['name' => 'Mahesh Fernando']);
     }
 
+    public function test_unauthenticated_user_accessing_admin_is_redirected_to_login(): void
+    {
+        $response = $this->get('/admin');
+        $response->assertRedirect('/admin/login');
+
+        $loginResponse = $this->get('/login');
+        $loginResponse->assertRedirect('/admin/login');
+    }
+
     public function test_admin_can_login_and_access_dashboard(): void
     {
         $response = $this->post('/admin/login', [

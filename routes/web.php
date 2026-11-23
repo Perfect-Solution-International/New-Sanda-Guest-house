@@ -42,6 +42,7 @@ Route::post('/track-booking', [BookingController::class, 'checkStatus'])->name('
 | Admin Authentication Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
