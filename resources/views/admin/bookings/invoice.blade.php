@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - {{ $booking->booking_code }} | Nivi Sanda Resort</title>
+    <title>Invoice - {{ $booking->booking_code }} | New Sanda Guest House</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,11 +28,11 @@
         <!-- Official Letterhead -->
         <div class="flex items-start justify-between border-b-2 border-emerald-800 pb-6 mb-8">
             <div class="flex items-center gap-4">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Nivi Sanda" class="h-20 w-auto rounded border border-slate-200">
+                <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-20 w-auto rounded border border-slate-200">
                 <div>
-                    <h1 class="font-serif font-bold text-2xl text-slate-900">Nivi Sanda Family Holiday Resort</h1>
+                    <h1 class="font-serif font-bold text-2xl text-slate-900">New Sanda Guest House</h1>
                     <div class="text-xs text-slate-600">Sella Katharagama, Monaragala, Sri Lanka</div>
-                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@nivisandaresort.com</div>
+                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@newsandaresort.com</div>
                 </div>
             </div>
 
@@ -131,7 +131,7 @@
         </div>
 
         <div class="text-center text-[10px] text-slate-400 mt-8">
-            Thank you for staying at Nivi Sanda Family Holiday Resort • May your journey be blessed!
+            Thank you for staying at New Sanda Guest House • May your journey be blessed!
         </div>
     </div>
 

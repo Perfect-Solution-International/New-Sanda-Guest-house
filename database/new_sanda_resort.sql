@@ -1,7 +1,7 @@
 -- =========================================================
--- Nivi Sanda Family Holiday Resort - Sella Katharagama
+-- New Sanda Guest House - Sella Katharagama
 -- Complete MySQL Database Dump
--- Generated: 2026-11-23 09:33:47
+-- Generated: 2026-11-23 10:27:51
 -- Target: MySQL 5.7+ / 8.0+ / MariaDB
 -- =========================================================
 
@@ -10,8 +10,8 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+05:30";
 
-CREATE DATABASE IF NOT EXISTS `nivi_sanda_resort` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `nivi_sanda_resort`;
+CREATE DATABASE IF NOT EXISTS `new_sanda_resort` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `new_sanda_resort`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -32,6 +32,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 'Nivi Sanda Manager', 'admin@nivisandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$lmvZo.exq/YlmVjpKHGhheIsodJRarrV5aSjLdIubPcUj81hKWqs.', NULL, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (2, 'Guest House Reception', 'reception@nivisandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$KGXLrB/ytj7XhcpF6GQmi.RZ0tbA4cVQEAYpCxhBYGnPHen2Pm8eG', NULL, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (3, 'New Sanda Manager', 'admin@newsandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$2YTuP706019Y3n.lyiUkK.HOpatYOcQ98KMxLq7VsFApIiBE22/mO', NULL, '2026-11-23 10:27:33', '2026-11-23 10:27:33');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (4, 'Guest House Reception', 'reception@newsandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$6NQwar0j8ndOzqMB2HezY.gEErBbmRDwOn67kHOsQW.kzZCVQ.aem', NULL, '2026-11-23 10:27:34', '2026-11-23 10:27:34');
 
 DROP TABLE IF EXISTS `room_types`;
 CREATE TABLE `room_types` (
@@ -265,12 +267,12 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `settings`
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'Nivi Sanda Holiday Home & Guest House', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'New Sanda Holiday Home & Guest House', '2026-11-23 09:33:45', '2026-11-23 10:27:34');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (2, 'resort_tagline', 'Clean, Comfortable & Affordable Family Stay in Sella Katharagama', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (3, 'phone', '+94 77 987 6543', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (4, 'hotline', '+94 47 223 5566', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (5, 'whatsapp', +94779876543, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (6, 'email', 'info@nivisandaresort.com', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (6, 'email', 'info@newsandaresort.com', '2026-11-23 09:33:45', '2026-11-23 10:27:34');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (7, 'address', 'No. 45, Sella Road, Sella Katharagama, Sri Lanka', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (8, 'check_in_time', '02:00 PM', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (9, 'check_out_time', '11:00 AM', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
@@ -278,9 +280,9 @@ INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (11, 'currency_symbol', 'Rs.', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (12, 'bank_details', 'Bank: Bank of Ceylon (BOC)
 Branch: Kataragama Branch
-Account Name: Nivi Sanda Guest House
-Account No: 8876543201', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (13, 'about_text', 'Nivi Sanda is a peaceful, family-run guest house situated in sacred Sella Katharagama. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking. Ideal for families, pilgrims visiting Ruhunu Kataragama Maha Devalaya, and travellers.', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+Account Name: New Sanda Guest House
+Account No: 8876543201', '2026-11-23 09:33:46', '2026-11-23 10:27:34');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (13, 'about_text', 'New Sanda is a peaceful, family-run guest house situated in sacred Sella Katharagama. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking. Ideal for families, pilgrims visiting Ruhunu Kataragama Maha Devalaya, and travellers.', '2026-11-23 09:33:46', '2026-11-23 10:27:34');
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;

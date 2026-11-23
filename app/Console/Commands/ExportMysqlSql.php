@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class ExportMysqlSql extends Command
 {
-    protected $signature = 'db:export-mysql {file=database/nivi_sanda_resort.sql}';
+    protected $signature = 'db:export-mysql {file=database/new_sanda_resort.sql}';
     protected $description = 'Generate full MySQL SQL dump for import into MySQL / phpMyAdmin';
 
     public function handle(): int
@@ -17,7 +17,7 @@ class ExportMysqlSql extends Command
         $this->info("Exporting MySQL SQL dump to: {$filePath}");
 
         $sql = "-- =========================================================\n";
-        $sql .= "-- Nivi Sanda Family Holiday Resort - Sella Katharagama\n";
+        $sql .= "-- New Sanda Guest House - Sella Katharagama\n";
         $sql .= "-- Complete MySQL Database Dump\n";
         $sql .= "-- Generated: " . date('Y-m-d H:i:s') . "\n";
         $sql .= "-- Target: MySQL 5.7+ / 8.0+ / MariaDB\n";
@@ -27,8 +27,8 @@ class ExportMysqlSql extends Command
         $sql .= "START TRANSACTION;\n";
         $sql .= "SET time_zone = \"+05:30\";\n\n";
 
-        $sql .= "CREATE DATABASE IF NOT EXISTS `nivi_sanda_resort` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n";
-        $sql .= "USE `nivi_sanda_resort`;\n\n";
+        $sql .= "CREATE DATABASE IF NOT EXISTS `new_sanda_resort` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n";
+        $sql .= "USE `new_sanda_resort`;\n\n";
 
         // Table structures
         $tables = [

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Photo Gallery - Nivi Sanda Family Holiday Resort')
+@section('title', 'Photo Gallery - New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center">
     <div class="max-w-4xl mx-auto px-4">
         <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Visual Tour</span>
-        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">Resort Photo Gallery</h1>
+        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">Guest House Photo Gallery</h1>
         <p class="text-slate-200 text-base max-w-2xl mx-auto font-light">
-            Take a visual tour through our luxury villas, tranquil cabanas, swimming pool, and serene grounds.
+            Take a visual tour through our clean family rooms, attached bathrooms, and secure premises.
         </p>
     </div>
 </section>

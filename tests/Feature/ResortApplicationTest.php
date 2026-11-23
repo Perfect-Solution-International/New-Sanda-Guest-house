@@ -25,7 +25,7 @@ class ResortApplicationTest extends TestCase
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertSee('Nivi Sanda');
+        $response->assertSee('New Sanda');
         $response->assertSee('Guest House');
         $response->assertSee('Sella Katharagama');
     }
@@ -123,7 +123,7 @@ class ResortApplicationTest extends TestCase
     public function test_admin_can_login_and_access_dashboard(): void
     {
         $response = $this->post('/admin/login', [
-            'email' => 'admin@nivisandaresort.com',
+            'email' => 'admin@newsandaresort.com',
             'password' => 'admin123',
         ]);
 

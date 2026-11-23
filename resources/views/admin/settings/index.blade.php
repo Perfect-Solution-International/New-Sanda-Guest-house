@@ -13,11 +13,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Resort Name</label>
-                    <input type="text" name="resort_name" value="{{ $settings['resort_name'] ?? 'Nivi Sanda Family Holiday Resort' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold">
+                    <input type="text" name="resort_name" value="{{ $settings['resort_name'] ?? 'New Sanda Holiday Home & Guest House' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tagline</label>
-                    <input type="text" name="resort_tagline" value="{{ $settings['resort_tagline'] ?? 'Your Serene Family Haven in Sacred Sella Katharagama' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" name="resort_tagline" value="{{ $settings['resort_tagline'] ?? 'Clean, Comfortable & Affordable Family Stay in Sella Katharagama' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
                 </div>
                 <div class="sm:col-span-2">
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Physical Address</label>
@@ -43,7 +43,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Public Email</label>
-                    <input type="email" name="email" value="{{ $settings['email'] ?? 'info@nivisandaresort.com' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="email" name="email" value="{{ $settings['email'] ?? 'info@newsandaresort.com' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
                 </div>
             </div>
         </div>

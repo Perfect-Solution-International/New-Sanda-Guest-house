@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - Nivi Sanda Family Holiday Resort')
+@section('title', 'Contact Us - New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center">
@@ -8,7 +8,7 @@
         <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Get In Touch</span>
         <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">Contact & Location</h1>
         <p class="text-slate-200 text-base max-w-2xl mx-auto font-light">
-            We are here to assist with room bookings, safari packages, Kataragama pilgrimage guidance, and special group inquiries.
+            We are here to assist with room bookings, pilgrimage guidance, and family reservations.
         </p>
     </div>
 </section>
@@ -49,7 +49,7 @@
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-2">
                         <i class="fa-solid fa-envelope text-2xl text-gold-500"></i>
                         <h4 class="font-bold text-slate-900">Email Address</h4>
-                        <p class="text-sm text-slate-600">info@nivisandaresort.com</p>
+                        <p class="text-sm text-slate-600">info@newsandaresort.com</p>
                     </div>
                 </div>
 

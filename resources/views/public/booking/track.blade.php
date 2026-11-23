@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Track Booking Status - Nivi Sanda Family Holiday Resort')
+@section('title', 'Track Booking Status - New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center">

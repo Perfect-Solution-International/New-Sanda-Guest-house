@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Reserve Your Stay - Nivi Sanda Family Holiday Resort')
+@section('title', 'Reserve Your Stay - New Sanda Guest House')
 
 @section('content')
 <section class="py-12 bg-brand-900 text-white text-center">
     <div class="max-w-4xl mx-auto px-4">
         <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Instant Online Booking</span>
-        <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white mb-2">Reserve Your Stay at Nivi Sanda</h1>
+        <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white mb-2">Reserve Your Stay at New Sanda</h1>
         <p class="text-slate-200 text-sm max-w-xl mx-auto font-light">
-            Guaranteed best rates directly from our resort desk in Sella Katharagama.
+            Guaranteed best rates directly from our guest house desk in Sella Katharagama.
         </p>
     </div>
 </section>
@@ -229,7 +229,7 @@
                         </button>
 
                         <div class="text-[11px] text-slate-400 text-center leading-relaxed">
-                            By confirming, you agree to Nivi Sanda Resort's reservation & check-in guidelines. Confirmation reference will be generated immediately.
+                            By confirming, you agree to New Sanda Guest House's reservation & check-in guidelines. Confirmation reference will be generated immediately.
                         </div>
                     </div>
                 </div>

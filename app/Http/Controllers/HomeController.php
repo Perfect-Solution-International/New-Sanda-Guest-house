@@ -64,6 +64,6 @@ class HomeController extends Controller
 
         Inquiry::create($validated);
 
-        return redirect()->route('contact')->with('success', 'Thank you! Your message has been sent to Nivi Sanda Resort. Our team will contact you shortly.');
+        return redirect()->route('contact')->with('success', 'Thank you! Your message has been sent to New Sanda Guest House. Our team will contact you shortly.');
     }
 }
