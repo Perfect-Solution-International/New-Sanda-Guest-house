@@ -77,11 +77,28 @@ class ResortApplicationTest extends TestCase
 
     public function test_guest_can_track_booking_status(): void
     {
-        $booking = Booking::first();
+        $roomType = RoomType::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-2026-TEST9',
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Kanishka Test',
+            'guest_email' => 'kanishka@test.com',
+            'guest_phone' => '+94 77 123 4567',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(2)->format('Y-m-d'),
+            'nights' => 2,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 20000,
+            'room_subtotal' => 40000,
+            'total_amount' => 40000,
+            'balance_due' => 40000,
+            'booking_status' => 'confirmed',
+        ]);
 
         $response = $this->post('/track-booking', [
             'booking_code' => $booking->booking_code,
-            'phone' => substr($booking->guest_phone, -7), // matches partial
+            'phone' => substr($booking->guest_phone, -7),
         ]);
 
         $response->assertStatus(200);
@@ -121,7 +138,26 @@ class ResortApplicationTest extends TestCase
     public function test_admin_can_update_booking_and_assign_room(): void
     {
         $admin = User::first();
-        $booking = Booking::first();
+        $roomType = RoomType::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-2026-TEST8',
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Ruwan Test',
+            'guest_email' => 'ruwan@test.com',
+            'guest_phone' => '+94 71 889 2211',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(1)->format('Y-m-d'),
+            'nights' => 1,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 22000,
+            'room_subtotal' => 22000,
+            'total_amount' => 22000,
+            'balance_due' => 22000,
+            'booking_status' => 'pending',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
         $room = Room::where('room_type_id', $booking->room_type_id)->first();
 
         $response = $this->actingAs($admin)->put("/admin/bookings/{$booking->id}", [
@@ -142,7 +178,26 @@ class ResortApplicationTest extends TestCase
     public function test_admin_invoice_view_renders(): void
     {
         $admin = User::first();
-        $booking = Booking::first();
+        $roomType = RoomType::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-2026-INV1',
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Invoice Test',
+            'guest_email' => 'inv@test.com',
+            'guest_phone' => '+94 77 999 0000',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(1)->format('Y-m-d'),
+            'nights' => 1,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 20000,
+            'room_subtotal' => 20000,
+            'total_amount' => 20000,
+            'balance_due' => 20000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'paid_in_full',
+            'payment_method' => 'cash',
+        ]);
 
         $response = $this->actingAs($admin)->get("/admin/bookings/{$booking->id}/invoice");
         $response->assertStatus(200);

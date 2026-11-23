@@ -172,20 +172,20 @@ class ResortDataSeeder extends Seeder
         $physicalRooms = [
             // Deluxe Family Villa
             ['type' => 'deluxe-family-villa', 'number' => 'VILLA-101', 'wing' => 'Poolside Villa Wing', 'status' => 'available'],
-            ['type' => 'deluxe-family-villa', 'number' => 'VILLA-102', 'wing' => 'Poolside Villa Wing', 'status' => 'occupied'],
+            ['type' => 'deluxe-family-villa', 'number' => 'VILLA-102', 'wing' => 'Poolside Villa Wing', 'status' => 'available'],
             ['type' => 'deluxe-family-villa', 'number' => 'VILLA-103', 'wing' => 'Poolside Villa Wing', 'status' => 'available'],
             // River Breeze Cabana
             ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-201', 'wing' => 'Garden Cabana Lawn', 'status' => 'available'],
             ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-202', 'wing' => 'Garden Cabana Lawn', 'status' => 'available'],
-            ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-203', 'wing' => 'Garden Cabana Lawn', 'status' => 'occupied'],
-            ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-204', 'wing' => 'Garden Cabana Lawn', 'status' => 'cleaning'],
+            ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-203', 'wing' => 'Garden Cabana Lawn', 'status' => 'available'],
+            ['type' => 'luxury-river-breeze-cabana', 'number' => 'CABANA-204', 'wing' => 'Garden Cabana Lawn', 'status' => 'available'],
             // Executive Nature Suite
             ['type' => 'executive-nature-suite', 'number' => 'SUITE-301', 'wing' => 'Main Wing 1st Floor', 'status' => 'available'],
             ['type' => 'executive-nature-suite', 'number' => 'SUITE-302', 'wing' => 'Main Wing 1st Floor', 'status' => 'available'],
-            ['type' => 'executive-nature-suite', 'number' => 'SUITE-303', 'wing' => 'Main Wing 1st Floor', 'status' => 'maintenance'],
+            ['type' => 'executive-nature-suite', 'number' => 'SUITE-303', 'wing' => 'Main Wing 1st Floor', 'status' => 'available'],
             // Standard Family Room
             ['type' => 'standard-family-room', 'number' => 'FAM-401', 'wing' => 'Pilgrim Ground Wing', 'status' => 'available'],
-            ['type' => 'standard-family-room', 'number' => 'FAM-402', 'wing' => 'Pilgrim Ground Wing', 'status' => 'occupied'],
+            ['type' => 'standard-family-room', 'number' => 'FAM-402', 'wing' => 'Pilgrim Ground Wing', 'status' => 'available'],
             ['type' => 'standard-family-room', 'number' => 'FAM-403', 'wing' => 'Pilgrim Ground Wing', 'status' => 'available'],
             ['type' => 'standard-family-room', 'number' => 'FAM-404', 'wing' => 'Pilgrim Ground Wing', 'status' => 'available'],
         ];
@@ -253,136 +253,7 @@ class ResortDataSeeder extends Seeder
             $createdAddons[] = Addon::updateOrCreate(['name' => $addonData['name']], $addonData);
         }
 
-        // 7. Seed Bookings
-        $sampleBookings = [
-            [
-                'booking_code' => 'NS-2026-A101',
-                'room_type_id' => $createdRoomTypes['deluxe-family-villa']->id,
-                'room_id' => $roomMap['VILLA-102']->id,
-                'guest_name' => 'Dr. Kanishka Weerasinghe',
-                'guest_email' => 'kanishka.w@gmail.com',
-                'guest_phone' => '+94 77 123 4567',
-                'guest_nic_passport' => '198512345678',
-                'guest_address' => 'Colombo 07, Sri Lanka',
-                'check_in_date' => Carbon::now()->subDays(1)->format('Y-m-d'),
-                'check_out_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
-                'nights' => 3,
-                'adults' => 4,
-                'children' => 2,
-                'room_rate' => 28500.00,
-                'room_subtotal' => 85500.00,
-                'addons_total' => 19500.00,
-                'total_amount' => 105000.00,
-                'advance_paid' => 50000.00,
-                'balance_due' => 55000.00,
-                'payment_status' => 'advance_paid',
-                'payment_method' => 'bank_transfer',
-                'booking_status' => 'checked_in',
-                'special_requests' => 'Please arrange early morning Yala safari jeep pickup at 5:30 AM.',
-                'admin_notes' => 'Checked in smoothly. Family very pleased with pool view villa.',
-            ],
-            [
-                'booking_code' => 'NS-2026-B203',
-                'room_type_id' => $createdRoomTypes['luxury-river-breeze-cabana']->id,
-                'room_id' => $roomMap['CABANA-203']->id,
-                'guest_name' => 'Ruwan Samantha Perera',
-                'guest_email' => 'ruwan.perera@yahoo.com',
-                'guest_phone' => '+94 71 889 2211',
-                'guest_nic_passport' => '199277889900',
-                'guest_address' => 'Galle Road, Panadura',
-                'check_in_date' => Carbon::now()->format('Y-m-d'),
-                'check_out_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
-                'nights' => 1,
-                'adults' => 2,
-                'children' => 0,
-                'room_rate' => 22000.00,
-                'room_subtotal' => 22000.00,
-                'addons_total' => 8500.00,
-                'total_amount' => 30500.00,
-                'advance_paid' => 30500.00,
-                'balance_due' => 0.00,
-                'payment_status' => 'paid_in_full',
-                'payment_method' => 'card_at_desk',
-                'booking_status' => 'checked_in',
-                'special_requests' => 'Outdoor BBQ dinner requested around 8:00 PM tonight.',
-                'admin_notes' => 'Full payment settled upon arrival.',
-            ],
-            [
-                'booking_code' => 'NS-2026-C402',
-                'room_type_id' => $createdRoomTypes['standard-family-room']->id,
-                'room_id' => $roomMap['FAM-402']->id,
-                'guest_name' => 'Mrs. Dilani Senanayake',
-                'guest_email' => 'dilani.sen@gmail.com',
-                'guest_phone' => '+94 76 555 4321',
-                'guest_nic_passport' => '197866554433',
-                'guest_address' => 'Kandy Road, Kiribathgoda',
-                'check_in_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
-                'check_out_date' => Carbon::now()->addDays(4)->format('Y-m-d'),
-                'nights' => 2,
-                'adults' => 4,
-                'children' => 1,
-                'room_rate' => 14000.00,
-                'room_subtotal' => 28000.00,
-                'addons_total' => 4500.00,
-                'total_amount' => 32500.00,
-                'advance_paid' => 15000.00,
-                'balance_due' => 17500.00,
-                'payment_status' => 'advance_paid',
-                'payment_method' => 'bank_transfer',
-                'booking_status' => 'confirmed',
-                'special_requests' => 'Attending Kataragama annual festival pooja.',
-                'admin_notes' => 'Advance verified via bank slip.',
-            ],
-            [
-                'booking_code' => 'NS-2026-D301',
-                'room_type_id' => $createdRoomTypes['executive-nature-suite']->id,
-                'room_id' => null,
-                'guest_name' => 'Chaminda Silva',
-                'guest_email' => 'chaminda.silva@outlook.com',
-                'guest_phone' => '+94 70 334 9876',
-                'guest_nic_passport' => '199044332211',
-                'guest_address' => 'Kurunegala',
-                'check_in_date' => Carbon::now()->addDays(5)->format('Y-m-d'),
-                'check_out_date' => Carbon::now()->addDays(7)->format('Y-m-d'),
-                'nights' => 2,
-                'adults' => 2,
-                'children' => 0,
-                'room_rate' => 17500.00,
-                'room_subtotal' => 35000.00,
-                'addons_total' => 0.00,
-                'total_amount' => 35000.00,
-                'advance_paid' => 0.00,
-                'balance_due' => 35000.00,
-                'payment_status' => 'pending',
-                'payment_method' => 'cash',
-                'booking_status' => 'pending',
-                'special_requests' => 'Quiet room preferred.',
-                'admin_notes' => 'Waiting for advance slip confirmation.',
-            ],
-        ];
-
-        foreach ($sampleBookings as $bData) {
-            $booking = Booking::updateOrCreate(['booking_code' => $bData['booking_code']], $bData);
-
-            if ($bData['addons_total'] > 0) {
-                if ($bData['booking_code'] === 'NS-2026-A101') {
-                    BookingAddon::updateOrCreate(
-                        ['booking_id' => $booking->id, 'addon_id' => $createdAddons[0]->id],
-                        ['quantity' => 1, 'unit_price' => 19500.00, 'subtotal' => 19500.00]
-                    );
-                } elseif ($bData['booking_code'] === 'NS-2026-B203') {
-                    BookingAddon::updateOrCreate(
-                        ['booking_id' => $booking->id, 'addon_id' => $createdAddons[1]->id],
-                        ['quantity' => 1, 'unit_price' => 8500.00, 'subtotal' => 8500.00]
-                    );
-                } elseif ($bData['booking_code'] === 'NS-2026-C402') {
-                    BookingAddon::updateOrCreate(
-                        ['booking_id' => $booking->id, 'addon_id' => $createdAddons[2]->id],
-                        ['quantity' => 1, 'unit_price' => 4500.00, 'subtotal' => 4500.00]
-                    );
-                }
-            }
-        }
+        // 7. No sample bookings (Clean system ready for live guest bookings)
 
         // 8. Reviews
         $reviews = [
