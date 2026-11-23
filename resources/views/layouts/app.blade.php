@@ -78,11 +78,8 @@
                     <a href="{{ route('contact') }}" class="text-sm font-semibold {{ request()->routeIs('contact') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Contact</a>
                 </nav>
 
-                <!-- Direct Call Action -->
+                <!-- Right Side Actions -->
                 <div class="hidden sm:flex items-center gap-3">
-                    <a href="tel:+94779876543" class="bg-brand-700 hover:bg-brand-800 text-white px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm shadow transition flex items-center gap-2">
-                        <i class="fa-solid fa-phone text-gold-400"></i> 077 987 6543
-                    </a>
                     <a href="{{ route('admin.dashboard') }}" title="Staff Login" class="text-slate-400 hover:text-brand-800 p-2 rounded-full hover:bg-slate-100 transition">
                         <i class="fa-solid fa-user-shield text-base"></i>
                     </a>
