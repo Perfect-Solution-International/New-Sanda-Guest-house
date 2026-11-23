@@ -1,7 +1,7 @@
 -- =========================================================
 -- Nivi Sanda Family Holiday Resort - Sella Katharagama
 -- Complete MySQL Database Dump
--- Generated: 2026-11-23 09:27:24
+-- Generated: 2026-11-23 09:33:47
 -- Target: MySQL 5.7+ / 8.0+ / MariaDB
 -- =========================================================
 
@@ -30,8 +30,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `users`
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 'Nivi Sanda General Manager', 'admin@nivisandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$Hli9dvSdn8YgsJiNz.fDI.m48uNY45mGWNHnfUVWNN/jUc5RItemi', NULL, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (2, 'Front Desk Reception', 'reception@nivisandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$hlzH138w4Jxp5H/d0PYv..SgC6iuZo1fzoeucNCVPZKZkWDP2LkYy', NULL, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (1, 'Nivi Sanda Manager', 'admin@nivisandaresort.com', '+94 77 987 6543', 'admin', NULL, '$2y$12$lmvZo.exq/YlmVjpKHGhheIsodJRarrV5aSjLdIubPcUj81hKWqs.', NULL, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES (2, 'Guest House Reception', 'reception@nivisandaresort.com', '+94 47 223 5566', 'receptionist', NULL, '$2y$12$KGXLrB/ytj7XhcpF6GQmi.RZ0tbA4cVQEAYpCxhBYGnPHen2Pm8eG', NULL, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
 
 DROP TABLE IF EXISTS `room_types`;
 CREATE TABLE `room_types` (
@@ -56,10 +56,10 @@ CREATE TABLE `room_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `room_types`
-INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (1, 'Deluxe Family Villa (Pool View)', 'deluxe-family-villa', 'Ultra-spacious luxury villa designed for families, featuring two king beds, private veranda overlooking the swimming pool, and tropical open-air rain shower.', 'Our flagship Deluxe Family Villa is the ultimate comfort experience in Sella Katharagama. Crafted with refined wooden finishes and high ceilings, this villa accommodates up to 6 guests comfortably. Enjoy direct pool views, two plush king-sized spring beds, dedicated lounging sofa area, luxury modern bathroom with solar hot water, and tranquil veranda where you can sip your morning Ceylon tea amidst tropical birdsong.', 28500, 4, 2, '2 King Beds + 1 Daybed', '650 sq ft', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80\",\"https:\\/\\/images.unsplash.com\\/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80\",\"https:\\/\\/images.unsplash.com\\/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80\"]', 1, 'active', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (2, 'Luxury River-Breeze Cabana', 'luxury-river-breeze-cabana', 'Charming eco-luxurious wooden cabana surrounded by coconut palms and birds, equipped with king bed, air conditioning, and serene sit-out patio.', 'Experience nature with luxury in our standalone River-Breeze Cabanas. Perfect for couples or small families, each cabana offers complete privacy, eco-friendly wooden aesthetics, whisper-quiet air conditioning, 43-inch smart TV, luxury mattress, mini-fridge, and an attached garden-view bathroom with hot shower.', 22000, 2, 2, '1 King Bed + 1 Single Bed', '480 sq ft', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80\",\"https:\\/\\/images.unsplash.com\\/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80\"]', 1, 'active', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (3, 'Executive Nature Suite', 'executive-nature-suite', 'Contemporary luxury room featuring a king bed, work corner, panoramic nature views, and modern comforts ideal for relaxing weekend getaways.', 'The Executive Nature Suite brings refined comfort to your spiritual and safari vacation. Fitted with premium linens, soundproofing, high-speed Wi-Fi, tea/coffee maker, modern en-suite bath, and easy access to the restaurant and swimming pool.', 17500, 2, 1, '1 King Bed', '400 sq ft', 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80\"]', 1, 'active', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (4, 'Standard Family Room', 'standard-family-room', 'Budget-friendly, spotless family room equipped with two queen beds, A/C, and attached bathroom. Perfect for pilgrimage and holiday groups.', 'Designed specifically for visiting families and pilgrimage devotees travelling together to Ruhunu Kataragama Maha Devalaya and Kiri Vehera. Clean, comfortable, fully air-conditioned, with pristine bedding and generous space for luggage.', 14000, 4, 1, '2 Queen Beds', '380 sq ft', 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80\"]', 0, 'active', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
+INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (1, 'Standard A/C Double Room', 'standard-ac-double-room', 'Comfortable air-conditioned double room with king/queen bed, attached bathroom with hot shower, and free Wi-Fi.', 'A clean and restful room equipped with cold inverter air conditioning, plush double bed, attached private bathroom with hot water, ceiling fan, and clothes rack. Perfect for couples or small families visiting Kataragama.', 5500, 2, 1, '1 Double / King Bed', '220 sq ft', 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80\",\"https:\\/\\/images.unsplash.com\\/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80\"]', 1, 'active', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (2, 'Budget Non-A/C Double Room', 'budget-non-ac-double-room', 'Affordable and clean double room with ceiling fan, attached bathroom, and free vehicle parking.', 'Economical choice for pilgrims and visitors seeking neat, spotless accommodation. Features a comfortable double bed, ceiling fan, attached bathroom, and peaceful ventilation.', 3500, 2, 1, '1 Double Bed', '200 sq ft', 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80\"]', 0, 'active', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (3, 'Family A/C Room (4-5 Guests)', 'family-ac-room', 'Spacious family room with two double beds, air conditioning, hot water bathroom, and room for the whole family.', 'Designed specifically for visiting families. Contains two large double beds, air conditioning, ceiling fan, attached modern bathroom with hot water, and ample space for luggage.', 8500, 4, 2, '2 Double Beds', '320 sq ft', 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80\"]', 1, 'active', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `room_types` (`id`, `name`, `slug`, `short_description`, `description`, `base_price_per_night`, `max_adults`, `max_children`, `bed_type`, `room_size`, `image`, `gallery`, `is_featured`, `status`, `created_at`, `updated_at`) VALUES (4, 'Family Non-A/C Room (Budget Group)', 'family-non-ac-room', 'Spacious and low-cost family room with two double beds, ceiling fans, and attached bathroom for pilgrimage groups.', 'Great value for families and groups travelling to Ruhunu Kataragama Maha Devalaya and Kiri Vehera. Clean bedding, ceiling fans, and attached bathroom.', 5500, 4, 2, '2 Double Beds', '300 sq ft', 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80', '[\"https:\\/\\/images.unsplash.com\\/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80\"]', 0, 'active', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 DROP TABLE IF EXISTS `amenities`;
 CREATE TABLE `amenities` (
@@ -73,20 +73,16 @@ CREATE TABLE `amenities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `amenities`
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (1, 'Inverter Air Conditioning', 'wind', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (2, 'Free High-Speed Wi-Fi', 'wifi', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (3, 'Swimming Pool & Kids Pool', 'water', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (4, 'Hot Water Shower', 'shower', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (5, 'Private Balcony / Verandah', 'door-open', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (6, 'Smart LED TV', 'tv', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (7, 'Electric Kettle & Tea/Coffee', 'coffee', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (8, 'Mini Refrigerator', 'snowflake', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (9, 'Lush Garden & Mountain View', 'mountain', 'room', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (10, 'Free Secure Parking', 'car', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (11, '24/7 Power Backup Generator', 'bolt', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (12, 'Restaurant & In-room Dining', 'utensils', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (13, 'Outdoor BBQ Facilities', 'fire', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (14, 'Kataragama Temple Shuttle', 'bus', 'resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (1, 'Air Conditioning', 'snowflake', 'room', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (2, 'Ceiling Fan', 'wind', 'room', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (3, 'Attached Bathroom', 'bath', 'room', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (4, 'Hot Water Shower', 'shower', 'room', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (5, 'Free Wi-Fi', 'wifi', 'resort', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (6, 'Secure Vehicle Parking', 'car', 'resort', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (7, 'LED TV', 'tv', 'room', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (8, 'Home-Cooked Food on Request', 'utensils', 'resort', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (9, '24/7 Water & Power Backup', 'bolt', 'resort', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `amenities` (`id`, `name`, `icon`, `category`, `created_at`, `updated_at`) VALUES (10, 'Near Sella Temple & Menik Ganga', 'location-dot', 'resort', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 DROP TABLE IF EXISTS `room_type_amenity`;
 CREATE TABLE `room_type_amenity` (
@@ -109,32 +105,24 @@ INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at
 INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (4, 1, 4, NULL, NULL);
 INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (5, 1, 5, NULL, NULL);
 INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (6, 1, 6, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (7, 1, 7, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (8, 1, 8, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (9, 2, 1, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (10, 2, 2, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (11, 2, 3, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (12, 2, 4, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (13, 2, 5, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (14, 2, 6, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (15, 2, 7, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (16, 2, 8, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (17, 3, 1, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (18, 3, 2, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (19, 3, 3, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (20, 3, 4, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (21, 3, 5, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (22, 3, 6, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (23, 3, 7, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (24, 3, 8, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (25, 4, 1, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (26, 4, 2, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (27, 4, 3, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (28, 4, 4, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (29, 4, 5, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (30, 4, 6, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (31, 4, 7, NULL, NULL);
-INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (32, 4, 8, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (7, 2, 1, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (8, 2, 2, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (9, 2, 3, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (10, 2, 4, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (11, 2, 5, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (12, 2, 6, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (13, 3, 1, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (14, 3, 2, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (15, 3, 3, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (16, 3, 4, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (17, 3, 5, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (18, 3, 6, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (19, 4, 1, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (20, 4, 2, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (21, 4, 3, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (22, 4, 4, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (23, 4, 5, NULL, NULL);
+INSERT INTO `room_type_amenity` (`id`, `room_type_id`, `amenity_id`, `created_at`, `updated_at`) VALUES (24, 4, 6, NULL, NULL);
 
 DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms` (
@@ -153,20 +141,12 @@ CREATE TABLE `rooms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `rooms`
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (1, 1, 'VILLA-101', 'Poolside Villa Wing', 'available', NULL, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (2, 1, 'VILLA-102', 'Poolside Villa Wing', 'available', NULL, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (3, 1, 'VILLA-103', 'Poolside Villa Wing', 'available', NULL, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (4, 2, 'CABANA-201', 'Garden Cabana Lawn', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (5, 2, 'CABANA-202', 'Garden Cabana Lawn', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (6, 2, 'CABANA-203', 'Garden Cabana Lawn', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (7, 2, 'CABANA-204', 'Garden Cabana Lawn', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (8, 3, 'SUITE-301', 'Main Wing 1st Floor', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (9, 3, 'SUITE-302', 'Main Wing 1st Floor', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (10, 3, 'SUITE-303', 'Main Wing 1st Floor', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (11, 4, 'FAM-401', 'Pilgrim Ground Wing', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (12, 4, 'FAM-402', 'Pilgrim Ground Wing', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (13, 4, 'FAM-403', 'Pilgrim Ground Wing', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (14, 4, 'FAM-404', 'Pilgrim Ground Wing', 'available', NULL, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (1, 1, 'Room 01', 'Ground Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (2, 1, 'Room 02', 'Ground Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (3, 2, 'Room 03', 'Ground Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (4, 3, 'Room 04', 'First Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (5, 3, 'Room 05', 'First Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `rooms` (`id`, `room_type_id`, `room_number`, `floor_wing`, `status`, `notes`, `created_at`, `updated_at`) VALUES (6, 4, 'Room 06', 'First Floor', 'available', NULL, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 DROP TABLE IF EXISTS `addons`;
 CREATE TABLE `addons` (
@@ -183,11 +163,9 @@ CREATE TABLE `addons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `addons`
-INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (1, 'Yala National Park Safari (4x4 Jeep + Driver)', 'Half-day thrilling safari into Yala Block 1 or 5. Includes modified 4x4 open safari jeep, professional wildlife tracker driver, and pickup/drop from resort gate.', 19500, 'per_booking', 'truck', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (2, 'Outdoor Poolside BBQ Dinner Setup', 'Freshly grilled chicken, fish, sausage skewers, butter corn, garlic bread, and tropical salad served beside the illuminated swimming pool under the night stars.', 8500, 'per_booking', 'fire', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (3, 'Kataragama Devalaya Pooja Transport & Guidance', 'A/C van transfer to Maha Devalaya and Kiri Vehera, timing coordination for evening Pooja rituals, and assistance with fruit basket offerings.', 4500, 'per_booking', 'bus', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (4, 'Extra Luxury Mattress & Linens', 'Additional comfortable single mattress with pillows, blanket, and bath towels for extra guest.', 3000, 'per_night', 'bed', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (5, 'Traditional Southern Sri Lankan Breakfast (Per Person)', 'Delicious string hoppers, pol sambol, kiri hodhi, fish ambul thiyal, fresh fruit platter, and Ceylon tea.', 1500, 'per_person', 'utensils', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
+INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (1, 'Extra Single Mattress & Pillow', 'Comfortable single mattress with clean bedsheet, blanket, and pillow for an additional guest.', 1000, 'per_night', 'bed', 1, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (2, 'Home-Cooked Breakfast (Per Person)', 'Traditional Sri Lankan breakfast (Roti or String Hoppers with dhal & lunu miris, tea).', 600, 'per_person', 'utensils', 1, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `addons` (`id`, `name`, `description`, `price`, `price_type`, `icon`, `is_active`, `created_at`, `updated_at`) VALUES (3, 'Kataragama Devalaya Transport / Tuk-Tuk', 'Assistance with local vehicle or three-wheeler to Kataragama temple & Kiri Vehera.', 1200, 'per_booking', 'car', 1, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 DROP TABLE IF EXISTS `bookings`;
 CREATE TABLE `bookings` (
@@ -258,9 +236,8 @@ CREATE TABLE `reviews` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `reviews`
-INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (1, 'Lalith Warnakulasooriya & Family', 'Colombo, Sri Lanka', 5, 'Our 3-day family vacation at Nivi Sanda Resort was truly an unforgettable experience! Large swimming pool, delicious Sri Lankan rice & curry, and the staff helped us organize the Kataragama Pooja and Yala safari smoothly. Highly recommended for families!', 'October 2026', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (2, 'Nadeeka Priyadharshani', 'Kurunegala', 5, 'Great ambiance in Sella Katharagama. Very clean cabanas with hot water and strong AC. Kids loved the swimming pool so much. Staff was exceptionally welcoming and helpful.', 'November 2026', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (3, 'Asanka Jayawardena', 'Matara', 5, 'The best family holiday resort near Kataragama! Ample parking for large vans and buses, peaceful green environment away from noise, and great BBQ setup by the pool at night.', 'November 2026', 1, '2026-11-23 09:27:23', '2026-11-23 09:27:23');
+INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (1, 'Lalith & Family', 'Colombo', 5, 'Very clean and peaceful place to stay with family for Kataragama pilgrimage. Hot water and A/C worked perfectly, and ample space to park our van.', 'Recent Stay', 1, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `reviews` (`id`, `guest_name`, `guest_location`, `rating`, `comment`, `stay_date`, `is_approved`, `created_at`, `updated_at`) VALUES (2, 'Nadeeka Priyadharshani', 'Kandy', 5, 'Affordable rates and very friendly owner. Sella Kataragama temple is just a few minutes away. Highly recommended for families.', 'Recent Stay', 1, '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 DROP TABLE IF EXISTS `inquiries`;
 CREATE TABLE `inquiries` (
@@ -276,10 +253,6 @@ CREATE TABLE `inquiries` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table `inquiries`
-INSERT INTO `inquiries` (`id`, `name`, `email`, `phone`, `subject`, `message`, `status`, `created_at`, `updated_at`) VALUES (1, 'Bandara Senadeera', 'bandara@gmail.com', '+94 77 443 3221', 'Family Gathering & 4 Rooms Booking for December', 'Hello, we are planning a family reunion of 18 members during late December. Can we reserve all 3 Deluxe Family Villas and 2 Cabanas? Please send group discount rates and meal packages.', 'unread', '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-INSERT INTO `inquiries` (`id`, `name`, `email`, `phone`, `subject`, `message`, `status`, `created_at`, `updated_at`) VALUES (2, 'Sunil Wickramaratne', 'sunilw@yahoo.com', '+94 71 998 8776', 'Yala Safari + Kataragama 2 Days Package', 'We want to book 2 Executive Suites with Yala Jeep Safari arrangement for next Saturday. Please confirm availability.', 'replied', '2026-11-23 09:27:23', '2026-11-23 09:27:23');
-
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -292,22 +265,22 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table `settings`
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'Nivi Sanda Family Holiday Resort', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (2, 'resort_tagline', 'Your Serene Family Haven in Sacred Sella Katharagama', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (3, 'phone', '+94 77 987 6543', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (4, 'hotline', '+94 47 223 5566', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (5, 'whatsapp', +94779876543, '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (6, 'email', 'info@nivisandaresort.com', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (7, 'address', 'No. 45, Sella Road, Sella Katharagama, Sri Lanka', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (8, 'check_in_time', '02:00 PM', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (9, 'check_out_time', '11:00 AM', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (10, 'currency', 'LKR', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (11, 'currency_symbol', 'Rs.', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (1, 'resort_name', 'Nivi Sanda Holiday Home & Guest House', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (2, 'resort_tagline', 'Clean, Comfortable & Affordable Family Stay in Sella Katharagama', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (3, 'phone', '+94 77 987 6543', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (4, 'hotline', '+94 47 223 5566', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (5, 'whatsapp', +94779876543, '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (6, 'email', 'info@nivisandaresort.com', '2026-11-23 09:33:45', '2026-11-23 09:33:45');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (7, 'address', 'No. 45, Sella Road, Sella Katharagama, Sri Lanka', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (8, 'check_in_time', '02:00 PM', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (9, 'check_out_time', '11:00 AM', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (10, 'currency', 'LKR', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (11, 'currency_symbol', 'Rs.', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (12, 'bank_details', 'Bank: Bank of Ceylon (BOC)
 Branch: Kataragama Branch
-Account Name: Nivi Sanda Holiday Resort
-Account No: 8876543201', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
-INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (13, 'about_text', 'Nestled amidst the tranquil nature of Sella Katharagama and minutes away from the sacred Kataragama Devalaya and Yala National Park, Nivi Sanda Family Holiday Resort provides the ultimate peaceful escape for families, pilgrims, and nature lovers. Featuring lush tropical gardens, a sparkling swimming pool, spacious family villas, and warm Sri Lankan hospitality.', '2026-11-23 09:27:22', '2026-11-23 09:27:22');
+Account Name: Nivi Sanda Guest House
+Account No: 8876543201', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
+INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES (13, 'about_text', 'Nivi Sanda is a peaceful, family-run guest house situated in sacred Sella Katharagama. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking. Ideal for families, pilgrims visiting Ruhunu Kataragama Maha Devalaya, and travellers.', '2026-11-23 09:33:46', '2026-11-23 09:33:46');
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
