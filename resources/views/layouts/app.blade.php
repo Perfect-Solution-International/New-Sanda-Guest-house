@@ -51,29 +51,6 @@
 </head>
 <body class="bg-[#fcfaf7] text-slate-800 font-sans antialiased flex flex-col min-h-screen" x-data="{ mobileMenu: false }">
 
-    <!-- Top Contact Bar -->
-    <div class="bg-brand-900 text-white text-xs py-2 px-4 border-b border-brand-800">
-        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
-            <div class="flex items-center gap-3">
-                <span class="flex items-center gap-1.5 text-gold-400 font-medium">
-                    <i class="fa-solid fa-location-dot"></i> Sella Katharagama, Sri Lanka
-                </span>
-                <span class="hidden md:inline-block text-brand-200">•</span>
-                <span class="hidden md:inline-block text-slate-200">
-                    5 mins to Sella Temple & Kataragama Maha Devalaya
-                </span>
-            </div>
-            <div class="flex items-center gap-4">
-                <a href="tel:+94779876543" class="hover:text-gold-400 transition flex items-center gap-1 text-slate-100 font-medium">
-                    <i class="fa-solid fa-phone text-xs text-gold-400"></i> +94 77 987 6543
-                </a>
-                <a href="https://wa.me/94779876543" target="_blank" class="hover:text-emerald-300 transition flex items-center gap-1 text-emerald-400 font-semibold">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Navigation Header -->
     <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-stone-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
