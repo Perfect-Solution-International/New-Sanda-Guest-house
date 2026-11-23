@@ -53,10 +53,10 @@
 
     <!-- Main Navigation Header -->
     <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-stone-100">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="w-full px-4 sm:px-8 lg:px-12">
             <div class="flex justify-between items-center h-20">
-                <!-- Brand Name -->
-                <a href="{{ route('home') }}" class="flex items-center gap-3">
+                <!-- Brand Name (Left-aligned) -->
+                <a href="{{ route('home') }}" class="flex items-center gap-3 flex-shrink-0">
                     <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-14 w-auto object-contain rounded shadow-sm">
                     <div>
                         <div class="text-xl sm:text-2xl font-serif font-bold text-brand-900 tracking-tight leading-none">
@@ -68,18 +68,17 @@
                     </div>
                 </a>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden md:flex items-center gap-6">
-                    <a href="{{ route('home') }}" class="text-sm font-semibold {{ request()->routeIs('home') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Home</a>
-                    <a href="{{ route('rooms.index') }}" class="text-sm font-semibold {{ request()->routeIs('rooms.*') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Rooms & Rates</a>
-                    <a href="{{ route('facilities') }}" class="text-sm font-semibold {{ request()->routeIs('facilities') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Facilities</a>
-                    <a href="{{ route('gallery') }}" class="text-sm font-semibold {{ request()->routeIs('gallery') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Photos</a>
-                    <a href="{{ route('about') }}" class="text-sm font-semibold {{ request()->routeIs('about') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">About</a>
-                    <a href="{{ route('contact') }}" class="text-sm font-semibold {{ request()->routeIs('contact') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Contact</a>
-                </nav>
+                <!-- Desktop Navigation Links & Staff Action (Right-aligned) -->
+                <div class="hidden md:flex items-center gap-8">
+                    <nav class="flex items-center gap-6">
+                        <a href="{{ route('home') }}" class="text-sm font-semibold {{ request()->routeIs('home') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Home</a>
+                        <a href="{{ route('rooms.index') }}" class="text-sm font-semibold {{ request()->routeIs('rooms.*') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Rooms & Rates</a>
+                        <a href="{{ route('facilities') }}" class="text-sm font-semibold {{ request()->routeIs('facilities') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Facilities</a>
+                        <a href="{{ route('gallery') }}" class="text-sm font-semibold {{ request()->routeIs('gallery') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Photos</a>
+                        <a href="{{ route('about') }}" class="text-sm font-semibold {{ request()->routeIs('about') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">About</a>
+                        <a href="{{ route('contact') }}" class="text-sm font-semibold {{ request()->routeIs('contact') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Contact</a>
+                    </nav>
 
-                <!-- Right Side Actions -->
-                <div class="hidden sm:flex items-center gap-3">
                     <a href="{{ route('admin.dashboard') }}" title="Staff Login" class="text-slate-400 hover:text-brand-800 p-2 rounded-full hover:bg-slate-100 transition">
                         <i class="fa-solid fa-user-shield text-base"></i>
                     </a>
