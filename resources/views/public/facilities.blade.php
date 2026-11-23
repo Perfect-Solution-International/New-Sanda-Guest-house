@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Guest House Facilities - New Sanda')
+@section('title', 'Facilities - New Sanda')
 
 @section('content')
 <section class="py-12 bg-brand-900 text-white text-center">
     <div class="max-w-3xl mx-auto px-4">
-        <h1 class="text-3xl font-serif font-bold text-white mb-2">Guest House Facilities</h1>
+        <h1 class="text-3xl font-serif font-bold text-white mb-2">Facilities & Comforts</h1>
         <p class="text-slate-200 text-sm">Everything you need for a comfortable, clean, and restful family stay in Sella Katharagama.</p>
     </div>
 </section>
@@ -38,7 +38,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-2">
                 <i class="fa-solid fa-wifi text-2xl text-brand-700"></i>
                 <h3 class="font-bold text-slate-900 text-base">Free Wi-Fi</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">High-speed wireless internet connection available for guests across the guest house.</p>
+                <p class="text-xs text-slate-600 leading-relaxed">High-speed wireless internet connection available for guests across the property.</p>
             </div>
 
             <!-- Home-Cooked Food -->

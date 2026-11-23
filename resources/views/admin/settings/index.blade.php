@@ -13,7 +13,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Resort Name</label>
-                    <input type="text" name="resort_name" value="{{ $settings['resort_name'] ?? 'New Sanda Holiday Home & Guest House' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold">
+                    <input type="text" name="resort_name" value="{{ $settings['resort_name'] ?? 'New Sanda Holiday Home' }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tagline</label>

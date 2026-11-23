@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Login - New Sanda Guest House</title>
+    <title>Staff Login - New Sanda</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -35,7 +35,7 @@
         <div class="bg-brand-900 p-8 text-center text-white space-y-3">
             <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-16 mx-auto rounded bg-white p-1 shadow">
             <div>
-                <h1 class="font-serif font-bold text-2xl text-white">New Sanda Guest House</h1>
+                <h1 class="font-serif font-bold text-2xl text-white">New Sanda</h1>
                 <p class="text-xs text-gold-400 font-semibold uppercase tracking-widest mt-0.5">Staff & Admin Management Portal</p>
             </div>
         </div>

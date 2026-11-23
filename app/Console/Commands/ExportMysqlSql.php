@@ -17,7 +17,7 @@ class ExportMysqlSql extends Command
         $this->info("Exporting MySQL SQL dump to: {$filePath}");
 
         $sql = "-- =========================================================\n";
-        $sql .= "-- New Sanda Guest House - Sella Katharagama\n";
+        $sql .= "-- New Sanda - Sella Katharagama\n";
         $sql .= "-- Complete MySQL Database Dump\n";
         $sql .= "-- Generated: " . date('Y-m-d H:i:s') . "\n";
         $sql .= "-- Target: MySQL 5.7+ / 8.0+ / MariaDB\n";

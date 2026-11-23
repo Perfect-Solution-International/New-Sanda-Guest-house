@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'About Us - New Sanda Guest House')
+@section('title', 'About Us - New Sanda')
 
 @section('content')
 <section class="relative py-20 bg-brand-900 text-white text-center bg-cover bg-center" style="background-image: linear-gradient(rgba(14, 45, 28, 0.85), rgba(14, 45, 28, 0.9)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80');">
     <div class="max-w-4xl mx-auto px-4">
         <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Our Story & Heritage</span>
-        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">About New Sanda Guest House</h1>
+        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">About New Sanda</h1>
         <p class="text-slate-200 text-base max-w-2xl mx-auto font-light">
             Crafted for families seeking peace, refreshment, and sacred memories in the heart of Sella Katharagama.
         </p>
@@ -20,10 +20,10 @@
                 <span class="text-gold-600 font-bold text-xs uppercase tracking-widest block">A Tranquil Haven</span>
                 <h2 class="text-3xl font-serif font-bold text-brand-900">The Spirit of New Sanda</h2>
                 <p>
-                    Nestled just off Sella Road in Sella Katharagama, <strong>New Sanda Guest House</strong> was born from a desire to provide travelers and pilgrims with an exceptional level of cleanliness, family comfort, and authentic Sri Lankan warmth.
+                    Nestled just off Sella Road in Sella Katharagama, <strong>New Sanda</strong> was born from a desire to provide travelers and pilgrims with an exceptional level of cleanliness, family comfort, and authentic Sri Lankan warmth.
                 </p>
                 <p>
-                    "New Sanda" symbolizes the soothing, calming glow of the moon—bringing serenity and peace to weary travelers. Our guest house offers a tranquil counterpoint to busy pilgrimages, allowing you to unwind in clean rooms, listen to birds chirping from nearby riverbanks, and savor fresh homestyle meals upon request.
+                    "New Sanda" symbolizes the soothing, calming glow of the moon—bringing serenity and peace to weary travelers. We offer a tranquil counterpoint to busy pilgrimages, allowing you to unwind in clean rooms, listen to birds chirping from nearby riverbanks, and savor fresh homestyle meals upon request.
                 </p>
                 <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100">
                     <h4 class="font-bold text-brand-900 font-serif text-lg mb-2">Our Core Commitments</h4>
@@ -39,7 +39,7 @@
             <div class="space-y-6">
                 <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda Logo" class="max-h-56 mx-auto object-contain drop-shadow-xl rounded-2xl">
                 <div class="grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Guest House" class="rounded-xl shadow h-48 w-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="New Sanda" class="rounded-xl shadow h-48 w-full object-cover">
                     <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" alt="Room" class="rounded-xl shadow h-48 w-full object-cover">
                 </div>
             </div>

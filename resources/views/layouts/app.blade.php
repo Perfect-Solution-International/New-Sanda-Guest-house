@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'New Sanda Guest House & Holiday Home - Sella Katharagama')</title>
-    <meta name="description" content="New Sanda Guest House in Sella Katharagama offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking.">
+    <title>@yield('title', 'New Sanda Holiday Home - Sella Katharagama')</title>
+    <meta name="description" content="New Sanda in Sella Katharagama offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,7 +60,7 @@
                     <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-14 w-auto object-contain rounded shadow-sm">
                     <div>
                         <div class="text-xl sm:text-2xl font-serif font-bold text-brand-900 tracking-tight leading-none">
-                            New Sanda <span class="text-gold-500 font-sans text-base sm:text-lg font-semibold tracking-normal">Guest House</span>
+                            New Sanda
                         </div>
                         <div class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
                             Holiday Home • Sella Katharagama
@@ -139,9 +139,9 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-brand-800/60">
                 <div class="space-y-3">
-                    <div class="font-serif font-bold text-xl text-white">New Sanda Guest House</div>
+                    <div class="font-serif font-bold text-xl text-white">New Sanda</div>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Clean and affordable guest house in Sella Katharagama. Perfect for families and pilgrims visiting Ruhunu Kataragama Maha Devalaya, Kiri Vehera, and Sella Temple.
+                        Clean and affordable accommodation in Sella Katharagama. Perfect for families and pilgrims visiting Ruhunu Kataragama Maha Devalaya, Kiri Vehera, and Sella Temple.
                     </p>
                 </div>
 
@@ -150,7 +150,7 @@
                     <ul class="space-y-2 text-xs">
                         <li><a href="{{ route('home') }}" class="hover:text-gold-400">Home</a></li>
                         <li><a href="{{ route('rooms.index') }}" class="hover:text-gold-400">Rooms & Rates</a></li>
-                        <li><a href="{{ route('facilities') }}" class="hover:text-gold-400">Guest House Facilities</a></li>
+                        <li><a href="{{ route('facilities') }}" class="hover:text-gold-400">Facilities</a></li>
                         <li><a href="{{ route('contact') }}" class="hover:text-gold-400">Contact & Directions</a></li>
                     </ul>
                 </div>
@@ -175,7 +175,7 @@
             </div>
 
             <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
-                <p>&copy; {{ date('Y') }} New Sanda Guest House & Holiday Home. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} New Sanda. All rights reserved. Sella Katharagama, Sri Lanka.</p>
                 <a href="{{ route('admin.login') }}" class="text-slate-500 hover:text-gold-400 text-[11px]">
                     <i class="fa-solid fa-lock"></i> Staff Login
                 </a>
