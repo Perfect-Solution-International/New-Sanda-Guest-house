@@ -20,9 +20,9 @@ class ResortDataSeeder extends Seeder
     {
         // 1. Users
         User::updateOrCreate(
-            ['email' => 'admin@newsandaresort.com'],
+            ['email' => 'admin@sandaresort.com'],
             [
-                'name' => 'New Sanda Manager',
+                'name' => 'Sanda Manager',
                 'phone' => '+94 77 987 6543',
                 'role' => 'admin',
                 'password' => Hash::make('admin123'),
@@ -30,7 +30,7 @@ class ResortDataSeeder extends Seeder
         );
 
         User::updateOrCreate(
-            ['email' => 'reception@newsandaresort.com'],
+            ['email' => 'reception@sandaresort.com'],
             [
                 'name' => 'Reception Desk',
                 'phone' => '+94 47 223 5566',
@@ -41,19 +41,19 @@ class ResortDataSeeder extends Seeder
 
         // 2. Basic Settings
         $settings = [
-            'resort_name' => 'New Sanda Guest House',
+            'resort_name' => 'Sanda Guest House',
             'resort_tagline' => 'Clean, Comfortable & Affordable Family Stays Across Sri Lanka',
             'phone' => '+94 77 987 6543',
             'hotline' => '+94 47 223 5566',
             'whatsapp' => '+94779876543',
-            'email' => 'info@newsandaresort.com',
+            'email' => 'info@sandaresort.com',
             'address' => 'No. 45, Sella Road, Sella Katharagama, Sri Lanka',
             'check_in_time' => '02:00 PM',
             'check_out_time' => '11:00 AM',
             'currency' => 'LKR',
             'currency_symbol' => 'Rs.',
-            'bank_details' => "Bank: Bank of Ceylon (BOC)\nBranch: Kataragama Branch\nAccount Name: New Sanda Guest House\nAccount No: 8876543201",
-            'about_text' => 'New Sanda Guest House is a peaceful, family-run accommodation network. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking across our branch locations.',
+            'bank_details' => "Bank: Bank of Ceylon (BOC)\nBranch: Kataragama Branch\nAccount Name: Sanda Guest House\nAccount No: 8876543201",
+            'about_text' => 'Sanda Guest House is a peaceful, family-run accommodation network. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking across our branch locations.',
         ];
 
         foreach ($settings as $key => $val) {

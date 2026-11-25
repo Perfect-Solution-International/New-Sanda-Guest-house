@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $room->name . ' - New Sanda Guest House')
+@section('title', $room->name . ' - Sanda Guest House')
 
 @section('content')
 <section class="py-12 bg-white border-b border-slate-200">

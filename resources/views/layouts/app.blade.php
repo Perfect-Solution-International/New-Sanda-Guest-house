@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'New Sanda Guest House')</title>
-    <meta name="description" content="New Sanda Guest House offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking across our branch locations.">
+    <title>@yield('title', 'Sanda Guest House')</title>
+    <meta name="description" content="Sanda Guest House offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking across our branch locations.">
     
     <!-- Google Fonts: Cormorant Garamond (Editorial Luxury Headings) & Plus Jakarta Sans (Modern UI & Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,10 +59,10 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Brand Name (Left-aligned) -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3.5 flex-shrink-0 group">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-12 w-auto object-contain rounded ring-1 ring-gold-500/40 shadow-sm group-hover:ring-gold-400 transition">
+                    <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-12 w-auto object-contain transition group-hover:scale-105">
                     <div>
-                        <div class="text-2xl font-serif font-bold text-white tracking-tight leading-none group-hover:text-gold-300 transition">
-                            New Sanda
+                        <div class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight leading-none group-hover:text-gold-300 transition">
+                            Sanda
                         </div>
                         <div class="text-[10px] font-semibold text-gold-400 uppercase tracking-[0.25em] mt-1">
                             Guest House
@@ -159,7 +159,7 @@
                     <div class="space-y-3 text-xs text-slate-300">
                         <div class="flex items-center gap-3">
                             <i class="fa-solid fa-envelope text-gold-400 text-sm w-4"></i>
-                            <a href="mailto:info@newsanda.lk" class="hover:text-gold-400 transition">info@newsanda.lk</a>
+                            <a href="mailto:info@sanda.lk" class="hover:text-gold-400 transition">info@sanda.lk</a>
                         </div>
                         <div class="flex items-center gap-3">
                             <i class="fa-solid fa-phone text-gold-400 text-sm w-4"></i>
@@ -167,7 +167,7 @@
                         </div>
                         <div class="flex items-start gap-3">
                             <i class="fa-solid fa-location-dot text-gold-400 text-sm w-4 mt-0.5"></i>
-                            <span>New Sanda Guest House, Sella Katharagama, Sri Lanka</span>
+                            <span>Sanda Guest House, Sella Katharagama, Sri Lanka</span>
                         </div>
                     </div>
 
@@ -191,9 +191,9 @@
                 <!-- Col 3: Brand & Hospitality Statement -->
                 <div class="md:col-span-3 space-y-4">
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-10 w-auto object-contain rounded ring-1 ring-gold-500/30">
+                        <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-10 w-auto object-contain">
                         <div>
-                            <div class="text-xl font-serif font-bold text-white leading-none">New Sanda</div>
+                            <div class="text-xl font-serif font-bold text-white leading-none">Sanda</div>
                             <div class="text-[9px] font-semibold text-gold-400 uppercase tracking-[0.2em] mt-0.5">Guest House</div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
 
             <!-- Bottom Bar -->
             <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-3">
-                <p>&copy; {{ date('Y') }} New Sanda Guest House. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} Sanda Guest House. All rights reserved.</p>
                 <div class="flex items-center gap-6 text-xs">
                     <a href="{{ route('about') }}" class="hover:text-slate-300 transition">About</a>
                     <a href="{{ route('rooms.index') }}" class="hover:text-slate-300 transition">Rooms</a>

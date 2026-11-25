@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'New Sanda Guest House - Clean, Peaceful & Affordable Family Stays')
+@section('title', 'Sanda Guest House - Clean, Peaceful & Affordable Family Stays')
 
 @section('content')
 
@@ -55,7 +55,7 @@
             <div class="lg:col-span-6">
                 <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
                     <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80" 
-                         alt="New Sanda Guest House" 
+                         alt="Sanda Guest House" 
                          class="w-full h-[360px] sm:h-[460px] lg:h-[500px] object-cover group-hover:scale-105 transition duration-700">
                     
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/20 to-transparent"></div>
@@ -63,7 +63,7 @@
                     <!-- Floating Image Info Card (Matches Pinterest Card Design) -->
                     <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between backdrop-blur-md bg-brand-950/70 border border-white/15 px-5 py-3.5 rounded-2xl">
                         <div>
-                            <div class="font-serif font-bold text-base sm:text-lg text-white">New Sanda Guest House</div>
+                            <div class="font-serif font-bold text-base sm:text-lg text-white">Sanda Guest House</div>
                             <div class="text-gold-400 text-xs font-light">Sanitized Rooms • Hot Water • Secure Parking</div>
                         </div>
                         <span class="bg-gold-500 text-brand-950 font-bold px-3 py-1 rounded text-[10px] uppercase tracking-wider">
@@ -172,7 +172,7 @@
                                         <a href="{{ route('rooms.show', $primaryRoom->slug) }}" class="text-xs font-semibold uppercase tracking-wider text-white hover:text-gold-400 transition inline-flex items-center gap-1.5">
                                             View Details <i class="fa-solid fa-arrow-right text-[10px]"></i>
                                         </a>
-                                        <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda Guest House, I want to reserve: ' . $primaryRoom->name) }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 hover:border-gold-400 bg-brand-900/60 hover:bg-gold-500 hover:text-brand-950 text-white flex items-center justify-center transition text-xs">
+                                        <a href="https://wa.me/94779876543?text={{ urlencode('Hello Sanda Guest House, I want to reserve: ' . $primaryRoom->name) }}" target="_blank" class="w-9 h-9 rounded-full border border-white/20 hover:border-gold-400 bg-brand-900/60 hover:bg-gold-500 hover:text-brand-950 text-white flex items-center justify-center transition text-xs">
                                             <i class="fa-solid fa-arrow-right"></i>
                                         </a>
                                     </div>
@@ -204,7 +204,7 @@
                                             <a href="{{ route('rooms.show', $secRoom->slug) }}" class="text-[11px] font-semibold uppercase tracking-wider text-gold-400 hover:text-white transition">
                                                 Explore &rarr;
                                             </a>
-                                            <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda Guest House, I want to reserve: ' . $secRoom->name) }}" target="_blank" class="w-7 h-7 rounded-full border border-white/20 bg-brand-900/60 hover:bg-gold-500 hover:text-brand-950 text-white flex items-center justify-center transition text-[10px]">
+                                            <a href="https://wa.me/94779876543?text={{ urlencode('Hello Sanda Guest House, I want to reserve: ' . $secRoom->name) }}" target="_blank" class="w-7 h-7 rounded-full border border-white/20 bg-brand-900/60 hover:bg-gold-500 hover:text-brand-950 text-white flex items-center justify-center transition text-[10px]">
                                                 <i class="fa-solid fa-arrow-right"></i>
                                             </a>
                                         </div>
@@ -412,7 +412,7 @@
                     Words of<br><span class="italic text-gold-400 font-normal">Gratitude & Trust.</span>
                 </h2>
                 <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
-                    Honest impressions from visiting families and devotees who made New Sanda Guest House their sanctuary.
+                    Honest impressions from visiting families and devotees who made Sanda Guest House their sanctuary.
                 </p>
             </div>
 

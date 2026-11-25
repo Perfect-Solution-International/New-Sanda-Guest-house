@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Login - New Sanda Guest House</title>
+    <title>Staff Login - Sanda Guest House</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,9 +39,9 @@
 
     <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden w-full max-w-md">
         <div class="bg-brand-900 p-8 text-center text-white space-y-3">
-            <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-16 mx-auto rounded bg-white p-1 shadow">
+            <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-16 mx-auto object-contain">
             <div>
-                <h1 class="font-serif font-bold text-2xl text-white">New Sanda Guest House</h1>
+                <h1 class="font-serif font-bold text-2xl text-white">Sanda Guest House</h1>
                 <p class="text-xs text-gold-400 font-semibold uppercase tracking-widest mt-0.5">Staff Management Portal</p>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 @csrf
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
-                    <input type="email" name="email" value="{{ old('email', 'admin@newsandaresort.com') }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    <input type="email" name="email" value="{{ old('email', 'admin@sandaresort.com') }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                 </div>
 
                 <div>
@@ -78,8 +78,8 @@
 
             <div class="mt-6 pt-6 border-t border-slate-100 text-center text-xs text-slate-500">
                 <p class="font-semibold text-slate-700 mb-1">Demo Credentials:</p>
-                <p>Admin: <span class="font-mono text-brand-700">admin@newsandaresort.com</span> / <span class="font-mono text-brand-700">admin123</span></p>
-                <p>Reception: <span class="font-mono text-brand-700">reception@newsandaresort.com</span> / <span class="font-mono text-brand-700">reception123</span></p>
+                <p>Admin: <span class="font-mono text-brand-700">admin@sandaresort.com</span> / <span class="font-mono text-brand-700">admin123</span></p>
+                <p>Reception: <span class="font-mono text-brand-700">reception@sandaresort.com</span> / <span class="font-mono text-brand-700">reception123</span></p>
             </div>
         </div>
     </div>

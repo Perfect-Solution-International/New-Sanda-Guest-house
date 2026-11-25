@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - {{ $booking->booking_code }} | New Sanda</title>
+    <title>Invoice - {{ $booking->booking_code }} | Sanda</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,11 +42,11 @@
         <!-- Official Letterhead -->
         <div class="flex items-start justify-between border-b-2 border-emerald-800 pb-6 mb-8">
             <div class="flex items-center gap-4">
-                <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-20 w-auto rounded border border-slate-200">
+                <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-20 w-auto rounded border border-slate-200">
                 <div>
-                    <h1 class="font-serif font-bold text-2xl text-slate-900">New Sanda</h1>
+                    <h1 class="font-serif font-bold text-2xl text-slate-900">Sanda</h1>
                     <div class="text-xs text-slate-600">Sella Katharagama, Monaragala, Sri Lanka</div>
-                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@newsandaresort.com</div>
+                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@sandaresort.com</div>
                 </div>
             </div>
 
@@ -145,7 +145,7 @@
         </div>
 
         <div class="text-center text-[10px] text-slate-400 mt-8">
-            Thank you for staying at New Sanda • May your journey be blessed!
+            Thank you for staying at Sanda • May your journey be blessed!
         </div>
     </div>
 

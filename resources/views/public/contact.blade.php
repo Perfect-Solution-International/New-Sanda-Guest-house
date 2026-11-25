@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - New Sanda Guest House')
+@section('title', 'Contact Us - Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center relative overflow-hidden border-b border-white/10">
@@ -49,7 +49,7 @@
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-2">
                         <i class="fa-solid fa-envelope text-2xl text-gold-500"></i>
                         <h4 class="font-bold text-slate-900">Email Address</h4>
-                        <p class="text-sm text-slate-600">info@newsandaresort.com</p>
+                        <p class="text-sm text-slate-600">info@sandaresort.com</p>
                     </div>
                 </div>
 
