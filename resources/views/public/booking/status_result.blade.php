@@ -43,7 +43,7 @@
                     <div>
                         <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Accommodation</h4>
                         <div class="text-sm font-semibold text-brand-900">{{ $booking->roomType->name }}</div>
-                        <div class="text-xs text-slate-600">{{ $booking->nights }} Night(s) • {{ $booking->adults }} Adults, {{ $booking->children }} Kids</div>
+                        <div class="text-xs text-slate-600">{{ $booking->duration_display }} • {{ $booking->adults }} Adults, {{ $booking->children ?? 0 }} Kids</div>
                         @if($booking->room)
                             <div class="text-xs font-bold text-emerald-700 mt-1">Assigned Room: {{ $booking->room->room_number }} ({{ $booking->room->floor_wing }})</div>
                         @endif
@@ -54,13 +54,13 @@
                 <div class="grid grid-cols-2 gap-4 border-y border-slate-100 py-4 text-sm">
                     <div>
                         <span class="text-xs text-slate-500 block">Check-in</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
-                        <span class="text-xs text-slate-400 block">02:00 PM</span>
+                        <strong class="text-slate-900">{{ $booking->check_in_at ? $booking->check_in_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-700 font-bold block">{{ $booking->check_in_at ? $booking->check_in_at->format('h:i A') : date('h:i A', strtotime($booking->check_in_time ?? '14:00')) }}</span>
                     </div>
                     <div>
                         <span class="text-xs text-slate-500 block">Check-out</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
-                        <span class="text-xs text-slate-400 block">11:00 AM</span>
+                        <strong class="text-slate-900">{{ $booking->check_out_at ? $booking->check_out_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-700 font-bold block">{{ $booking->check_out_at ? $booking->check_out_at->format('h:i A') : date('h:i A', strtotime($booking->check_out_time ?? '11:00')) }}</span>
                     </div>
                 </div>
 

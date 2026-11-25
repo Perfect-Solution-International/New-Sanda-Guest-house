@@ -10,7 +10,7 @@
         <!-- Revenue Card -->
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Revenue</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Revenue Overview</span>
                 <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-coins"></i>
                 </div>
@@ -18,25 +18,53 @@
             <div class="text-2xl font-bold font-serif text-slate-900">
                 Rs. {{ number_format($totalRevenue) }}
             </div>
-            <div class="text-xs text-slate-500 mt-2 flex items-center gap-1">
-                <i class="fa-solid fa-wallet text-brand-600"></i>
-                <span>Advance: Rs. {{ number_format($advanceCollected) }}</span>
+            <div class="text-xs text-slate-500 mt-2 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-600">This Month:</span>
+                    <span class="font-bold text-slate-800">Rs. {{ number_format($monthlyRevenue) }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-600">Today:</span>
+                    <span class="font-bold text-emerald-700">Rs. {{ number_format($todayRevenue) }}</span>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-100">
+                    <span>Advance Collected:</span>
+                    <span>Rs. {{ number_format($advanceCollected) }}</span>
+                </div>
             </div>
         </div>
 
-        <!-- Occupancy Rate -->
+        <!-- Occupancy & Available Rooms -->
         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Room Occupancy</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Room Occupancy & Free</span>
                 <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-chart-pie"></i>
                 </div>
             </div>
-            <div class="text-2xl font-bold font-serif text-slate-900">
-                {{ $occupancyRate }}%
+            <div class="flex items-baseline gap-2">
+                <div class="text-2xl font-bold font-serif text-slate-900">
+                    {{ $availableRooms }}
+                </div>
+                <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider">
+                    Rooms Available
+                </div>
             </div>
-            <div class="text-xs text-slate-500 mt-2">
-                {{ $occupiedRooms }} of {{ $totalRooms }} physical rooms occupied
+            <div class="text-xs text-slate-500 mt-2 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-600">Occupancy Rate:</span>
+                    <span class="font-bold text-slate-800">{{ $occupancyRate }}%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-600">Currently Occupied:</span>
+                    <span class="font-bold text-rose-700">{{ $occupiedRooms }} of {{ $totalRooms }}</span>
+                </div>
+                @if($cleaningRooms > 0 || $maintenanceRooms > 0)
+                    <div class="flex items-center justify-between text-[11px] text-amber-600 pt-1 border-t border-slate-100">
+                        <span>Cleaning / Maint:</span>
+                        <span>{{ $cleaningRooms + $maintenanceRooms }} rooms</span>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -59,6 +87,10 @@
                     <span class="text-xs text-slate-500 block">Check-outs</span>
                 </div>
             </div>
+            <div class="text-[11px] text-slate-400 mt-4 pt-2 border-t border-slate-100 flex items-center gap-1">
+                <i class="fa-regular fa-calendar-check text-gold-500"></i>
+                <span>Active front desk operations</span>
+            </div>
         </div>
 
         <!-- Pending Bookings / Actions -->
@@ -80,6 +112,10 @@
                     <span class="text-xs text-slate-500 block">New Messages</span>
                 </div>
             </div>
+            <div class="text-[11px] text-slate-400 mt-4 pt-2 border-t border-slate-100 flex items-center gap-1">
+                <i class="fa-solid fa-bolt text-amber-500"></i>
+                <span>Requires staff review</span>
+            </div>
         </div>
     </div>
 
@@ -90,8 +126,11 @@
             <p class="text-xs text-slate-300">Fast operations for arriving guests, room assignments, and inquiries.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.bookings.create') }}" class="bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+            <a href="{{ route('admin.bookings.create') }}" class="bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition shadow-xs">
                 <i class="fa-solid fa-plus"></i> Walk-in Reservation
+            </a>
+            <a href="{{ route('admin.timeline') }}" class="bg-brand-800 hover:bg-brand-700 text-white font-medium px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-calendar-days text-gold-400"></i> Availability Timeline
             </a>
             <a href="{{ route('admin.bookings.index', ['status' => 'pending']) }}" class="bg-brand-800 hover:bg-brand-700 text-white font-medium px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-circle-exclamation text-amber-400"></i> Review Pending ({{ $pendingBookings }})

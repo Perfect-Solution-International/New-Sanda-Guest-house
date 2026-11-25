@@ -25,24 +25,24 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100 text-sm">
                     <div>
                         <span class="text-xs text-slate-500 block uppercase">Check-in</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
-                        <span class="text-[11px] text-slate-400 block">From 2:00 PM</span>
+                        <strong class="text-slate-900">{{ $booking->check_in_at ? $booking->check_in_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-700 font-bold block">{{ $booking->check_in_at ? $booking->check_in_at->format('h:i A') : date('h:i A', strtotime($booking->check_in_time ?? '14:00')) }}</span>
                     </div>
                     <div>
                         <span class="text-xs text-slate-500 block uppercase">Check-out</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
-                        <span class="text-[11px] text-slate-400 block">Until 11:00 AM</span>
+                        <strong class="text-slate-900">{{ $booking->check_out_at ? $booking->check_out_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-700 font-bold block">{{ $booking->check_out_at ? $booking->check_out_at->format('h:i A') : date('h:i A', strtotime($booking->check_out_time ?? '11:00')) }}</span>
                     </div>
                     <div>
                         <span class="text-xs text-slate-500 block uppercase">Duration & Guests</span>
-                        <strong class="text-slate-900">{{ $booking->nights }} Night(s)</strong>
-                        <span class="text-[11px] text-slate-400 block">{{ $booking->adults }} Adults, {{ $booking->children }} Children</span>
+                        <strong class="text-slate-900">{{ $booking->duration_display }}</strong>
+                        <span class="text-[11px] text-slate-500 block">{{ $booking->adults }} Adults, {{ $booking->children }} Children</span>
                     </div>
                     <div>
                         <span class="text-xs text-slate-500 block uppercase">Room Category</span>
                         <strong class="text-brand-900">{{ $booking->roomType->name }}</strong>
                         @if($booking->room)
-                            <span class="text-[11px] text-emerald-600 block font-semibold">Room: {{ $booking->room->room_number }}</span>
+                            <span class="text-[11px] text-emerald-600 block font-semibold">Assigned: Room {{ $booking->room->room_number }}</span>
                         @endif
                     </div>
                 </div>

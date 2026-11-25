@@ -535,4 +535,32 @@ class ResortApplicationTest extends TestCase
         $room->refresh();
         $this->assertEquals('available', $room->status);
     }
+
+    public function test_guest_cannot_access_timeline_without_login(): void
+    {
+        $response = $this->get('/admin/timeline');
+        $response->assertRedirect('/admin/login');
+    }
+
+    public function test_admin_can_view_room_availability_timeline(): void
+    {
+        $admin = User::first();
+        $response = $this->actingAs($admin)->get('/admin/timeline');
+        $response->assertStatus(200);
+        $response->assertSee('Visual Room Schedule');
+        $response->assertSee('Room');
+        $response->assertSee('Timeline &amp; Calendar', false);
+    }
+
+    public function test_admin_dashboard_shows_revenue_and_room_metrics(): void
+    {
+        $admin = User::first();
+        $response = $this->actingAs($admin)->get('/admin');
+        $response->assertStatus(200);
+        $response->assertSee('Revenue Overview');
+        $response->assertSee('This Month:');
+        $response->assertSee('Today:');
+        $response->assertSee('Rooms Available');
+        $response->assertSee('Availability Timeline');
+    }
 }

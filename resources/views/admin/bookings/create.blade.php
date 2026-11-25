@@ -89,7 +89,7 @@
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Room Category *</label>
                         <select name="room_type_id" id="admin_room_type" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-brand-700 focus:outline-none">
                             @foreach($roomTypes as $rt)
-                                <option value="{{ $rt->id }}" data-rate="{{ $rt->base_price_per_night }}" {{ old('room_type_id') == $rt->id ? 'selected' : '' }}>
+                                <option value="{{ $rt->id }}" data-rate="{{ $rt->base_price_per_night }}" {{ old('room_type_id', $selectedRoomTypeId ?? '') == $rt->id ? 'selected' : '' }}>
                                     {{ $rt->name }} (Rs. {{ number_format($rt->base_price_per_night) }})
                                 </option>
                             @endforeach
@@ -100,7 +100,7 @@
                         <select name="room_id" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-brand-700 focus:outline-none">
                             <option value="">-- Assign Later / Auto --</option>
                             @foreach($rooms as $r)
-                                <option value="{{ $r->id }}" {{ old('room_id') == $r->id ? 'selected' : '' }}>
+                                <option value="{{ $r->id }}" {{ old('room_id', $selectedRoomId ?? '') == $r->id ? 'selected' : '' }}>
                                     Room {{ $r->room_number }} ({{ $r->roomType->name ?? 'Room' }} - {{ ucfirst($r->status) }})
                                 </option>
                             @endforeach

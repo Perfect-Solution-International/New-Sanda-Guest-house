@@ -52,7 +52,7 @@ class BookingAdminController extends Controller
         return view('admin.bookings.index', compact('bookings', 'stats'));
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
         $roomTypes = RoomType::where('status', 'active')->get();
         if ($roomTypes->isEmpty()) {
@@ -61,10 +61,19 @@ class BookingAdminController extends Controller
         $rooms = Room::with('roomType')->get();
         $addons = Addon::where('is_active', true)->get();
 
-        $defaultCheckIn = date('Y-m-d');
-        $defaultCheckInTime = '14:00';
-        $defaultCheckOut = date('Y-m-d', strtotime('+1 day'));
-        $defaultCheckOutTime = '11:00';
+        $defaultCheckIn = $request->query('check_in_date', date('Y-m-d'));
+        $defaultCheckInTime = $request->query('check_in_time', '14:00');
+        $defaultCheckOut = $request->query('check_out_date', date('Y-m-d', strtotime($defaultCheckIn . ' +1 day')));
+        $defaultCheckOutTime = $request->query('check_out_time', '11:00');
+        $selectedRoomId = $request->query('room_id');
+        $selectedRoomTypeId = $request->query('room_type_id');
+
+        if ($selectedRoomId && !$selectedRoomTypeId) {
+            $foundRoom = $rooms->firstWhere('id', $selectedRoomId);
+            if ($foundRoom) {
+                $selectedRoomTypeId = $foundRoom->room_type_id;
+            }
+        }
 
         return view('admin.bookings.create', compact(
             'roomTypes',
@@ -73,7 +82,9 @@ class BookingAdminController extends Controller
             'defaultCheckIn',
             'defaultCheckInTime',
             'defaultCheckOut',
-            'defaultCheckOutTime'
+            'defaultCheckOutTime',
+            'selectedRoomId',
+            'selectedRoomTypeId'
         ));
     }
 

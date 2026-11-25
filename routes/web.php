@@ -55,6 +55,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 */
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/timeline', [DashboardController::class, 'timeline'])->name('timeline');
 
     // Bookings
     Route::get('/bookings', [BookingAdminController::class, 'index'])->name('bookings.index');

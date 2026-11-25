@@ -70,6 +70,11 @@
                     <span>Reservations</span>
                 </a>
 
+                <a href="{{ route('admin.timeline') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition {{ request()->routeIs('admin.timeline') ? 'bg-brand-800 text-gold-400 font-bold' : 'text-slate-300 hover:bg-brand-800/60 hover:text-white' }}">
+                    <i class="fa-solid fa-calendar-days w-5 text-center"></i>
+                    <span>Timeline & Calendar</span>
+                </a>
+
                 <a href="{{ route('admin.rooms.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition {{ request()->routeIs('admin.rooms.*') ? 'bg-brand-800 text-gold-400 font-bold' : 'text-slate-300 hover:bg-brand-800/60 hover:text-white' }}">
                     <i class="fa-solid fa-door-closed w-5 text-center"></i>
                     <span>Physical Rooms</span>
