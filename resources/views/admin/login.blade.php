@@ -35,15 +35,26 @@
         }
     </script>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="w-full max-w-md mb-4 flex items-center justify-between px-1">
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-brand-900 transition bg-white/90 hover:bg-white px-3.5 py-1.5 rounded-full shadow-sm border border-slate-200">
+            <i class="fa-solid fa-arrow-left text-brand-700"></i> Back to Website
+        </a>
+        <a href="{{ route('home') }}" class="text-[11px] text-slate-400 hover:text-brand-800 transition">
+            <i class="fa-solid fa-house mr-1"></i> Home
+        </a>
+    </div>
 
     <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden w-full max-w-md">
         <div class="bg-brand-900 p-8 text-center text-white space-y-3">
-            <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-16 mx-auto object-contain">
-            <div>
-                <h1 class="font-serif font-bold text-2xl text-white">Sanda Guest House</h1>
-                <p class="text-xs text-gold-400 font-semibold uppercase tracking-widest mt-0.5">Staff Management Portal</p>
-            </div>
+            <a href="{{ route('home') }}" class="inline-block group" title="Return to Sanda Guest House Home">
+                <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-16 mx-auto object-contain transition group-hover:scale-105">
+                <div class="mt-2">
+                    <h1 class="font-serif font-bold text-2xl text-white group-hover:text-gold-300 transition">Sanda Guest House</h1>
+                    <p class="text-xs text-gold-400 font-semibold uppercase tracking-widest mt-0.5">Staff Management Portal</p>
+                </div>
+            </a>
         </div>
 
         <div class="p-8">
@@ -75,6 +86,12 @@
                     <i class="fa-solid fa-right-to-bracket text-gold-400"></i> Sign In to Dashboard
                 </button>
             </form>
+
+            <div class="mt-6 pt-5 border-t border-slate-100 text-center">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-brand-800 transition">
+                    <i class="fa-solid fa-arrow-left text-[11px] text-brand-700"></i> Return to Main Website
+                </a>
+            </div>
         </div>
     </div>
 

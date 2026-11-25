@@ -20,6 +20,16 @@ class ResortDataSeeder extends Seeder
     {
         // 1. Users
         User::updateOrCreate(
+            ['email' => 'superadmin@pos.lk'],
+            [
+                'name' => 'Super Admin',
+                'phone' => '+94 77 987 6543',
+                'role' => 'admin',
+                'password' => Hash::make('admin123'),
+            ]
+        );
+
+        User::updateOrCreate(
             ['email' => 'admin@sandaresort.com'],
             [
                 'name' => 'Sanda Manager',
