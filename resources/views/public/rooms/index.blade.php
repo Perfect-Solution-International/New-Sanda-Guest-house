@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Rooms & Rates - New Sanda')
+@section('title', 'Rooms and Rates - New Sanda')
 
 @section('content')
 <section class="py-12 bg-brand-900 text-white text-center">
     <div class="max-w-3xl mx-auto px-4">
-        <h1 class="text-3xl font-serif font-bold text-white mb-2">Our Rooms & Rates</h1>
+        <h1 class="text-3xl font-serif font-bold text-white mb-2">Our Rooms and Rates</h1>
         <p class="text-slate-200 text-sm">Clean, comfortable, and affordable accommodation in Sella Katharagama.</p>
     </div>
 </section>

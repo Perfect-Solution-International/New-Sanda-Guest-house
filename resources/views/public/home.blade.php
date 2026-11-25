@@ -29,7 +29,7 @@
                 <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Booking
             </a>
             <a href="{{ route('rooms.index') }}" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-semibold px-6 py-3.5 rounded-full text-sm sm:text-base transition">
-                View Rooms & Rates
+                View Rooms and Rates
             </a>
         </div>
     </div>
@@ -42,17 +42,17 @@
             <div class="p-2">
                 <i class="fa-solid fa-bath text-gold-400 text-2xl mb-1.5 block"></i>
                 <h4 class="font-bold text-sm">Attached Bathrooms</h4>
-                <p class="text-xs text-slate-300">Clean & with Hot Water</p>
+                <p class="text-xs text-slate-300">Clean with Hot Water</p>
             </div>
             <div class="p-2">
                 <i class="fa-solid fa-square-parking text-gold-400 text-2xl mb-1.5 block"></i>
                 <h4 class="font-bold text-sm">Secure Parking</h4>
-                <p class="text-xs text-slate-300">Cars, Vans & Buses</p>
+                <p class="text-xs text-slate-300">Cars, Vans and Buses</p>
             </div>
             <div class="p-2">
                 <i class="fa-solid fa-gopuram text-gold-400 text-2xl mb-1.5 block"></i>
                 <h4 class="font-bold text-sm">Close to Temple</h4>
-                <p class="text-xs text-slate-300">Near Sella & Kiri Vehera</p>
+                <p class="text-xs text-slate-300">Near Sella and Kiri Vehera</p>
             </div>
             <div class="p-2">
                 <i class="fa-solid fa-wallet text-gold-400 text-2xl mb-1.5 block"></i>
@@ -63,12 +63,12 @@
     </div>
 </section>
 
-<!-- Rooms & Rates Section -->
+<!-- Rooms and Rates Section -->
 <section class="py-16 bg-stone-50">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-12">
             <span class="text-gold-600 font-bold text-xs uppercase tracking-widest block mb-1">Accommodation</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-900">Rooms & Rates</h2>
+            <h2 class="text-3xl font-serif font-bold text-brand-900">Rooms and Rates</h2>
             <p class="text-slate-600 text-sm mt-1">Clean and comfortable family rooms for your pilgrimage and holiday stay.</p>
         </div>
 
