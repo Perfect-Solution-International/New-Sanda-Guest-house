@@ -137,12 +137,68 @@ class BookingAvailabilityService
 
         $totalAvailableRooms = max(0, $totalResortRooms - $totalBookedCount);
 
+        // Calculate schedule for every individual physical room
+        $roomsSchedule = [];
+        $allPhysicalRooms = Room::with('roomType')->orderBy('room_number')->get();
+
+        $upcomingBookings = Booking::whereIn('booking_status', ['confirmed', 'checked_in', 'pending'])
+            ->where(function ($q) use ($checkInAt) {
+                $q->where('check_out_at', '>=', now()->startOfDay())
+                  ->orWhere('check_out_date', '>=', now()->toDateString());
+            })
+            ->where(function ($q) {
+                $q->where('check_in_at', '<=', now()->addDays(14)->endOfDay())
+                  ->orWhere('check_in_date', '<=', now()->addDays(14)->toDateString());
+            })
+            ->orderBy('check_in_date')
+            ->get();
+
+        foreach ($allPhysicalRooms as $room) {
+            $isOccupiedInSelectedSlot = in_array($room->id, $occupiedRoomIds);
+
+            $activeRoomBookings = $upcomingBookings->where('room_id', $room->id);
+            $bookedSlots = [];
+            foreach ($activeRoomBookings as $b) {
+                $inFormatted = $b->check_in_at ? $b->check_in_at->format('M d, h:i A') : (Carbon::parse($b->check_in_date)->format('M d') . ' ' . date('h:i A', strtotime($b->check_in_time ?? '14:00')));
+                $outFormatted = $b->check_out_at ? $b->check_out_at->format('M d, h:i A') : (Carbon::parse($b->check_out_date)->format('M d') . ' ' . date('h:i A', strtotime($b->check_out_time ?? '11:00')));
+
+                $isConflict = false;
+                if ($b->check_in_at && $b->check_out_at) {
+                    $isConflict = ($b->check_in_at < $checkOutAt && $b->check_out_at > $checkInAt);
+                } else {
+                    $bIn = Carbon::parse($b->check_in_date . ' ' . ($b->check_in_time ?? '14:00'));
+                    $bOut = Carbon::parse($b->check_out_date . ' ' . ($b->check_out_time ?? '11:00'));
+                    $isConflict = ($bIn < $checkOutAt && $bOut > $checkInAt);
+                }
+
+                $bookedSlots[] = [
+                    'from' => $inFormatted,
+                    'to' => $outFormatted,
+                    'duration' => $b->duration_display,
+                    'status' => $b->booking_status,
+                    'is_conflict' => $isConflict,
+                ];
+            }
+
+            $roomsSchedule[] = [
+                'id' => $room->id,
+                'room_number' => $room->room_number,
+                'room_type_id' => $room->room_type_id,
+                'room_type_name' => $room->roomType->name ?? 'Room',
+                'floor_wing' => $room->floor_wing ?: 'Ground Floor',
+                'is_available_in_slot' => !$isOccupiedInSelectedSlot && $room->status !== 'maintenance',
+                'status' => $room->status,
+                'booked_slots' => $bookedSlots,
+            ];
+        }
+
         return [
             'total_rooms' => $totalResortRooms,
             'available_rooms' => $totalAvailableRooms,
             'booked_rooms' => $totalBookedCount,
             'duration' => $duration,
             'room_types' => $roomTypeSummaries,
+            'rooms_schedule' => $roomsSchedule,
             'has_availability' => $totalAvailableRooms > 0,
         ];
     }

@@ -185,10 +185,88 @@
                                     <p class="text-xs text-emerald-200/60">Live availability is calculated for your exact date & hours.</p>
                                 </div>
                             </div>
-                            <span class="text-[11px] text-emerald-300 font-mono bg-emerald-950 px-2.5 py-1 rounded-md border border-emerald-800">
-                                <i class="fa-solid fa-arrows-rotate mr-1 text-gold-400 animate-spin" x-show="loadingAvailability"></i>
-                                Live Overlap Protection Active
-                            </span>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button type="button" @click="showRoomSchedule = !showRoomSchedule" class="text-xs font-semibold px-3.5 py-1.5 rounded-xl border transition flex items-center gap-1.5 shadow-xs"
+                                        :class="showRoomSchedule ? 'bg-gold-500 text-slate-950 border-gold-400 font-bold' : 'bg-emerald-950/90 text-gold-300 border-gold-400/30 hover:bg-emerald-900'">
+                                    <i class="fa-solid fa-door-open text-xs"></i>
+                                    <span x-text="showRoomSchedule ? 'Hide Room Schedule' : 'View Room Numbers & Booked Hours (වේලාවන් බැලීම)'"></span>
+                                </button>
+                                <span class="text-[11px] text-emerald-300 font-mono bg-emerald-950 px-2.5 py-1.5 rounded-xl border border-emerald-800 hidden sm:inline-block">
+                                    <i class="fa-solid fa-arrows-rotate mr-1 text-gold-400 animate-spin" x-show="loadingAvailability"></i>
+                                    Live Overlap Protection Active
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Customer Room Numbers & Booked Hours Schedule Dropdown/Expander -->
+                        <div x-show="showRoomSchedule" x-cloak class="p-5 rounded-2xl bg-[#04140d] border border-gold-500/30 space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-500/20 pb-3">
+                                <div>
+                                    <h4 class="text-sm font-serif font-bold text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-calendar-check text-gold-400"></i> Physical Rooms & Booked Time Slots (කාමර කාලසටහන)
+                                    </h4>
+                                    <p class="text-[11px] text-emerald-200/60 mt-0.5">
+                                        Exact availability for your selected window: <strong class="text-gold-300" x-text="checkIn + ' (' + formatTime(checkInTime) + ') to ' + checkOut + ' (' + formatTime(checkOutTime) + ')'"></strong>
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-3 text-[11px]">
+                                    <span class="inline-flex items-center gap-1.5 text-emerald-300 font-semibold"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs"></span> Available</span>
+                                    <span class="inline-flex items-center gap-1.5 text-rose-300 font-semibold"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-xs"></span> Booked Time Slot</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                                <template x-for="room in roomsSchedule" :key="room.id">
+                                    <div class="p-3.5 rounded-xl border transition"
+                                         :class="room.is_available_in_slot 
+                                                 ? 'border-emerald-500/30 bg-[#061f14] hover:border-emerald-400/50' 
+                                                 : 'border-rose-500/30 bg-[#1a0808]'">
+                                        <div class="flex items-start justify-between gap-2">
+                                            <div>
+                                                <div class="text-white font-bold text-sm flex items-center gap-1.5">
+                                                    <i class="fa-solid fa-door-closed text-gold-400 text-xs"></i>
+                                                    <span x-text="'Room ' + room.room_number"></span>
+                                                </div>
+                                                <div class="text-[11px] text-emerald-300/80 truncate max-w-[150px]" x-text="room.room_type_name"></div>
+                                                <div class="text-[10px] text-slate-400" x-text="room.floor_wing"></div>
+                                            </div>
+                                            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase"
+                                                  :class="room.is_available_in_slot ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40' : 'bg-rose-950 text-rose-300 border border-rose-500/40'"
+                                                  x-text="room.is_available_in_slot ? 'Available' : 'Booked'">
+                                            </span>
+                                        </div>
+
+                                        <!-- Booked Slots List -->
+                                        <div class="mt-2.5 pt-2 border-t border-emerald-500/15">
+                                            <template x-if="room.booked_slots && room.booked_slots.length > 0">
+                                                <div class="space-y-1">
+                                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Booked Time Slots:</span>
+                                                    <template x-for="slot in room.booked_slots">
+                                                        <div class="text-[10px] font-mono px-2 py-1 rounded bg-black/40 border flex items-center justify-between gap-1"
+                                                             :class="slot.is_conflict ? 'border-rose-500/40 text-rose-200' : 'border-emerald-500/20 text-slate-300'">
+                                                            <span class="truncate"><i class="fa-regular fa-clock text-gold-400 mr-1"></i> <span x-text="slot.from + ' to ' + slot.to"></span></span>
+                                                            <span class="text-[9px] opacity-75 flex-shrink-0" x-text="slot.duration"></span>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <template x-if="!room.booked_slots || room.booked_slots.length === 0">
+                                                <div class="text-[10px] text-emerald-400/80 flex items-center gap-1">
+                                                    <i class="fa-solid fa-check text-emerald-400"></i> No active bookings (Fully Free)
+                                                </div>
+                                            </template>
+                                        </div>
+
+                                        <template x-if="room.is_available_in_slot">
+                                            <button type="button" 
+                                                    @click="selectRoomType(room.room_type_id, (roomTypeAvailability.find(rt => rt.id == room.room_type_id) || {}).base_price_per_night || roomRate)"
+                                                    class="mt-2.5 w-full text-center text-[10px] font-bold text-gold-400 hover:text-gold-300 bg-gold-500/10 hover:bg-gold-500/20 py-1.5 rounded-lg border border-gold-400/20 transition">
+                                                Select This Room Category &rarr;
+                                            </button>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -503,6 +581,8 @@ function liveBookingApp() {
         availableRooms: {{ $initialAvailability['available_rooms'] ?? 6 }},
         bookedRooms: {{ $initialAvailability['booked_rooms'] ?? 0 }},
         roomTypeAvailability: @json($initialAvailability['room_types'] ?? []),
+        roomsSchedule: @json($initialAvailability['rooms_schedule'] ?? []),
+        showRoomSchedule: false,
         addonsTotal: 0,
         selectedAddonsMap: {},
         loadingAvailability: false,
@@ -570,6 +650,9 @@ function liveBookingApp() {
                     this.availableRooms = data.data.available_rooms;
                     this.bookedRooms = data.data.booked_rooms;
                     this.roomTypeAvailability = data.data.room_types;
+                    if (data.data.rooms_schedule) {
+                        this.roomsSchedule = data.data.rooms_schedule;
+                    }
 
                     if (data.data.duration) {
                         this.nights = data.data.duration.nights;

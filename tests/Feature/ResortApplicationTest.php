@@ -410,6 +410,7 @@ class ResortApplicationTest extends TestCase
                     'duration_text',
                 ],
                 'room_types',
+                'rooms_schedule',
             ],
         ]);
 
@@ -417,6 +418,9 @@ class ResortApplicationTest extends TestCase
         $this->assertEquals(6, $data['total_rooms']);
         $this->assertEquals(2, $data['duration']['nights']);
         $this->assertEquals(45, round($data['duration']['hours']));
+        $this->assertNotEmpty($data['rooms_schedule']);
+        $this->assertArrayHasKey('room_number', $data['rooms_schedule'][0]);
+        $this->assertArrayHasKey('booked_slots', $data['rooms_schedule'][0]);
     }
 
     public function test_guest_can_book_with_name_whatsapp_and_exact_times(): void
