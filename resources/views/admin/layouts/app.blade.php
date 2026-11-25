@@ -43,7 +43,7 @@
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex" x-data="{ sidebarOpen: false }">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex" x-data="adminPortalApp()">
 
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-brand-900 text-white transform transition-transform duration-200 lg:translate-x-0 flex flex-col justify-between"
@@ -186,5 +186,60 @@
         </main>
     </div>
 
+    <!-- Global Invoice Popup Modal (In-Page Print Dialog) -->
+    <div x-show="invoiceModalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6"
+         @keydown.escape.window="invoiceModalOpen = false">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden border border-slate-200 flex flex-col h-[90vh] max-h-[850px]"
+             @click.outside="invoiceModalOpen = false">
+            <!-- Modal Header Toolbar -->
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center">
+                        <i class="fa-solid fa-receipt text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-base text-white">Official Guest Invoice & Receipt</h3>
+                        <p class="text-xs text-slate-400 font-mono" x-text="'Reservation Reference: ' + invoiceCode"></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button" @click="printInvoiceIframe()" class="bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition shadow">
+                        <i class="fa-solid fa-print"></i> Print Invoice
+                    </button>
+                    <button type="button" @click="invoiceModalOpen = false" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-white/10 transition" title="Close [Esc]">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Iframe Body -->
+            <div class="flex-1 bg-slate-100 p-2 sm:p-4 overflow-hidden">
+                <iframe id="invoiceFrame" :src="invoiceUrl" class="w-full h-full rounded-2xl border border-slate-200 bg-white shadow-inner"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function adminPortalApp() {
+            return {
+                sidebarOpen: false,
+                invoiceModalOpen: false,
+                invoiceUrl: '',
+                invoiceCode: '',
+                openInvoiceModal(url, code) {
+                    this.invoiceUrl = url;
+                    this.invoiceCode = code;
+                    this.invoiceModalOpen = true;
+                },
+                printInvoiceIframe() {
+                    const frame = document.getElementById('invoiceFrame');
+                    if (frame && frame.contentWindow) {
+                        frame.contentWindow.focus();
+                        frame.contentWindow.print();
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

@@ -44,9 +44,9 @@
             <div class="flex items-center gap-4">
                 <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-20 w-auto rounded border border-slate-200">
                 <div>
-                    <h1 class="font-serif font-bold text-2xl text-slate-900">Sanda</h1>
+                    <h1 class="font-serif font-bold text-2xl text-slate-900">Sanda Guest House</h1>
                     <div class="text-xs text-slate-600">Sella Katharagama, Monaragala, Sri Lanka</div>
-                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@sandaresort.com</div>
+                    <div class="text-xs text-slate-500">Hotline: +94 77 987 6543 | Email: info@sandaguesthouse.lk</div>
                 </div>
             </div>
 

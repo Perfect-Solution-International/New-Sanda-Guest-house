@@ -215,10 +215,10 @@
                                         </form>
                                     @endif
 
-                                    <!-- Print Invoice -->
-                                    <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" title="Print Invoice" class="inline-flex items-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-2.5 py-1.5 rounded-lg transition border border-slate-200">
+                                    <!-- Print Invoice (In-Page Modal) -->
+                                    <button type="button" @click="openInvoiceModal('{{ route('admin.bookings.invoice', $booking->id) }}', '{{ $booking->booking_code }}')" title="Print Invoice" class="inline-flex items-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-2.5 py-1.5 rounded-lg transition border border-slate-200">
                                         <i class="fa-solid fa-print"></i>
-                                    </a>
+                                    </button>
 
                                     <!-- Delete -->
                                     <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to permanently delete reservation #{{ $booking->booking_code }} ({{ addslashes($booking->guest_name) }})?');">

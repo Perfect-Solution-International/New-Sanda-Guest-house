@@ -27,9 +27,9 @@
                     </button>
                 </form>
             @endif
-            <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <button type="button" @click="openInvoiceModal('{{ route('admin.bookings.invoice', $booking->id) }}', '{{ $booking->booking_code }}')" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                 <i class="fa-solid fa-print"></i> Print Invoice
-            </a>
+            </button>
             <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete reservation #{{ $booking->booking_code }}?');">
                 @csrf
                 @method('DELETE')

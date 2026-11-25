@@ -215,9 +215,9 @@
                                 <a href="{{ route('admin.bookings.show', $booking->id) }}" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-1.5 rounded-lg transition">
                                     Manage
                                 </a>
-                                <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" title="Print Invoice" class="text-xs bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold px-2 py-1.5 rounded-lg transition">
+                                <button type="button" @click="openInvoiceModal('{{ route('admin.bookings.invoice', $booking->id) }}', '{{ $booking->booking_code }}')" title="Print Invoice" class="text-xs bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold px-2 py-1.5 rounded-lg transition">
                                     <i class="fa-solid fa-print"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     @empty
