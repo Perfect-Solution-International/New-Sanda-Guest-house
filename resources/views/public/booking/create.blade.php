@@ -154,7 +154,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                             <div>
                                 <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1">Adult Guests *</label>
-                                <select name="adults" x-model.number="adults" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                                <select name="adults" x-model.number="adults" @change="onGuestsChanged()" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
                                     <option value="1">1 Adult</option>
                                     <option value="2">2 Adults</option>
                                     <option value="3">3 Adults</option>
@@ -165,7 +165,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1">Children (Under 10)</label>
-                                <select name="children" x-model.number="children" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                                <select name="children" x-model.number="children" @change="onGuestsChanged()" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
                                     <option value="0">0 Children</option>
                                     <option value="1">1 Child</option>
                                     <option value="2">2 Children</option>
@@ -249,27 +249,86 @@
                                 <span class="w-8 h-8 rounded-full bg-gradient-to-br from-gold-400 to-amber-600 text-slate-950 font-bold flex items-center justify-center text-sm shadow-md">3</span>
                                 <div>
                                     <h3 class="text-lg sm:text-xl font-serif font-bold text-white">Experience & Safari Add-ons (Optional)</h3>
-                                    <p class="text-xs text-emerald-200/60">Enhance your Kataragama stay with tours and meals.</p>
+                                    <p class="text-xs text-emerald-200/60">Enhance your Kataragama stay with tours, extra bedding, and meals.</p>
                                 </div>
                             </div>
 
                             <div class="space-y-3">
                                 @foreach($addons as $addon)
-                                    <label class="flex items-center justify-between p-4 rounded-2xl border border-emerald-500/20 bg-[#051811] hover:bg-[#09261b] cursor-pointer transition">
-                                        <div class="flex items-start gap-3">
-                                            <input type="checkbox" name="addons[]" value="{{ $addon->id }}" 
-                                                   @change="toggleAddon({{ $addon->id }}, {{ $addon->price }}, '{{ $addon->price_type }}', $event.target.checked)"
-                                                   class="w-5 h-5 mt-0.5 rounded text-gold-500 focus:ring-gold-400 border-emerald-600 bg-[#051710]">
-                                            <div>
-                                                <h4 class="font-bold text-sm text-white">{{ $addon->name }}</h4>
-                                                <p class="text-xs text-emerald-100/60 max-w-lg mt-0.5">{{ $addon->description }}</p>
+                                    <div class="p-4 sm:p-5 rounded-2xl border transition duration-200"
+                                         :class="selectedAddonsMap[{{ $addon->id }}] ? 'border-gold-400 bg-[#0d2e22] shadow-lg ring-1 ring-gold-400/30' : 'border-emerald-500/20 bg-[#051811] hover:border-emerald-500/40'">
+                                        
+                                        <div class="flex items-start justify-between gap-4">
+                                            <label for="addon_{{ $addon->id }}" class="flex items-start gap-3.5 cursor-pointer flex-1">
+                                                <input type="checkbox" id="addon_{{ $addon->id }}" name="addons[]" value="{{ $addon->id }}" 
+                                                       @change="toggleAddon({{ $addon->id }}, {{ $addon->price }}, '{{ $addon->price_type }}', $event.target.checked)"
+                                                       class="w-5 h-5 mt-0.5 rounded text-gold-500 focus:ring-gold-400 border-emerald-600 bg-[#051710] cursor-pointer">
+                                                <div>
+                                                    <h4 class="font-bold text-sm text-white">{{ $addon->name }}</h4>
+                                                    <p class="text-xs text-emerald-100/60 max-w-lg mt-0.5">{{ $addon->description }}</p>
+                                                </div>
+                                            </label>
+                                            <div class="text-right pl-2 flex-shrink-0">
+                                                <span class="font-bold text-gold-300 text-sm block font-mono">Rs. {{ number_format($addon->price) }}</span>
+                                                <span class="text-[10px] text-emerald-400/80 block uppercase">{{ str_replace('_', ' ', $addon->price_type) }}</span>
                                             </div>
                                         </div>
-                                        <div class="text-right pl-4">
-                                            <span class="font-bold text-gold-300 text-sm block">Rs. {{ number_format($addon->price) }}</span>
-                                            <span class="text-[10px] text-emerald-400/80 block uppercase">{{ str_replace('_', ' ', $addon->price_type) }}</span>
+
+                                        <!-- Quantity / Person Selector when checked -->
+                                        <div x-show="selectedAddonsMap[{{ $addon->id }}]" x-cloak class="mt-4 pt-3 border-t border-emerald-500/20 flex flex-wrap items-center justify-between gap-3">
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-xs font-semibold text-emerald-200 flex items-center gap-1.5">
+                                                    @if($addon->price_type === 'per_person')
+                                                        <i class="fa-solid fa-users text-gold-400"></i>
+                                                        <span>Person Count:</span>
+                                                    @else
+                                                        <i class="fa-solid fa-calculator text-gold-400"></i>
+                                                        <span>Quantity:</span>
+                                                    @endif
+                                                </span>
+
+                                                <!-- Counter Controls -->
+                                                <div class="flex items-center bg-[#03100a] border border-emerald-500/30 rounded-xl overflow-hidden p-0.5 shadow-inner">
+                                                    <button type="button" 
+                                                            @click="decrementAddonQty({{ $addon->id }})" 
+                                                            class="w-8 h-8 flex items-center justify-center text-emerald-300 hover:text-white hover:bg-emerald-800/60 rounded-lg transition font-bold"
+                                                            title="Decrease count">
+                                                        <i class="fa-solid fa-minus text-[11px]"></i>
+                                                    </button>
+
+                                                    <input type="number" 
+                                                           name="addon_quantities[{{ $addon->id }}]" 
+                                                           :value="getAddonQty({{ $addon->id }})" 
+                                                           @input="setAddonQty({{ $addon->id }}, $event.target.value)"
+                                                           min="1" max="50"
+                                                           class="w-12 text-center bg-transparent border-0 text-white font-bold text-sm focus:ring-0 p-0 font-mono">
+
+                                                    <button type="button" 
+                                                            @click="incrementAddonQty({{ $addon->id }})" 
+                                                            class="w-8 h-8 flex items-center justify-center text-emerald-300 hover:text-white hover:bg-emerald-800/60 rounded-lg transition font-bold"
+                                                            title="Increase count">
+                                                        <i class="fa-solid fa-plus text-[11px]"></i>
+                                                    </button>
+                                                </div>
+
+                                                <span class="text-xs text-emerald-300/80 font-medium">
+                                                    @if($addon->price_type === 'per_person')
+                                                        <span x-text="getAddonQty({{ $addon->id }}) == 1 ? 'Person' : 'Persons'"></span>
+                                                    @else
+                                                        <span x-text="getAddonQty({{ $addon->id }}) == 1 ? 'Unit' : 'Units'"></span>
+                                                    @endif
+                                                </span>
+                                            </div>
+
+                                            <!-- Computed Subtotal Display -->
+                                            <div class="text-xs text-right bg-[#04140d] px-3.5 py-1.5 rounded-xl border border-emerald-500/30">
+                                                <span class="text-[10px] text-emerald-400/80 uppercase block">Add-on Subtotal</span>
+                                                <span class="font-serif font-bold text-gold-300 text-sm font-mono">
+                                                    Rs. <span x-text="getAddonSubtotalFormatted({{ $addon->id }})"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </label>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -552,26 +611,79 @@ function liveBookingApp() {
             return Math.max(Math.round(this.roomRate * (this.durationHours / 24) * 1.2), Math.round(this.roomRate * 0.6));
         },
 
+        onGuestsChanged() {
+            // Update per_person addons if not individually overridden
+            for (const [id, item] of Object.entries(this.selectedAddonsMap)) {
+                if (item.type === 'per_person') {
+                    item.quantity = Math.max(1, (this.adults || 1) + (this.children || 0));
+                }
+            }
+            this.recalculateAddons();
+        },
+
         toggleAddon(id, price, type, isChecked) {
             if (isChecked) {
-                this.selectedAddonsMap[id] = { price: price, type: type };
+                let defaultQty = 1;
+                if (type === 'per_person') {
+                    defaultQty = Math.max(1, (this.adults || 1) + (this.children || 0));
+                }
+                this.selectedAddonsMap[id] = {
+                    price: price,
+                    type: type,
+                    quantity: defaultQty
+                };
             } else {
                 delete this.selectedAddonsMap[id];
             }
             this.recalculateAddons();
         },
 
+        setAddonQty(id, qty) {
+            let val = parseInt(qty);
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 50) val = 50;
+            if (this.selectedAddonsMap[id]) {
+                this.selectedAddonsMap[id].quantity = val;
+                this.recalculateAddons();
+            }
+        },
+
+        incrementAddonQty(id) {
+            if (this.selectedAddonsMap[id]) {
+                this.selectedAddonsMap[id].quantity = (this.selectedAddonsMap[id].quantity || 1) + 1;
+                this.recalculateAddons();
+            }
+        },
+
+        decrementAddonQty(id) {
+            if (this.selectedAddonsMap[id] && this.selectedAddonsMap[id].quantity > 1) {
+                this.selectedAddonsMap[id].quantity--;
+                this.recalculateAddons();
+            }
+        },
+
+        getAddonQty(id) {
+            return this.selectedAddonsMap[id] ? this.selectedAddonsMap[id].quantity : 1;
+        },
+
+        getAddonSubtotal(id) {
+            const item = this.selectedAddonsMap[id];
+            if (!item) return 0;
+            const qty = item.quantity || 1;
+            if (item.type === 'per_night') {
+                return item.price * qty * Math.max(1, this.nights);
+            }
+            return item.price * qty;
+        },
+
+        getAddonSubtotalFormatted(id) {
+            return this.getAddonSubtotal(id).toLocaleString();
+        },
+
         recalculateAddons() {
             let sum = 0;
-            const nightCount = Math.max(1, this.nights);
             for (const [id, item] of Object.entries(this.selectedAddonsMap)) {
-                let qty = 1;
-                if (item.type === 'per_night') {
-                    qty = nightCount;
-                } else if (item.type === 'per_person') {
-                    qty = this.adults + this.children;
-                }
-                sum += item.price * qty;
+                sum += this.getAddonSubtotal(id);
             }
             this.addonsTotal = sum;
         },

@@ -135,14 +135,21 @@
                     </h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         @foreach($addons as $addon)
-                            <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 text-xs cursor-pointer hover:bg-slate-50">
-                                <input type="checkbox" name="addons[]" value="{{ $addon->id }}" {{ in_array($addon->id, old('addons', [])) ? 'checked' : '' }}
-                                       class="rounded text-brand-700 focus:ring-brand-700">
-                                <div>
-                                    <strong class="text-slate-800">{{ $addon->name }}</strong>
-                                    <span class="text-slate-500 block">Rs. {{ number_format($addon->price) }}</span>
+                            <div class="flex items-center justify-between p-3 rounded-xl border border-slate-200 text-xs bg-slate-50/50 hover:bg-slate-50">
+                                <label class="flex items-center gap-3 cursor-pointer flex-1">
+                                    <input type="checkbox" name="addons[]" value="{{ $addon->id }}" {{ in_array($addon->id, old('addons', [])) ? 'checked' : '' }}
+                                           class="rounded text-brand-700 focus:ring-brand-700">
+                                    <div>
+                                        <strong class="text-slate-800">{{ $addon->name }}</strong>
+                                        <span class="text-slate-500 block">Rs. {{ number_format($addon->price) }} ({{ str_replace('_', ' ', $addon->price_type) }})</span>
+                                    </div>
+                                </label>
+                                <div class="flex items-center gap-1.5 pl-2">
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold">Qty/Persons:</span>
+                                    <input type="number" name="addon_quantities[{{ $addon->id }}]" min="1" max="50" value="{{ old('addon_quantities.'.$addon->id, 1) }}"
+                                           class="w-14 border border-slate-300 rounded-lg px-2 py-1 text-xs text-center focus:ring-1 focus:ring-brand-700">
                                 </div>
-                            </label>
+                            </div>
                         @endforeach
                     </div>
                 </div>

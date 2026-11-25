@@ -112,6 +112,8 @@ class BookingController extends Controller
             'special_requests' => 'nullable|string|max:1000',
             'addons' => 'nullable|array',
             'addons.*' => 'exists:addons,id',
+            'addon_quantities' => 'nullable|array',
+            'addon_quantities.*' => 'nullable|integer|min:1|max:50',
         ]);
 
         $checkInTime = !empty($validated['check_in_time']) ? $validated['check_in_time'] : '14:00';
@@ -153,14 +155,25 @@ class BookingController extends Controller
         $selectedAddons = [];
         if (!empty($validated['addons'])) {
             $addons = Addon::whereIn('id', $validated['addons'])->get();
+            $customQuantities = $request->input('addon_quantities', []);
+
             foreach ($addons as $addon) {
-                $qty = 1;
-                if ($addon->price_type === 'per_person') {
+                if (isset($customQuantities[$addon->id]) && (int)$customQuantities[$addon->id] >= 1) {
+                    $qty = (int) $customQuantities[$addon->id];
+                } elseif ($addon->price_type === 'per_person') {
                     $qty = $validated['adults'] + ($validated['children'] ?? 0);
                 } elseif ($addon->price_type === 'per_night') {
                     $qty = max(1, $nights);
+                } else {
+                    $qty = 1;
                 }
-                $subtotal = $addon->price * $qty;
+
+                if ($addon->price_type === 'per_night') {
+                    $subtotal = $addon->price * $qty * max(1, $nights);
+                } else {
+                    $subtotal = $addon->price * $qty;
+                }
+
                 $addonsTotal += $subtotal;
                 $selectedAddons[] = [
                     'addon_id' => $addon->id,

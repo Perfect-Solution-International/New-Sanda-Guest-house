@@ -692,4 +692,43 @@ class ResortApplicationTest extends TestCase
         $room->refresh();
         $this->assertEquals('available', $room->status);
     }
+
+    public function test_guest_can_book_with_custom_addon_person_quantity(): void
+    {
+        $roomType = RoomType::first();
+        $addon = Addon::first();
+
+        $inDate = now()->addDays(14)->format('Y-m-d');
+        $outDate = now()->addDays(15)->format('Y-m-d');
+
+        $response = $this->post('/book', [
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Addon Person Test Guest',
+            'guest_phone' => '+94 77 333 4444',
+            'check_in_date' => $inDate,
+            'check_in_time' => '14:00',
+            'check_out_date' => $outDate,
+            'check_out_time' => '11:00',
+            'adults' => 2,
+            'children' => 0,
+            'payment_method' => 'cash',
+            'addons' => [$addon->id],
+            'addon_quantities' => [
+                $addon->id => 3, // 3 persons / units
+            ],
+        ]);
+
+        $response->assertRedirect();
+
+        $booking = Booking::where('guest_name', 'Addon Person Test Guest')->first();
+        $this->assertNotNull($booking);
+
+        $bookingAddon = \App\Models\BookingAddon::where('booking_id', $booking->id)
+            ->where('addon_id', $addon->id)
+            ->first();
+
+        $this->assertNotNull($bookingAddon);
+        $this->assertEquals(3, $bookingAddon->quantity);
+        $this->assertEquals($addon->price * 3, $bookingAddon->subtotal);
+    }
 }
