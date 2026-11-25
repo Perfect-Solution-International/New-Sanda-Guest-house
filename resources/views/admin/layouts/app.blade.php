@@ -53,7 +53,7 @@
             <div class="h-20 flex items-center gap-3 px-6 border-b border-brand-800 bg-brand-900">
                 <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-10 w-auto rounded bg-white p-0.5">
                 <div>
-                    <div class="font-serif font-bold text-base text-white leading-tight">New Sanda</div>
+                    <div class="font-serif font-bold text-base text-white leading-tight">New Sanda Guest House</div>
                     <div class="text-[10px] text-gold-400 font-semibold uppercase tracking-wider">Management Desk</div>
                 </div>
             </div>

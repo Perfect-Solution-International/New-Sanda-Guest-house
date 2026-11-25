@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'New Sanda - Sella Katharagama')
+@section('title', 'New Sanda Guest House')
 
 @section('content')
 
@@ -8,16 +8,12 @@
 <section class="relative py-20 lg:py-28 bg-cover bg-center text-white" 
          style="background-image: linear-gradient(to bottom, rgba(14, 45, 28, 0.78), rgba(14, 45, 28, 0.90)), url('https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1600&q=80');">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-gold-400 text-xs font-semibold uppercase tracking-wider">
-            <i class="fa-solid fa-location-dot"></i> Sella Katharagama, Sri Lanka
-        </div>
-
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-white leading-tight">
-            New Sanda
+            New Sanda <span class="text-gold-400">Guest House</span>
         </h1>
 
         <p class="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto font-light leading-relaxed">
-            Clean, peaceful, and affordable family accommodation in Sella Katharagama. Spotless A/C and Non-A/C rooms, attached bathrooms with hot water, and secure parking for pilgrims and holiday travellers.
+            Clean, peaceful, and affordable family accommodation. Spotless A/C and Non-A/C rooms, attached bathrooms with hot water, and secure parking for pilgrims and holiday travellers.
         </p>
 
         <!-- Direct Contact / Booking Action Buttons -->
@@ -25,7 +21,7 @@
             <a href="tel:+94779876543" class="bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold px-6 py-3.5 rounded-full shadow-lg transition flex items-center gap-2 text-sm sm:text-base">
                 <i class="fa-solid fa-phone"></i> Call to Book: 077 987 6543
             </a>
-            <a href="https://wa.me/94779876543?text=Hello%20New%20Sanda,%20I%20would%20like%20to%20inquire%20about%20room%20availability." target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-full shadow-lg transition flex items-center gap-2 text-sm sm:text-base">
+            <a href="https://wa.me/94779876543?text=Hello%20New%20Sanda%20Guest%20House,%20I%20would%20like%20to%20inquire%20about%20room%20availability." target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3.5 rounded-full shadow-lg transition flex items-center gap-2 text-sm sm:text-base">
                 <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Booking
             </a>
             <a href="{{ route('rooms.index') }}" class="bg-white/15 hover:bg-white/25 text-white border border-white/30 font-semibold px-6 py-3.5 rounded-full text-sm sm:text-base transition">
@@ -106,7 +102,7 @@
                             <a href="tel:+94779876543" class="bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5">
                                 <i class="fa-solid fa-phone"></i> Call
                             </a>
-                            <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda, I want to inquire about: ' . $room->name) }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5">
+                            <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda Guest House, I want to inquire about: ' . $room->name) }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-lg transition flex items-center gap-1.5">
                                 <i class="fa-brands fa-whatsapp"></i> WhatsApp
                             </a>
                             <a href="{{ route('booking.create', ['room_type_id' => $room->id]) }}" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-3 py-2 rounded-lg transition ml-auto">
@@ -126,9 +122,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div class="space-y-4">
                 <span class="text-gold-600 font-bold text-xs uppercase tracking-widest block">Welcome</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-900">About New Sanda</h2>
+                <h2 class="text-3xl font-serif font-bold text-brand-900">About New Sanda Guest House</h2>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    New Sanda is a peaceful, family-run holiday home located on Sella Road in Sella Katharagama. We specialize in providing clean, safe, and peaceful lodging for families and pilgrimage devotees visiting Ruhunu Kataragama Maha Devalaya and Kiri Vehera.
+                    New Sanda Guest House is a peaceful, family-run accommodation network. We specialize in providing clean, safe, and peaceful lodging for families and pilgrimage devotees.
                 </p>
                 <ul class="text-xs text-slate-700 space-y-2 pt-2">
                     <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-600"></i> Walking distance to Sella Kataragama temple and Menik Ganga</li>

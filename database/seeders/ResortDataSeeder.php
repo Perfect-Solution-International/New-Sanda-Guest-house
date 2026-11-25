@@ -41,8 +41,8 @@ class ResortDataSeeder extends Seeder
 
         // 2. Basic Settings
         $settings = [
-            'resort_name' => 'New Sanda Holiday Home',
-            'resort_tagline' => 'Clean, Comfortable & Affordable Family Stay in Sella Katharagama',
+            'resort_name' => 'New Sanda Guest House',
+            'resort_tagline' => 'Clean, Comfortable & Affordable Family Stays Across Sri Lanka',
             'phone' => '+94 77 987 6543',
             'hotline' => '+94 47 223 5566',
             'whatsapp' => '+94779876543',
@@ -52,8 +52,8 @@ class ResortDataSeeder extends Seeder
             'check_out_time' => '11:00 AM',
             'currency' => 'LKR',
             'currency_symbol' => 'Rs.',
-            'bank_details' => "Bank: Bank of Ceylon (BOC)\nBranch: Kataragama Branch\nAccount Name: New Sanda\nAccount No: 8876543201",
-            'about_text' => 'New Sanda is a peaceful, family-run holiday stay situated in sacred Sella Katharagama. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking. Ideal for families, pilgrims visiting Ruhunu Kataragama Maha Devalaya, and travellers.',
+            'bank_details' => "Bank: Bank of Ceylon (BOC)\nBranch: Kataragama Branch\nAccount Name: New Sanda Guest House\nAccount No: 8876543201",
+            'about_text' => 'New Sanda Guest House is a peaceful, family-run accommodation network. We offer clean, affordable A/C and Non-A/C rooms with attached bathrooms, hot water, free Wi-Fi, and spacious vehicle parking across our branch locations.',
         ];
 
         foreach ($settings as $key => $val) {

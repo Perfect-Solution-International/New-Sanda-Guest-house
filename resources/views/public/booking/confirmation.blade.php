@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Booking Confirmation - ' . $booking->booking_code . ' | New Sanda')
+@section('title', 'Booking Confirmation - ' . $booking->booking_code . ' | New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-stone-50">
@@ -13,7 +13,7 @@
                 </div>
                 <h1 class="text-3xl font-serif font-bold">Reservation Request Received!</h1>
                 <p class="text-sm text-slate-200 max-w-lg mx-auto">
-                    Thank you, <strong>{{ $booking->guest_name }}</strong>. Your reservation request for New Sanda has been recorded.
+                    Thank you, <strong>{{ $booking->guest_name }}</strong>. Your reservation request for New Sanda Guest House has been recorded.
                 </p>
                 <div class="inline-block bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-gold-400 font-mono text-base font-bold">
                     Booking Code: {{ $booking->booking_code }}
@@ -94,7 +94,7 @@
                     <div class="bg-white p-4 rounded-xl border border-amber-200 font-mono text-xs text-slate-800 space-y-1">
                         <div><strong>Bank:</strong> Bank of Ceylon (BOC)</div>
                         <div><strong>Branch:</strong> Kataragama Branch</div>
-                        <div><strong>Account Name:</strong> New Sanda</div>
+                        <div><strong>Account Name:</strong> New Sanda Guest House</div>
                         <div><strong>Account Number:</strong> 8876543201</div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow">
                         <i class="fa-solid fa-print"></i> Print Voucher
                     </button>
-                    <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda, I have made a reservation with code: ' . $booking->booking_code . ' for ' . $booking->guest_name . '. Please confirm.') }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow">
+                    <a href="https://wa.me/94779876543?text={{ urlencode('Hello New Sanda Guest House, I have made a reservation with code: ' . $booking->booking_code . ' for ' . $booking->guest_name . '. Please confirm.') }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow">
                         <i class="fa-brands fa-whatsapp text-lg"></i> Send Slip on WhatsApp
                     </a>
                     <a href="{{ route('booking.track') }}" class="border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 ml-auto">

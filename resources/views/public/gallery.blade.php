@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Photo Gallery - New Sanda')
+@section('title', 'Photo Gallery - New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-brand-900 text-white text-center">

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'New Sanda Holiday Home - Sella Katharagama')</title>
-    <meta name="description" content="New Sanda in Sella Katharagama offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking.">
+    <title>@yield('title', 'New Sanda Guest House')</title>
+    <meta name="description" content="New Sanda Guest House offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,7 +63,7 @@
                             New Sanda
                         </div>
                         <div class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
-                            Holiday Home • Sella Katharagama
+                            Guest House
                         </div>
                     </div>
                 </a>
@@ -135,9 +135,9 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-brand-800/60">
                 <div class="space-y-3">
-                    <div class="font-serif font-bold text-xl text-white">New Sanda</div>
+                    <div class="font-serif font-bold text-xl text-white">New Sanda Guest House</div>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Clean and affordable accommodation in Sella Katharagama. Perfect for families and pilgrims visiting Ruhunu Kataragama Maha Devalaya, Kiri Vehera, and Sella Temple.
+                        Clean and affordable accommodation. Perfect for families, travelers, and pilgrims visiting sacred sites and holiday destinations.
                     </p>
                 </div>
 
@@ -171,7 +171,7 @@
             </div>
 
             <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
-                <p>&copy; {{ date('Y') }} New Sanda. All rights reserved. Sella Katharagama, Sri Lanka.</p>
+                <p>&copy; {{ date('Y') }} New Sanda Guest House. All rights reserved.</p>
                 <a href="{{ route('admin.login') }}" class="text-slate-500 hover:text-gold-400 text-[11px]">
                     <i class="fa-solid fa-lock"></i> Staff Login
                 </a>
