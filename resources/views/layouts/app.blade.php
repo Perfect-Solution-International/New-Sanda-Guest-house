@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'New Sanda Guest House')</title>
-    <meta name="description" content="New Sanda Guest House offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking.">
+    <meta name="description" content="New Sanda Guest House offers clean, affordable A/C and Non-A/C family rooms, attached bathrooms with hot water, and secure parking across our branch locations.">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Cormorant Garamond (Editorial Luxury Headings) & Plus Jakarta Sans (Modern UI & Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,8 +30,10 @@
                             700: '#174b2d',
                             800: '#133d25',
                             900: '#0e2d1c',
+                            950: '#081a10',
                         },
                         gold: {
+                            300: '#f8cf74',
                             400: '#f3b747',
                             500: '#d99726',
                             600: '#b87717',
@@ -39,7 +41,7 @@
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Lora"', 'Georgia', 'serif'],
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
                     }
                 }
             }
@@ -51,59 +53,63 @@
 </head>
 <body class="bg-[#fcfaf7] text-slate-800 font-sans antialiased flex flex-col min-h-screen" x-data="{ mobileMenu: false }">
 
-    <!-- Main Navigation Header -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-stone-100">
+    <!-- Main Navigation Header (Luxury Dark Style from Design Pin) -->
+    <header class="bg-brand-900/95 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-lg">
         <div class="w-full px-4 sm:px-8 lg:px-12">
             <div class="flex justify-between items-center h-20">
                 <!-- Brand Name (Left-aligned) -->
-                <a href="{{ route('home') }}" class="flex items-center gap-3 flex-shrink-0">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-14 w-auto object-contain rounded shadow-sm">
+                <a href="{{ route('home') }}" class="flex items-center gap-3.5 flex-shrink-0 group">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-12 w-auto object-contain rounded ring-1 ring-gold-500/40 shadow-sm group-hover:ring-gold-400 transition">
                     <div>
-                        <div class="text-xl sm:text-2xl font-serif font-bold text-brand-900 tracking-tight leading-none">
+                        <div class="text-2xl font-serif font-bold text-white tracking-tight leading-none group-hover:text-gold-300 transition">
                             New Sanda
                         </div>
-                        <div class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+                        <div class="text-[10px] font-semibold text-gold-400 uppercase tracking-[0.25em] mt-1">
                             Guest House
                         </div>
                     </div>
                 </a>
 
-                <!-- Desktop Navigation Links & Staff Action (Right-aligned) -->
-                <div class="hidden md:flex items-center gap-8">
-                    <nav class="flex items-center gap-6">
-                        <a href="{{ route('home') }}" class="text-sm font-semibold {{ request()->routeIs('home') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Home</a>
-                        <a href="{{ route('rooms.index') }}" class="text-sm font-semibold {{ request()->routeIs('rooms.*') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Rooms and Rates</a>
-                        <a href="{{ route('facilities') }}" class="text-sm font-semibold {{ request()->routeIs('facilities') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Facilities</a>
-                        <a href="{{ route('gallery') }}" class="text-sm font-semibold {{ request()->routeIs('gallery') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Photos</a>
-                        <a href="{{ route('about') }}" class="text-sm font-semibold {{ request()->routeIs('about') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">About</a>
-                        <a href="{{ route('contact') }}" class="text-sm font-semibold {{ request()->routeIs('contact') ? 'text-brand-700 font-bold border-b-2 border-brand-700 py-1' : 'text-slate-600 hover:text-brand-700' }} transition">Contact</a>
-                    </nav>
+                <!-- Desktop Navigation Links (Center-aligned, Editorial Upper-case) -->
+                <nav class="hidden md:flex items-center gap-7">
+                    <a href="{{ route('home') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('home') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Home</a>
+                    <a href="{{ route('rooms.index') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('rooms.*') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Rooms and Rates</a>
+                    <a href="{{ route('facilities') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('facilities') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Facilities</a>
+                    <a href="{{ route('gallery') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('gallery') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Photos</a>
+                    <a href="{{ route('about') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('about') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">About</a>
+                    <a href="{{ route('contact') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('contact') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Contact</a>
+                </nav>
 
-                    <a href="{{ route('admin.dashboard') }}" title="Staff Login" class="text-slate-400 hover:text-brand-800 p-2 rounded-full hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-user-shield text-base"></i>
+                <!-- Action Button & Staff Portal (Right-aligned) -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="https://wa.me/94779876543?text=Hello%20New%20Sanda%20Guest%20House,%20I%20would%20like%20to%20inquire%20about%20room%20availability." target="_blank" class="border border-gold-400/70 hover:border-gold-400 text-gold-400 hover:bg-gold-400 hover:text-brand-900 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> Book Stay
+                    </a>
+                    <a href="{{ route('admin.dashboard') }}" title="Staff Portal" class="text-slate-400 hover:text-gold-400 p-2 rounded-full hover:bg-white/10 transition">
+                        <i class="fa-solid fa-user-shield text-sm"></i>
                     </a>
                 </div>
 
                 <!-- Mobile Hamburger Button -->
-                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 rounded-md text-slate-600 hover:text-brand-800 hover:bg-slate-100 focus:outline-none">
+                <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 rounded-md text-slate-300 hover:text-white hover:bg-white/10 focus:outline-none">
                     <i class="fa-solid" :class="mobileMenu ? 'fa-xmark text-xl' : 'fa-bars text-xl'"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div x-show="mobileMenu" x-cloak class="md:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-6 space-y-3">
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">Home</a>
-            <a href="{{ route('rooms.index') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">Rooms and Rates</a>
-            <a href="{{ route('facilities') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">Facilities</a>
-            <a href="{{ route('gallery') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">Photos</a>
-            <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">About Us</a>
-            <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-800">Contact and Location</a>
-            <div class="pt-2 space-y-2">
-                <a href="tel:+94779876543" class="block w-full text-center bg-brand-700 text-white py-2.5 rounded-xl font-bold text-sm">
+        <div x-show="mobileMenu" x-cloak class="md:hidden bg-brand-950 border-t border-white/10 px-4 pt-3 pb-6 space-y-2">
+            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Home</a>
+            <a href="{{ route('rooms.index') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Rooms and Rates</a>
+            <a href="{{ route('facilities') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Facilities</a>
+            <a href="{{ route('gallery') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Photos</a>
+            <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">About Us</a>
+            <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Contact and Location</a>
+            <div class="pt-3 space-y-2">
+                <a href="tel:+94779876543" class="block w-full text-center bg-gold-500 text-brand-950 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider">
                     <i class="fa-solid fa-phone mr-1"></i> Call: 077 987 6543
                 </a>
-                <a href="https://wa.me/94779876543" target="_blank" class="block w-full text-center bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-sm">
+                <a href="https://wa.me/94779876543" target="_blank" class="block w-full text-center bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider">
                     <i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp Booking
                 </a>
             </div>
@@ -130,51 +136,84 @@
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-brand-900 text-slate-300 pt-12 pb-8 border-t border-brand-800 mt-20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-brand-800/60">
-                <div class="space-y-3">
-                    <div class="font-serif font-bold text-xl text-white">New Sanda Guest House</div>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Clean and affordable accommodation. Perfect for families, travelers, and pilgrims visiting sacred sites and holiday destinations.
-                    </p>
+    <!-- Luxury Dark Footer (Aesthetic matched to the Design Pin) -->
+    <footer class="bg-brand-950 text-slate-300 pt-16 pb-8 border-t border-white/10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+                <!-- Col 1: Editorial CTA -->
+                <div class="md:col-span-5 space-y-4">
+                    <span class="text-gold-400 font-semibold text-xs uppercase tracking-[0.25em] block">Reservations & Stay</span>
+                    <h3 class="text-3xl sm:text-4xl lg:text-5xl font-serif text-white leading-tight">
+                        Plan Your<br>Peaceful<br><span class="italic text-gold-400 font-normal">Getaway.</span>
+                    </h3>
+                    <div class="pt-2">
+                        <a href="https://wa.me/94779876543?text=Hello%20New%20Sanda%20Guest%20House,%20I%20would%20like%20to%20reserve%20a%20room." target="_blank" class="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-brand-950 font-bold px-6 py-3.5 rounded text-xs uppercase tracking-wider transition shadow-lg">
+                            RESERVE VIA WHATSAPP <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
                 </div>
 
-                <div>
-                    <h4 class="text-white font-serif font-bold text-sm mb-3 text-gold-400">Quick Links</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="{{ route('home') }}" class="hover:text-gold-400">Home</a></li>
-                        <li><a href="{{ route('rooms.index') }}" class="hover:text-gold-400">Rooms and Rates</a></li>
-                        <li><a href="{{ route('facilities') }}" class="hover:text-gold-400">Facilities</a></li>
-                        <li><a href="{{ route('contact') }}" class="hover:text-gold-400">Contact and Directions</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-serif font-bold text-sm mb-3 text-gold-400">Contact Us Directly</h4>
-                    <div class="space-y-2 text-xs text-slate-300">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-location-dot text-gold-400"></i>
-                            <span>No. 45, Sella Road, Sella Katharagama</span>
+                <!-- Col 2: Direct Contact Details & Socials -->
+                <div class="md:col-span-4 space-y-4">
+                    <h4 class="text-white font-serif font-semibold text-xl tracking-wide">Direct Contact</h4>
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold-400 text-sm w-4"></i>
+                            <a href="mailto:info@newsanda.lk" class="hover:text-gold-400 transition">info@newsanda.lk</a>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-phone text-gold-400"></i>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold-400 text-sm w-4"></i>
                             <span>+94 77 987 6543 / +94 47 223 5566</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-emerald-400"></i>
-                            <span>+94 77 987 6543 (WhatsApp)</span>
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-gold-400 text-sm w-4 mt-0.5"></i>
+                            <span>New Sanda Guest House, Sella Katharagama, Sri Lanka</span>
+                        </div>
+                    </div>
+
+                    <!-- Follow Us / Connect Icons -->
+                    <div class="pt-2">
+                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">Connect With Us</span>
+                        <div class="flex items-center gap-2.5">
+                            <a href="https://wa.me/94779876543" target="_blank" class="w-8 h-8 rounded-full border border-white/20 hover:border-gold-400 flex items-center justify-center text-slate-300 hover:text-gold-400 transition text-xs">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                            <a href="tel:+94779876543" class="w-8 h-8 rounded-full border border-white/20 hover:border-gold-400 flex items-center justify-center text-slate-300 hover:text-gold-400 transition text-xs">
+                                <i class="fa-solid fa-phone"></i>
+                            </a>
+                            <a href="{{ route('contact') }}" class="w-8 h-8 rounded-full border border-white/20 hover:border-gold-400 flex items-center justify-center text-slate-300 hover:text-gold-400 transition text-xs">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
+
+                <!-- Col 3: Brand & Hospitality Statement -->
+                <div class="md:col-span-3 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="New Sanda" class="h-10 w-auto object-contain rounded ring-1 ring-gold-500/30">
+                        <div>
+                            <div class="text-xl font-serif font-bold text-white leading-none">New Sanda</div>
+                            <div class="text-[9px] font-semibold text-gold-400 uppercase tracking-[0.2em] mt-0.5">Guest House</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed font-light">
+                        We offer clean, serene, and comfortable spaces that elevate your pilgrimage and holiday in Sri Lanka. Thoughtful care, spotless rooms, and family-first hospitality.
+                    </p>
+                </div>
             </div>
 
-            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-2">
+            <!-- Bottom Bar -->
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-3">
                 <p>&copy; {{ date('Y') }} New Sanda Guest House. All rights reserved.</p>
-                <a href="{{ route('admin.login') }}" class="text-slate-500 hover:text-gold-400 text-[11px]">
-                    <i class="fa-solid fa-lock"></i> Staff Login
-                </a>
+                <div class="flex items-center gap-6 text-xs">
+                    <a href="{{ route('about') }}" class="hover:text-slate-300 transition">About</a>
+                    <a href="{{ route('rooms.index') }}" class="hover:text-slate-300 transition">Rooms</a>
+                    <a href="{{ route('contact') }}" class="hover:text-slate-300 transition">Contact</a>
+                    <a href="{{ route('admin.login') }}" class="hover:text-gold-400 transition text-[11px] flex items-center gap-1">
+                        <i class="fa-solid fa-lock text-[10px]"></i> Staff Login
+                    </a>
+                </div>
             </div>
         </div>
     </footer>

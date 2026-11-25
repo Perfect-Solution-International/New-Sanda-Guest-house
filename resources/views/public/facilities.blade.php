@@ -3,10 +3,11 @@
 @section('title', 'Facilities and Comforts - New Sanda Guest House')
 
 @section('content')
-<section class="py-12 bg-brand-900 text-white text-center">
-    <div class="max-w-3xl mx-auto px-4">
-        <h1 class="text-3xl font-serif font-bold text-white mb-2">Facilities & Comforts</h1>
-        <p class="text-slate-200 text-sm">Everything you need for a comfortable, clean, and restful family stay in Sella Katharagama.</p>
+<section class="py-16 bg-brand-900 text-white text-center relative overflow-hidden border-b border-white/10">
+    <div class="max-w-3xl mx-auto px-4 relative z-10">
+        <span class="text-gold-400 font-semibold text-xs uppercase tracking-[0.25em] block mb-2">HOSPITALITY AMENITIES</span>
+        <h1 class="text-4xl sm:text-5xl font-serif text-white mb-3">Facilities and Comforts</h1>
+        <p class="text-slate-300 text-sm font-light">Everything you need for a comfortable, clean, and restful family stay across our branch locations.</p>
     </div>
 </section>
 

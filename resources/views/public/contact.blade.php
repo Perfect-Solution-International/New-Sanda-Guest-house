@@ -3,12 +3,12 @@
 @section('title', 'Contact Us - New Sanda Guest House')
 
 @section('content')
-<section class="py-16 bg-brand-900 text-white text-center">
-    <div class="max-w-4xl mx-auto px-4">
-        <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Get In Touch</span>
-        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">Contact & Location</h1>
-        <p class="text-slate-200 text-base max-w-2xl mx-auto font-light">
-            We are here to assist with room bookings, pilgrimage guidance, and family reservations.
+<section class="py-16 bg-brand-900 text-white text-center relative overflow-hidden border-b border-white/10">
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
+        <span class="text-gold-400 font-semibold text-xs uppercase tracking-[0.25em] block mb-2">GET IN TOUCH</span>
+        <h1 class="text-4xl sm:text-5xl font-serif text-white mb-3">Contact and Location</h1>
+        <p class="text-slate-300 text-sm font-light max-w-2xl mx-auto">
+            We are here to assist with room bookings, pilgrimage guidance, and family reservations across our branches.
         </p>
     </div>
 </section>

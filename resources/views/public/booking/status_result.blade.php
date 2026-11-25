@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reservation Details - ' . $booking->booking_code . ' | New Sanda')
+@section('title', 'Reservation Details - ' . $booking->booking_code . ' | New Sanda Guest House')
 
 @section('content')
 <section class="py-16 bg-stone-50">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $room->name . ' - New Sanda')
+@section('title', $room->name . ' - New Sanda Guest House')
 
 @section('content')
 <section class="py-12 bg-white border-b border-slate-200">
@@ -8,7 +8,7 @@
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
                 <a href="{{ route('rooms.index') }}" class="text-xs font-bold text-brand-700 hover:underline mb-2 inline-flex items-center gap-1">
-                    <i class="fa-solid fa-arrow-left"></i> Back to Rooms & Cabanas
+                    <i class="fa-solid fa-arrow-left"></i> Back to Rooms and Rates
                 </a>
                 <h1 class="text-3xl sm:text-4xl font-serif font-bold text-brand-900">{{ $room->name }}</h1>
                 <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">

@@ -3,12 +3,12 @@
 @section('title', 'Photo Gallery - New Sanda Guest House')
 
 @section('content')
-<section class="py-16 bg-brand-900 text-white text-center">
-    <div class="max-w-4xl mx-auto px-4">
-        <span class="text-gold-400 font-bold text-xs uppercase tracking-widest block mb-2">Visual Tour</span>
-        <h1 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-4">Photo Gallery</h1>
-        <p class="text-slate-200 text-base max-w-2xl mx-auto font-light">
-            Take a visual tour through our clean family rooms, attached bathrooms, and secure premises.
+<section class="py-16 bg-brand-900 text-white text-center relative overflow-hidden border-b border-white/10">
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
+        <span class="text-gold-400 font-semibold text-xs uppercase tracking-[0.25em] block mb-2">VISUAL TOUR</span>
+        <h1 class="text-4xl sm:text-5xl font-serif text-white mb-3">Photo Gallery</h1>
+        <p class="text-slate-300 text-sm font-light max-w-2xl mx-auto">
+            Take a visual tour through our clean family rooms, attached bathrooms, and secure premises across our locations.
         </p>
     </div>
 </section>
