@@ -77,8 +77,66 @@
     </div>
 </section>
 
+<!-- Quick Live Availability & Booking Search Bar (Deep Forest Green & Gold Dark Card Theme) -->
+<div class="max-w-6xl mx-auto px-4 -mt-10 sm:-mt-12 relative z-30 mb-8">
+    <div class="bg-[#082017]/95 border border-gold-500/30 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-md">
+        <form action="{{ route('booking.create') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 items-end">
+            <div>
+                <label class="block text-[11px] font-bold text-gold-400 uppercase tracking-wider mb-1">
+                    <i class="fa-regular fa-calendar-check mr-1"></i> Check-in Date & Time
+                </label>
+                <div class="grid grid-cols-5 gap-1.5">
+                    <input type="date" name="check_in" value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}" class="col-span-3 bg-[#051710] border border-emerald-500/30 rounded-xl px-2.5 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                    <input type="time" name="check_in_time" value="14:00" class="col-span-2 bg-[#051710] border border-emerald-500/30 rounded-xl px-2 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-gold-400 uppercase tracking-wider mb-1">
+                    <i class="fa-regular fa-calendar-xmark mr-1"></i> Check-out Date & Time
+                </label>
+                <div class="grid grid-cols-5 gap-1.5">
+                    <input type="date" name="check_out" value="{{ date('Y-m-d', strtotime('+1 day')) }}" min="{{ date('Y-m-d') }}" class="col-span-3 bg-[#051710] border border-emerald-500/30 rounded-xl px-2.5 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                    <input type="time" name="check_out_time" value="11:00" class="col-span-2 bg-[#051710] border border-emerald-500/30 rounded-xl px-2 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-emerald-300 uppercase tracking-wider mb-1">
+                    <i class="fa-solid fa-users mr-1 text-gold-400"></i> Adult Guests
+                </label>
+                <select name="adults" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                    <option value="1">1 Adult</option>
+                    <option value="2" selected>2 Adults</option>
+                    <option value="3">3 Adults</option>
+                    <option value="4">4 Adults</option>
+                    <option value="6">6+ Adults (Group)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-emerald-300 uppercase tracking-wider mb-1">
+                    <i class="fa-solid fa-hotel mr-1 text-gold-400"></i> Room Preference
+                </label>
+                <select name="room_type_id" class="w-full bg-[#051710] border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-white focus:ring-2 focus:ring-gold-400 focus:outline-none">
+                    <option value="">Any Available Room</option>
+                    @foreach($featuredRooms as $fr)
+                        <option value="{{ $fr->id }}">{{ $fr->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full bg-gradient-to-r from-gold-500 via-amber-500 to-gold-600 hover:from-gold-400 hover:to-amber-500 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs uppercase tracking-wider flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-magnifying-glass"></i> Check & Book
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- 2. Floating Stats Bar (Docked Between Hero and Content) -->
-<div class="max-w-6xl mx-auto px-4 -mt-10 sm:-mt-14 relative z-20">
+<div class="max-w-6xl mx-auto px-4 relative z-20">
     <div class="bg-brand-950 border border-white/15 rounded-2xl sm:rounded-full py-6 px-6 sm:px-12 shadow-2xl backdrop-blur-md">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div class="p-2 flex flex-col items-center">
