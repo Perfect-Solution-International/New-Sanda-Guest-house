@@ -36,6 +36,7 @@ Route::post('/book', [BookingController::class, 'store'])->name('booking.store')
 Route::get('/booking-confirmation/{code}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
 Route::get('/track-booking', [BookingController::class, 'track'])->name('booking.track');
 Route::post('/track-booking', [BookingController::class, 'checkStatus'])->name('booking.track.check');
+Route::match(['get', 'post'], '/api/availability', [BookingController::class, 'checkLiveAvailability'])->name('api.availability');
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/bookings/{booking}', [BookingAdminController::class, 'show'])->name('bookings.show');
     Route::get('/bookings/{booking}/edit', [BookingAdminController::class, 'edit'])->name('bookings.edit');
     Route::put('/bookings/{booking}', [BookingAdminController::class, 'update'])->name('bookings.update');
+    Route::post('/bookings/{booking}/cancel', [BookingAdminController::class, 'cancel'])->name('bookings.cancel');
     Route::delete('/bookings/{booking}', [BookingAdminController::class, 'destroy'])->name('bookings.destroy');
     Route::get('/bookings/{booking}/invoice', [BookingAdminController::class, 'invoice'])->name('bookings.invoice');
 

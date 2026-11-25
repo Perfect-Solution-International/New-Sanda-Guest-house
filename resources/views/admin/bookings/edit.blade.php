@@ -10,27 +10,40 @@
             &larr; Back to Reservation #{{ $booking->booking_code }}
         </a>
         <div class="flex items-center gap-3">
+            @php
+                $cleanPhone = preg_replace('/[^0-9]/', '', $booking->guest_phone);
+            @endphp
+            <a href="https://wa.me/{{ $cleanPhone }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Guest
+            </a>
             <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                 <i class="fa-solid fa-print"></i> Print Invoice
             </a>
-            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete reservation #{{ $booking->booking_code }} ({{ addslashes($booking->guest_name) }})? This action cannot be undone.');">
+            @if($booking->booking_status !== 'cancelled')
+                <form action="{{ route('admin.bookings.cancel', $booking->id) }}" method="POST" onsubmit="return confirm('Cancel this reservation? The room will immediately become available.');">
+                    @csrf
+                    <button type="submit" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-ban"></i> Cancel Booking
+                    </button>
+                </form>
+            @endif
+            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete reservation #{{ $booking->booking_code }}?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-trash"></i> Delete Reservation
+                    <i class="fa-solid fa-trash"></i> Delete
                 </button>
             </form>
         </div>
     </div>
 
-    @if ($errors->any())
-        <div class="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-2xl text-xs space-y-1">
-            <div class="font-bold">Please check the form for errors:</div>
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    @if(session('error'))
+        <div class="bg-rose-50 border border-rose-300 text-rose-800 p-4 rounded-2xl text-sm flex items-start gap-3 shadow-xs">
+            <i class="fa-solid fa-circle-exclamation text-rose-500 text-lg mt-0.5"></i>
+            <div>
+                <strong class="font-bold block">Scheduling Conflict:</strong>
+                {{ session('error') }}
+            </div>
         </div>
     @endif
 
@@ -46,7 +59,10 @@
                     <h3 class="text-base font-serif font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-user text-brand-700"></i> Guest Information
                     </h3>
-                    <span class="font-mono text-xs font-bold text-brand-900 bg-brand-50 px-2.5 py-1 rounded-md">{{ $booking->booking_code }}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono text-xs font-bold text-brand-900 bg-brand-50 px-2.5 py-1 rounded-md">{{ $booking->booking_code }}</span>
+                        <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">{{ $booking->duration_display }}</span>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -54,16 +70,18 @@
                         <input type="text" name="guest_name" required value="{{ old('guest_name', $booking->guest_name) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Phone Number *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            <i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> Phone / WhatsApp Number *
+                        </label>
                         <input type="text" name="guest_phone" required value="{{ old('guest_phone', $booking->guest_phone) }}" placeholder="+94 7X XXX XXXX" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address *</label>
-                        <input type="email" name="guest_email" required value="{{ old('guest_email', $booking->guest_email) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address (Optional)</label>
+                        <input type="email" name="guest_email" value="{{ old('guest_email', $booking->guest_email) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">NIC or Passport</label>
-                        <input type="text" name="guest_nic_passport" value="{{ old('guest_nic_passport', $booking->guest_nic_passport) }}" placeholder="e.g. 199012345678 or N1234567" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                        <input type="text" name="guest_nic_passport" value="{{ old('guest_nic_passport', $booking->guest_nic_passport) }}" placeholder="e.g. 199012345678" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Residential Address</label>
@@ -76,21 +94,36 @@
             <div>
                 <div class="border-b border-slate-100 pb-3 mb-4">
                     <h3 class="text-base font-serif font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-hotel text-brand-700"></i> Room Assignment & Schedule
+                        <i class="fa-solid fa-hotel text-brand-700"></i> Exact Time Schedule & Room Assignment
                     </h3>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Check-in Date *</label>
-                        <input type="date" name="check_in_date" id="check_in_date" required value="{{ old('check_in_date', \Carbon\Carbon::parse($booking->check_in_date)->format('Y-m-d')) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                        <input type="date" name="check_in_date" required value="{{ old('check_in_date', \Carbon\Carbon::parse($booking->check_in_date)->format('Y-m-d')) }}"
+                               class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Check-in Time *</label>
+                        <input type="time" name="check_in_time" required value="{{ old('check_in_time', $booking->check_in_time ?: '14:00') }}"
+                               class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Check-out Date *</label>
-                        <input type="date" name="check_out_date" id="check_out_date" required value="{{ old('check_out_date', \Carbon\Carbon::parse($booking->check_out_date)->format('Y-m-d')) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                        <input type="date" name="check_out_date" required value="{{ old('check_out_date', \Carbon\Carbon::parse($booking->check_out_date)->format('Y-m-d')) }}"
+                               class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                     <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Check-out Time *</label>
+                        <input type="time" name="check_out_time" required value="{{ old('check_out_time', $booking->check_out_time ?: '11:00') }}"
+                               class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Room Category *</label>
-                        <select name="room_type_id" id="room_type_select" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                        <select name="room_type_id" id="edit_room_type_select" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-brand-700 focus:outline-none">
                             @foreach($roomTypes as $rt)
                                 <option value="{{ $rt->id }}" data-rate="{{ $rt->base_price_per_night }}" {{ (old('room_type_id', $booking->room_type_id) == $rt->id) ? 'selected' : '' }}>
                                     {{ $rt->name }} (Rs. {{ number_format($rt->base_price_per_night) }})
@@ -100,9 +133,9 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Physical Room Number</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Physical Room Number (Overlap Validated)</label>
                         <select name="room_id" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm bg-white focus:ring-2 focus:ring-brand-700 focus:outline-none">
-                            <option value="">-- No Room Assigned --</option>
+                            <option value="">-- No Physical Room Assigned --</option>
                             @foreach($rooms as $r)
                                 <option value="{{ $r->id }}" {{ (old('room_id', $booking->room_id) == $r->id) ? 'selected' : '' }}>
                                     Room {{ $r->room_number }} ({{ $r->roomType->name ?? 'Room' }} - {{ ucfirst($r->status) }})
@@ -110,6 +143,9 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Adults Count *</label>
                         <input type="number" name="adults" min="1" value="{{ old('adults', $booking->adults) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
@@ -118,14 +154,14 @@
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Children Count</label>
                         <input type="number" name="children" min="0" value="{{ old('children', $booking->children ?? 0) }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
-                    <div class="sm:col-span-2 md:col-span-3">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Agreed Room Rate (Per Night) *</label>
-                        <input type="number" name="room_rate" id="room_rate_input" step="0.01" value="{{ old('room_rate', $booking->room_rate) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Agreed Room Rate (Rs.) *</label>
+                        <input type="number" name="room_rate" id="edit_room_rate_input" step="0.01" value="{{ old('room_rate', $booking->room_rate) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                     </div>
                 </div>
             </div>
 
-            <!-- 3. Tour & Package Add-ons -->
+            <!-- 3. Add-ons -->
             @if(isset($addons) && $addons->count() > 0)
                 <div>
                     <div class="border-b border-slate-100 pb-3 mb-4">
@@ -150,11 +186,11 @@
                 </div>
             @endif
 
-            <!-- 4. Payment & Booking Status -->
+            <!-- 4. Payment & Status -->
             <div>
                 <div class="border-b border-slate-100 pb-3 mb-4">
                     <h3 class="text-base font-serif font-bold text-slate-900 flex items-center gap-2">
-                        <i class="fa-solid fa-receipt text-brand-700"></i> Payment & Status
+                        <i class="fa-solid fa-receipt text-brand-700"></i> Payment & Booking Status
                     </h3>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -196,7 +232,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Guest Special Requests</label>
-                    <textarea name="special_requests" rows="3" placeholder="Dietary needs, extra pillows, early arrival..." class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">{{ old('special_requests', $booking->special_requests) }}</textarea>
+                    <textarea name="special_requests" rows="3" placeholder="Dietary needs, extra pillows..." class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">{{ old('special_requests', $booking->special_requests) }}</textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Internal Admin / Desk Notes</label>
@@ -209,30 +245,11 @@
                 <a href="{{ route('admin.bookings.show', $booking->id) }}" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition">
                     &larr; Cancel and Return
                 </a>
-                <div class="flex items-center gap-3">
-                    <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-8 py-3 rounded-xl shadow-md transition text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-check"></i> Update Reservation
-                    </button>
-                </div>
+                <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-8 py-3 rounded-xl shadow-md transition text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-check"></i> Update Reservation
+                </button>
             </div>
         </form>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const roomTypeSelect = document.getElementById('room_type_select');
-        const roomRateInput = document.getElementById('room_rate_input');
-
-        if (roomTypeSelect && roomRateInput) {
-            roomTypeSelect.addEventListener('change', function () {
-                const selectedOption = roomTypeSelect.options[roomTypeSelect.selectedIndex];
-                const defaultRate = selectedOption.getAttribute('data-rate');
-                if (defaultRate && (!roomRateInput.value || roomRateInput.value === '0')) {
-                    roomRateInput.value = defaultRate;
-                }
-            });
-        }
-    });
-</script>
 @endsection

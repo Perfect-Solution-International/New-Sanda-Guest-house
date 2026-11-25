@@ -386,4 +386,153 @@ class ResortApplicationTest extends TestCase
         $this->assertNotNull($room->image);
         $this->assertStringContainsString('uploads/rooms/', $room->image);
     }
+
+    public function test_live_availability_api_endpoint_calculates_correct_counts_and_duration(): void
+    {
+        $inDate = now()->addDays(10)->format('Y-m-d');
+        $outDate = now()->addDays(12)->format('Y-m-d');
+
+        $response = $this->getJson("/api/availability?check_in_date={$inDate}&check_in_time=14:00&check_out_date={$outDate}&check_out_time=11:00");
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+        ]);
+        $response->assertJsonStructure([
+            'success',
+            'data' => [
+                'total_rooms',
+                'available_rooms',
+                'booked_rooms',
+                'duration' => [
+                    'nights',
+                    'hours',
+                    'duration_text',
+                ],
+                'room_types',
+            ],
+        ]);
+
+        $data = $response->json('data');
+        $this->assertEquals(6, $data['total_rooms']);
+        $this->assertEquals(2, $data['duration']['nights']);
+        $this->assertEquals(45, round($data['duration']['hours']));
+    }
+
+    public function test_guest_can_book_with_name_whatsapp_and_exact_times(): void
+    {
+        $roomType = RoomType::first();
+        $inDate = now()->addDays(20)->format('Y-m-d');
+        $outDate = now()->addDays(21)->format('Y-m-d');
+
+        $response = $this->post('/book', [
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'WhatsApp Guest Test',
+            'guest_phone' => '+94 77 123 9999',
+            'check_in_date' => $inDate,
+            'check_in_time' => '15:00',
+            'check_out_date' => $outDate,
+            'check_out_time' => '10:00',
+            'adults' => 2,
+            'children' => 0,
+            'payment_method' => 'cash',
+        ]);
+
+        $response->assertRedirect();
+
+        $booking = Booking::where('guest_name', 'WhatsApp Guest Test')->first();
+        $this->assertNotNull($booking);
+        $this->assertEquals('+94 77 123 9999', $booking->guest_phone);
+        $this->assertEquals('15:00', $booking->check_in_time);
+        $this->assertEquals('10:00', $booking->check_out_time);
+        $this->assertNotNull($booking->check_in_at);
+        $this->assertNotNull($booking->check_out_at);
+        $this->assertNotNull($booking->room_id);
+    }
+
+    public function test_overlap_prevention_blocks_double_booking(): void
+    {
+        $roomType = RoomType::first();
+        $roomsCount = Room::where('room_type_id', $roomType->id)->count();
+
+        $inDate = now()->addDays(30)->format('Y-m-d');
+        $outDate = now()->addDays(32)->format('Y-m-d');
+
+        // Book all available physical rooms for this category
+        for ($i = 0; $i < $roomsCount; $i++) {
+            $this->post('/book', [
+                'room_type_id' => $roomType->id,
+                'guest_name' => "Booking {$i}",
+                'guest_phone' => "+94 77 000 000{$i}",
+                'check_in_date' => $inDate,
+                'check_in_time' => '14:00',
+                'check_out_date' => $outDate,
+                'check_out_time' => '11:00',
+                'adults' => 2,
+                'payment_method' => 'cash',
+            ]);
+        }
+
+        // Attempt one more booking in the overlapping slot
+        $overlapResponse = $this->post('/book', [
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Overlapping Guest',
+            'guest_phone' => '+94 77 888 8888',
+            'check_in_date' => $inDate,
+            'check_in_time' => '14:00',
+            'check_out_date' => $outDate,
+            'check_out_time' => '11:00',
+            'adults' => 2,
+            'payment_method' => 'cash',
+        ]);
+
+        $overlapResponse->assertSessionHas('error');
+        $this->assertDatabaseMissing('bookings', [
+            'guest_name' => 'Overlapping Guest',
+        ]);
+    }
+
+    public function test_admin_can_cancel_booking_and_release_room(): void
+    {
+        $admin = User::first();
+        $room = Room::first();
+        $room->update(['status' => 'occupied']);
+
+        $booking = Booking::create([
+            'booking_code' => 'NS-CANCEL-001',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => 'Cancel Target Guest',
+            'guest_email' => 'cancel@test.com',
+            'guest_phone' => '+94 77 555 6666',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDays(2)->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'check_in_at' => now()->setTime(14, 0),
+            'check_out_at' => now()->addDays(2)->setTime(11, 0),
+            'nights' => 2,
+            'duration_hours' => 45,
+            'duration_type' => 'nights',
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 15000,
+            'room_subtotal' => 30000,
+            'total_amount' => 30000,
+            'advance_paid' => 10000,
+            'balance_due' => 20000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'advance_paid',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->actingAs($admin)->post("/admin/bookings/{$booking->id}/cancel");
+        $response->assertRedirect();
+
+        $booking->refresh();
+        $this->assertEquals('cancelled', $booking->booking_status);
+
+        $room->refresh();
+        $this->assertEquals('available', $room->status);
+    }
 }

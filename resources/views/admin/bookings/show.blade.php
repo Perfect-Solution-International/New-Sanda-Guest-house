@@ -1,22 +1,36 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Reservation ' . $booking->booking_code . ' - Admin')
+@section('title', 'Reservation ' . $booking->booking_code . ' - Sanda Guest House')
 @section('page_title', 'Reservation Details #' . $booking->booking_code)
 
 @section('content')
 <div class="max-w-5xl mx-auto space-y-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
-        <a href="{{ route('admin.bookings.index') }}" class="text-xs font-bold text-slate-600 hover:text-brand-800">
+        <a href="{{ route('admin.bookings.index') }}" class="text-xs font-bold text-slate-600 hover:text-brand-800 transition">
             &larr; Back to Reservations List
         </a>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2.5">
+            @php
+                $cleanPhone = preg_replace('/[^0-9]/', '', $booking->guest_phone);
+            @endphp
+            <a href="https://wa.me/{{ $cleanPhone }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Guest
+            </a>
             <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-pen-to-square"></i> Edit Reservation
+                <i class="fa-solid fa-pen-to-square"></i> Edit
             </a>
+            @if(!in_array($booking->booking_status, ['cancelled', 'checked_out']))
+                <form action="{{ route('admin.bookings.cancel', $booking->id) }}" method="POST" onsubmit="return confirm('Cancel reservation #{{ $booking->booking_code }}? The room will be immediately released.');">
+                    @csrf
+                    <button type="submit" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-ban"></i> Cancel Booking
+                    </button>
+                </form>
+            @endif
             <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-print"></i> Print Official Invoice
+                <i class="fa-solid fa-print"></i> Print Invoice
             </a>
-            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete reservation #{{ $booking->booking_code }} ({{ addslashes($booking->guest_name) }})?');">
+            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete reservation #{{ $booking->booking_code }}?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
@@ -34,7 +48,10 @@
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <h3 class="font-serif font-bold text-lg text-slate-900">Guest Information</h3>
-                    <span class="font-mono text-xs font-bold text-brand-900 bg-brand-50 px-2.5 py-1 rounded-md">{{ $booking->booking_code }}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono text-xs font-bold text-brand-900 bg-brand-50 px-2.5 py-1 rounded-md">{{ $booking->booking_code }}</span>
+                        <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">{{ $booking->duration_display }}</span>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
@@ -42,8 +59,10 @@
                         <strong class="text-slate-900">{{ $booking->guest_name }}</strong>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase">Phone Number</span>
-                        <strong class="text-brand-800">{{ $booking->guest_phone }}</strong>
+                        <span class="text-xs text-slate-400 block uppercase">Phone / WhatsApp</span>
+                        <a href="https://wa.me/{{ $cleanPhone }}" target="_blank" class="text-emerald-700 font-bold hover:underline flex items-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp text-emerald-600"></i> {{ $booking->guest_phone }}
+                        </a>
                     </div>
                     <div>
                         <span class="text-xs text-slate-400 block uppercase">Email</span>
@@ -62,19 +81,22 @@
 
             <!-- Stay Schedule -->
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
-                <h3 class="font-serif font-bold text-lg text-slate-900 border-b border-slate-100 pb-3">Stay Schedule</h3>
-                <div class="grid grid-cols-3 gap-4 text-sm">
+                <h3 class="font-serif font-bold text-lg text-slate-900 border-b border-slate-100 pb-3">Exact Time Schedule</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase">Check-in Date</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-slate-400 block uppercase">Check-in</span>
+                        <strong class="text-slate-900 block">{{ $booking->check_in_at ? $booking->check_in_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_in_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-800 font-bold">{{ $booking->check_in_at ? $booking->check_in_at->format('h:i A') : date('h:i A', strtotime($booking->check_in_time ?? '14:00')) }}</span>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase">Check-out Date</span>
-                        <strong class="text-slate-900">{{ \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-slate-400 block uppercase">Check-out</span>
+                        <strong class="text-slate-900 block">{{ $booking->check_out_at ? $booking->check_out_at->format('D, M d, Y') : \Carbon\Carbon::parse($booking->check_out_date)->format('D, M d, Y') }}</strong>
+                        <span class="text-xs text-brand-800 font-bold">{{ $booking->check_out_at ? $booking->check_out_at->format('h:i A') : date('h:i A', strtotime($booking->check_out_time ?? '11:00')) }}</span>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 block uppercase">Total Nights</span>
-                        <strong class="text-brand-900">{{ $booking->nights }} Night(s)</strong>
+                        <span class="text-xs text-slate-400 block uppercase">Duration</span>
+                        <strong class="text-brand-900 block">{{ $booking->duration_display }}</strong>
+                        <span class="text-xs text-slate-500">{{ $booking->adults }} Adults, {{ $booking->children ?? 0 }} Children</span>
                     </div>
                 </div>
 
@@ -91,7 +113,7 @@
                 <h3 class="font-serif font-bold text-lg text-slate-900 border-b border-slate-100 pb-3">Billing & Addons</h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
-                        <span>Room Rate ({{ $booking->nights }} night(s) &times; Rs. {{ number_format($booking->room_rate) }}):</span>
+                        <span>Room Rate ({{ $booking->duration_display }} @ Rs. {{ number_format($booking->room_rate) }}):</span>
                         <strong>Rs. {{ number_format($booking->room_subtotal) }}</strong>
                     </div>
                     @foreach($booking->addons as $addon)
