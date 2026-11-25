@@ -246,9 +246,24 @@ class BookingController extends Controller
         return view('public.booking.confirmation', compact('booking', 'settings'));
     }
 
-    public function track(): View
+    public function track(Request $request): View
     {
-        return view('public.booking.track');
+        $prefillCode = $request->query('code', '');
+        $prefillPhone = $request->query('phone', '');
+
+        if (!empty($prefillCode) && !empty($prefillPhone)) {
+            $booking = Booking::with(['roomType', 'room', 'addons', 'payments'])
+                ->where('booking_code', trim($prefillCode))
+                ->where('guest_phone', 'like', '%' . trim($prefillPhone) . '%')
+                ->first();
+
+            if ($booking) {
+                $settings = Setting::pluck('value', 'key');
+                return view('public.booking.status_result', compact('booking', 'settings'));
+            }
+        }
+
+        return view('public.booking.track', compact('prefillCode', 'prefillPhone'));
     }
 
     public function checkStatus(Request $request): View|RedirectResponse
@@ -258,7 +273,7 @@ class BookingController extends Controller
             'phone' => 'required|string',
         ]);
 
-        $booking = Booking::with(['roomType', 'room', 'addons'])
+        $booking = Booking::with(['roomType', 'room', 'addons', 'payments'])
             ->where('booking_code', trim($request->booking_code))
             ->where('guest_phone', 'like', '%' . trim($request->phone) . '%')
             ->first();
@@ -269,5 +284,78 @@ class BookingController extends Controller
 
         $settings = Setting::pluck('value', 'key');
         return view('public.booking.status_result', compact('booking', 'settings'));
+    }
+
+    public function requestCancellation(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'phone' => 'required|string',
+            'cancellation_reason' => 'required|string|max:500',
+        ]);
+
+        $booking = Booking::where('id', $validated['booking_id'])
+            ->where('guest_phone', 'like', '%' . trim($validated['phone']) . '%')
+            ->firstOrFail();
+
+        if (in_array($booking->booking_status, ['checked_in', 'checked_out'])) {
+            return back()->with('error', 'In-house or completed stays cannot be cancelled online. Please speak directly with resort reception.');
+        }
+
+        if ($booking->booking_status === 'cancelled') {
+            return back()->with('info', 'This reservation is already cancelled.');
+        }
+
+        $timestamp = now()->format('Y-m-d h:i A');
+        $note = "\n[Guest Cancelled on {$timestamp}]: " . trim($validated['cancellation_reason']);
+        $newRequests = trim(($booking->special_requests ?? '') . $note);
+
+        $booking->update([
+            'booking_status' => 'cancelled',
+            'special_requests' => $newRequests,
+        ]);
+
+        // Release room if physical room was assigned
+        if ($booking->room_id) {
+            $room = Room::find($booking->room_id);
+            if ($room && $room->status === 'occupied') {
+                $room->update(['status' => 'available']);
+            }
+        }
+
+        return redirect()->route('booking.track', [
+            'code' => $booking->booking_code,
+            'phone' => $booking->guest_phone,
+        ])->with('success', 'Your reservation has been cancelled successfully. Front desk has been notified.');
+    }
+
+    public function requestModification(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'phone' => 'required|string',
+            'modification_note' => 'required|string|max:1000',
+        ]);
+
+        $booking = Booking::where('id', $validated['booking_id'])
+            ->where('guest_phone', 'like', '%' . trim($validated['phone']) . '%')
+            ->firstOrFail();
+
+        if ($booking->booking_status === 'cancelled') {
+            return back()->with('error', 'Cannot add requests to a cancelled reservation.');
+        }
+
+        $timestamp = now()->format('Y-m-d h:i A');
+        $note = "\n[Guest Special Request on {$timestamp}]: " . trim($validated['modification_note']);
+        $newRequests = trim(($booking->special_requests ?? '') . $note);
+
+        $booking->update([
+            'special_requests' => $newRequests,
+        ]);
+
+        return redirect()->route('booking.track', [
+            'code' => $booking->booking_code,
+            'phone' => $booking->guest_phone,
+        ])->with('success', 'Your special request has been sent to Sanda Guest House reception. Our team will review and update your stay.');
     }
 }

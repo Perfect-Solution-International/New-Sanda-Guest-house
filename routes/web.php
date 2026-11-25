@@ -36,6 +36,8 @@ Route::post('/book', [BookingController::class, 'store'])->name('booking.store')
 Route::get('/booking-confirmation/{code}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
 Route::get('/track-booking', [BookingController::class, 'track'])->name('booking.track');
 Route::post('/track-booking', [BookingController::class, 'checkStatus'])->name('booking.track.check');
+Route::post('/track-booking/cancel', [BookingController::class, 'requestCancellation'])->name('booking.track.cancel');
+Route::post('/track-booking/modify', [BookingController::class, 'requestModification'])->name('booking.track.modify');
 Route::match(['get', 'post'], '/api/availability', [BookingController::class, 'checkLiveAvailability'])->name('api.availability');
 
 /*

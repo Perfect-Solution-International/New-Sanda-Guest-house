@@ -78,6 +78,9 @@
                     <a href="{{ route('gallery') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('gallery') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Photos</a>
                     <a href="{{ route('about') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('about') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">About</a>
                     <a href="{{ route('contact') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('contact') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Contact</a>
+                    <a href="{{ route('booking.track') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('booking.track*') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-calendar-check text-gold-400 text-xs"></i> My Booking
+                    </a>
                 </nav>
 
                 <!-- Action Button & Staff Portal (Right-aligned) -->
@@ -105,6 +108,9 @@
             <a href="{{ route('gallery') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Photos</a>
             <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">About Us</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Contact and Location</a>
+            <a href="{{ route('booking.track') }}" class="block px-3 py-2 rounded-lg font-medium text-gold-400 hover:bg-white/10 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check"></i> My Booking / Self-Service Portal
+            </a>
             <div class="pt-3 space-y-2">
                 <a href="tel:+94779876543" class="block w-full text-center bg-gold-500 text-brand-950 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider">
                     <i class="fa-solid fa-phone mr-1"></i> Call: 077 987 6543

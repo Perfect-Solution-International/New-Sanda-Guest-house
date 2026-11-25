@@ -575,4 +575,121 @@ class ResortApplicationTest extends TestCase
         $this->assertTrue(\Illuminate\Support\Facades\Schema::hasColumn('bookings', 'customer_id'));
         $this->assertTrue(\Illuminate\Support\Facades\Schema::hasColumn('payments', 'booking_id'));
     }
+
+    public function test_guest_can_lookup_booking_status(): void
+    {
+        $room = Room::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-TEST-LOOKUP',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => 'Lookup Guest Test',
+            'guest_email' => 'lookup@test.com',
+            'guest_phone' => '+94 77 111 2233',
+            'check_in_date' => now()->addDays(2)->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDays(3)->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'nights' => 1,
+            'adults' => 2,
+            'room_rate' => 10000,
+            'room_subtotal' => 10000,
+            'total_amount' => 10000,
+            'advance_paid' => 0,
+            'balance_due' => 10000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->post('/track-booking', [
+            'booking_code' => $booking->booking_code,
+            'phone' => $booking->guest_phone,
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertSee($booking->booking_code);
+        $response->assertSee('Guest Self-Service Portal');
+        $response->assertSee('Lookup Guest Test');
+    }
+
+    public function test_guest_can_submit_special_modification_request(): void
+    {
+        $room = Room::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-TEST-MODIFY',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => 'Modify Guest Test',
+            'guest_email' => 'modify@test.com',
+            'guest_phone' => '+94 77 444 5566',
+            'check_in_date' => now()->addDays(2)->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDays(3)->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'nights' => 1,
+            'adults' => 2,
+            'room_rate' => 10000,
+            'room_subtotal' => 10000,
+            'total_amount' => 10000,
+            'advance_paid' => 0,
+            'balance_due' => 10000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->post('/track-booking/modify', [
+            'booking_id' => $booking->id,
+            'phone' => $booking->guest_phone,
+            'modification_note' => 'Please arrange an extra pillow and hot water at 7 PM.',
+        ]);
+
+        $response->assertRedirect();
+        $booking->refresh();
+        $this->assertStringContainsString('extra pillow and hot water', $booking->special_requests);
+    }
+
+    public function test_guest_can_cancel_booking_online(): void
+    {
+        $room = Room::first();
+        $room->update(['status' => 'occupied']);
+
+        $booking = Booking::create([
+            'booking_code' => 'NS-SELF-CANCEL',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => 'Self Cancel Guest',
+            'guest_email' => 'selfcancel@test.com',
+            'guest_phone' => '+94 71 999 1111',
+            'check_in_date' => now()->addDays(5)->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDays(6)->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'nights' => 1,
+            'adults' => 2,
+            'room_rate' => 12000,
+            'room_subtotal' => 12000,
+            'total_amount' => 12000,
+            'advance_paid' => 0,
+            'balance_due' => 12000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->post('/track-booking/cancel', [
+            'booking_id' => $booking->id,
+            'phone' => '+94 71 999 1111',
+            'cancellation_reason' => 'Change of travel dates or itinerary',
+        ]);
+
+        $response->assertRedirect();
+        $booking->refresh();
+        $this->assertEquals('cancelled', $booking->booking_status);
+        $this->assertStringContainsString('Change of travel dates or itinerary', $booking->special_requests);
+
+        $room->refresh();
+        $this->assertEquals('available', $room->status);
+    }
 }
