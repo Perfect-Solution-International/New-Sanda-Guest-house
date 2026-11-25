@@ -9,14 +9,17 @@
         <a href="{{ route('admin.bookings.index') }}" class="text-xs font-bold text-slate-600 hover:text-brand-800">
             &larr; Back to Reservations List
         </a>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-2">
+        <div class="flex items-center gap-2">
+            <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-pen-to-square"></i> Edit Reservation
+            </a>
+            <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                 <i class="fa-solid fa-print"></i> Print Official Invoice
             </a>
-            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this reservation?');">
+            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete reservation #{{ $booking->booking_code }} ({{ addslashes($booking->guest_name) }})?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl transition">
+                <button type="submit" class="bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1.5">
                     <i class="fa-solid fa-trash"></i> Delete
                 </button>
             </form>

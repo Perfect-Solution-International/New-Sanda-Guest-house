@@ -184,6 +184,129 @@ class ResortApplicationTest extends TestCase
         $this->assertEquals($room->id, $booking->room_id);
     }
 
+    public function test_admin_can_view_edit_booking_page(): void
+    {
+        $admin = User::first();
+        $roomType = RoomType::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-2026-VIEW1',
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'View Edit Test',
+            'guest_email' => 'viewedit@test.com',
+            'guest_phone' => '+94 77 111 4455',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(2)->format('Y-m-d'),
+            'nights' => 2,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 20000,
+            'room_subtotal' => 40000,
+            'total_amount' => 40000,
+            'balance_due' => 40000,
+            'booking_status' => 'pending',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->actingAs($admin)->get("/admin/bookings/{$booking->id}/edit");
+        $response->assertStatus(200);
+        $response->assertSee('Edit Reservation');
+        $response->assertSee($booking->booking_code);
+        $response->assertSee($booking->guest_name);
+    }
+
+    public function test_admin_can_fully_update_booking_details(): void
+    {
+        $admin = User::first();
+        $roomType = RoomType::first();
+        $booking = Booking::create([
+            'booking_code' => 'NS-2026-UPD1',
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Initial Guest Name',
+            'guest_email' => 'initial@guest.com',
+            'guest_phone' => '+94 77 999 8888',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(2)->format('Y-m-d'),
+            'nights' => 2,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 20000,
+            'room_subtotal' => 40000,
+            'total_amount' => 40000,
+            'balance_due' => 40000,
+            'booking_status' => 'pending',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+        $room = Room::where('room_type_id', $roomType->id)->first();
+
+        $response = $this->actingAs($admin)->put("/admin/bookings/{$booking->id}", [
+            'guest_name' => 'Updated Guest Name',
+            'guest_phone' => '+94 77 000 1122',
+            'guest_email' => 'updated@guest.com',
+            'guest_nic_passport' => '200012345678',
+            'guest_address' => 'Colombo, Sri Lanka',
+            'room_type_id' => $roomType->id,
+            'room_id' => $room->id,
+            'check_in_date' => now()->addDays(5)->format('Y-m-d'),
+            'check_out_date' => now()->addDays(8)->format('Y-m-d'),
+            'adults' => 3,
+            'children' => 1,
+            'room_rate' => 18000,
+            'advance_paid' => 20000,
+            'payment_status' => 'advance_paid',
+            'payment_method' => 'card_at_desk',
+            'booking_status' => 'confirmed',
+            'special_requests' => 'Late checkout requested',
+            'admin_notes' => 'Confirmed with guest via WhatsApp',
+        ]);
+
+        $response->assertRedirect("/admin/bookings/{$booking->id}");
+        $booking->refresh();
+        $this->assertEquals('Updated Guest Name', $booking->guest_name);
+        $this->assertEquals('+94 77 000 1122', $booking->guest_phone);
+        $this->assertEquals(3, $booking->nights);
+        $this->assertEquals(54000, $booking->room_subtotal);
+        $this->assertEquals(20000, $booking->advance_paid);
+        $this->assertEquals(34000, $booking->balance_due);
+    }
+
+    public function test_admin_can_delete_booking_and_free_room(): void
+    {
+        $admin = User::first();
+        $room = Room::first();
+        $room->update(['status' => 'occupied']);
+
+        $booking = Booking::create([
+            'booking_code' => 'NS-DEL-001',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => 'To Be Deleted',
+            'guest_email' => 'delete@test.com',
+            'guest_phone' => '+94 77 333 4444',
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_out_date' => now()->addDays(2)->format('Y-m-d'),
+            'nights' => 2,
+            'adults' => 2,
+            'children' => 0,
+            'room_rate' => 15000,
+            'room_subtotal' => 30000,
+            'total_amount' => 30000,
+            'advance_paid' => 0,
+            'balance_due' => 30000,
+            'booking_status' => 'checked_in',
+            'payment_status' => 'pending',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->actingAs($admin)->delete("/admin/bookings/{$booking->id}");
+        $response->assertRedirect('/admin/bookings');
+        $this->assertDatabaseMissing('bookings', ['id' => $booking->id]);
+
+        $room->refresh();
+        $this->assertEquals('available', $room->status);
+    }
+
     public function test_admin_invoice_view_renders(): void
     {
         $admin = User::first();

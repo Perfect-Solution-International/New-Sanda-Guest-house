@@ -160,50 +160,144 @@ class BookingAdminController extends Controller
     public function edit(Booking $booking): View
     {
         $booking->load(['roomType', 'room', 'addons']);
-        $roomTypes = RoomType::all();
-        $rooms = Room::where('room_type_id', $booking->room_type_id)->get();
-        return view('admin.bookings.edit', compact('booking', 'roomTypes', 'rooms'));
+        $roomTypes = RoomType::where('status', 'active')->get();
+        if ($roomTypes->isEmpty()) {
+            $roomTypes = RoomType::all();
+        }
+        $rooms = Room::with('roomType')->get();
+        $addons = Addon::where('is_active', true)->get();
+        return view('admin.bookings.edit', compact('booking', 'roomTypes', 'rooms', 'addons'));
     }
 
     public function update(Request $request, Booking $booking): RedirectResponse
     {
         $validated = $request->validate([
+            'guest_name' => 'sometimes|required|string|max:255',
+            'guest_phone' => 'sometimes|required|string|max:50',
+            'guest_email' => 'sometimes|required|email|max:255',
+            'guest_nic_passport' => 'nullable|string|max:50',
+            'guest_address' => 'nullable|string|max:500',
+            'room_type_id' => 'sometimes|required|exists:room_types,id',
             'room_id' => 'nullable|exists:rooms,id',
+            'check_in_date' => 'sometimes|required|date',
+            'check_out_date' => 'sometimes|required|date',
+            'adults' => 'sometimes|required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'room_rate' => 'sometimes|required|numeric|min:0',
             'advance_paid' => 'required|numeric|min:0',
             'payment_status' => 'required|string',
             'payment_method' => 'required|string',
             'booking_status' => 'required|string',
+            'special_requests' => 'nullable|string',
             'admin_notes' => 'nullable|string',
+            'addons' => 'nullable|array',
+            'addons.*' => 'exists:addons,id',
+            'addons_form_present' => 'nullable|boolean',
         ]);
 
-        $totalAmount = $booking->total_amount;
-        $advancePaid = (float) $validated['advance_paid'];
-        $balanceDue = max(0, $totalAmount - $advancePaid);
+        $newRoomId = $validated['room_id'] ?? null;
 
         // Manage physical room status transitions
-        if ($booking->room_id && $booking->room_id != $validated['room_id']) {
+        if ($booking->room_id && $booking->room_id != $newRoomId) {
             Room::where('id', $booking->room_id)->update(['status' => 'available']);
         }
 
-        if (!empty($validated['room_id'])) {
+        if (!empty($newRoomId)) {
             if ($validated['booking_status'] === 'checked_in') {
-                Room::where('id', $validated['room_id'])->update(['status' => 'occupied']);
+                Room::where('id', $newRoomId)->update(['status' => 'occupied']);
             } elseif ($validated['booking_status'] === 'checked_out') {
-                Room::where('id', $validated['room_id'])->update(['status' => 'cleaning']);
+                Room::where('id', $newRoomId)->update(['status' => 'cleaning']);
+            } elseif (in_array($validated['booking_status'], ['cancelled', 'pending'])) {
+                Room::where('id', $newRoomId)->update(['status' => 'available']);
             }
         }
 
-        $booking->update([
-            'room_id' => $validated['room_id'] ?? null,
+        $advancePaid = (float) $validated['advance_paid'];
+
+        $dataToUpdate = [
+            'room_id' => $newRoomId,
             'advance_paid' => $advancePaid,
-            'balance_due' => $balanceDue,
             'payment_status' => $validated['payment_status'],
             'payment_method' => $validated['payment_method'],
             'booking_status' => $validated['booking_status'],
             'admin_notes' => $validated['admin_notes'] ?? null,
-        ]);
+        ];
 
-        return redirect()->route('admin.bookings.show', $booking->id)->with('success', 'Booking updated successfully!');
+        // If submitted from full edit form
+        if ($request->has('guest_name')) {
+            $checkIn = Carbon::parse($validated['check_in_date']);
+            $checkOut = Carbon::parse($validated['check_out_date']);
+            $nights = max(1, $checkIn->diffInDays($checkOut));
+            $roomRate = (float) $validated['room_rate'];
+            $roomSubtotal = $roomRate * $nights;
+
+            $addonsTotal = 0;
+            $selectedAddons = [];
+
+            if ($request->filled('addons_form_present') || $request->has('addons')) {
+                if (!empty($validated['addons'])) {
+                    $addons = Addon::whereIn('id', $validated['addons'])->get();
+                    foreach ($addons as $addon) {
+                        $qty = 1;
+                        if ($addon->price_type === 'per_night') {
+                            $qty = $nights;
+                        }
+                        $sub = $addon->price * $qty;
+                        $addonsTotal += $sub;
+                        $selectedAddons[] = [
+                            'addon_id' => $addon->id,
+                            'quantity' => $qty,
+                            'unit_price' => $addon->price,
+                            'subtotal' => $sub,
+                        ];
+                    }
+                }
+
+                // Sync addons
+                BookingAddon::where('booking_id', $booking->id)->delete();
+                foreach ($selectedAddons as $sa) {
+                    BookingAddon::create([
+                        'booking_id' => $booking->id,
+                        'addon_id' => $sa['addon_id'],
+                        'quantity' => $sa['quantity'],
+                        'unit_price' => $sa['unit_price'],
+                        'subtotal' => $sa['subtotal'],
+                    ]);
+                }
+            } else {
+                $addonsTotal = (float) $booking->addons_total;
+            }
+
+            $totalAmount = $roomSubtotal + $addonsTotal;
+            $balanceDue = max(0, $totalAmount - $advancePaid);
+
+            $dataToUpdate['guest_name'] = $validated['guest_name'];
+            $dataToUpdate['guest_phone'] = $validated['guest_phone'];
+            $dataToUpdate['guest_email'] = $validated['guest_email'];
+            $dataToUpdate['guest_nic_passport'] = $validated['guest_nic_passport'] ?? null;
+            $dataToUpdate['guest_address'] = $validated['guest_address'] ?? null;
+            $dataToUpdate['room_type_id'] = $validated['room_type_id'];
+            $dataToUpdate['check_in_date'] = $checkIn->format('Y-m-d');
+            $dataToUpdate['check_out_date'] = $checkOut->format('Y-m-d');
+            $dataToUpdate['nights'] = $nights;
+            $dataToUpdate['adults'] = $validated['adults'];
+            $dataToUpdate['children'] = $validated['children'] ?? 0;
+            $dataToUpdate['room_rate'] = $roomRate;
+            $dataToUpdate['room_subtotal'] = $roomSubtotal;
+            $dataToUpdate['addons_total'] = $addonsTotal;
+            $dataToUpdate['total_amount'] = $totalAmount;
+            $dataToUpdate['balance_due'] = $balanceDue;
+            $dataToUpdate['special_requests'] = $validated['special_requests'] ?? null;
+        } else {
+            // Quick update from show page
+            $totalAmount = (float) $booking->total_amount;
+            $balanceDue = max(0, $totalAmount - $advancePaid);
+            $dataToUpdate['balance_due'] = $balanceDue;
+        }
+
+        $booking->update($dataToUpdate);
+
+        return redirect()->route('admin.bookings.show', $booking->id)->with('success', 'Reservation updated successfully!');
     }
 
     public function destroy(Booking $booking): RedirectResponse
@@ -211,9 +305,11 @@ class BookingAdminController extends Controller
         if ($booking->room_id) {
             Room::where('id', $booking->room_id)->update(['status' => 'available']);
         }
+        BookingAddon::where('booking_id', $booking->id)->delete();
+        $code = $booking->booking_code;
         $booking->delete();
 
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking deleted successfully.');
+        return redirect()->route('admin.bookings.index')->with('success', "Reservation #{$code} deleted successfully.");
     }
 
     public function invoice(Booking $booking): View

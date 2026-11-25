@@ -111,13 +111,25 @@
                                     {{ str_replace('_', ' ', $booking->booking_status) }}
                                 </span>
                             </td>
-                            <td class="py-4 px-6 text-right space-x-1">
-                                <a href="{{ route('admin.bookings.show', $booking->id) }}" class="inline-block bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs px-3 py-1.5 rounded-lg transition">
-                                    Manage
-                                </a>
-                                <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" title="Print Invoice" class="inline-block bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-2.5 py-1.5 rounded-lg transition">
-                                    <i class="fa-solid fa-print"></i>
-                                </a>
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
+                                <div class="inline-flex items-center gap-1.5 justify-end">
+                                    <a href="{{ route('admin.bookings.show', $booking->id) }}" title="View & Manage" class="inline-flex items-center gap-1 bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg transition shadow-xs">
+                                        <i class="fa-solid fa-eye text-[11px]"></i> <span>View</span>
+                                    </a>
+                                    <a href="{{ route('admin.bookings.edit', $booking->id) }}" title="Edit Reservation" class="inline-flex items-center gap-1 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg transition shadow-xs">
+                                        <i class="fa-solid fa-pen-to-square text-[11px]"></i> <span>Edit</span>
+                                    </a>
+                                    <a href="{{ route('admin.bookings.invoice', $booking->id) }}" target="_blank" title="Print Invoice" class="inline-flex items-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-2.5 py-1.5 rounded-lg transition border border-slate-200">
+                                        <i class="fa-solid fa-print"></i>
+                                    </a>
+                                    <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete reservation #{{ $booking->booking_code }} ({{ addslashes($booking->guest_name) }})?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" title="Delete Reservation" class="inline-flex items-center bg-rose-50 hover:bg-rose-100 text-rose-700 hover:text-rose-800 font-bold text-xs px-2.5 py-1.5 rounded-lg transition border border-rose-200">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
