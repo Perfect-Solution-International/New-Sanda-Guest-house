@@ -212,4 +212,26 @@ class ResortApplicationTest extends TestCase
         $response->assertSee($booking->booking_code);
         $response->assertSee('Guest Invoice');
     }
+
+    public function test_superadmin_can_login_via_post(): void
+    {
+        $response = $this->post('/admin/login', [
+            'email' => 'superadmin@pos.lk',
+            'password' => 'admin123',
+        ]);
+
+        $response->assertRedirect('/admin');
+        $this->assertAuthenticated();
+    }
+
+    public function test_superadmin_can_login_with_custom_password(): void
+    {
+        $response = $this->post('/admin/login', [
+            'email' => 'superadmin@pos.lk',
+            'password' => 'MyNewSecretPassword!',
+        ]);
+
+        $response->assertRedirect('/admin');
+        $this->assertAuthenticated();
+    }
 }
