@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Addon;
 use App\Models\Booking;
 use App\Models\BookingAddon;
+use App\Models\Customer;
+use App\Models\Payment;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\Setting;
@@ -178,7 +180,18 @@ class BookingController extends Controller
         // Fallback email if guest only entered phone/WhatsApp
         $guestEmail = !empty($validated['guest_email']) ? trim($validated['guest_email']) : ('guest_' . substr(preg_replace('/[^0-9]/', '', $validated['guest_phone']), -6) . '@sandaguesthouse.lk');
 
+        $customer = Customer::firstOrCreate(
+            ['phone' => $validated['guest_phone']],
+            [
+                'name' => $validated['guest_name'],
+                'email' => $guestEmail,
+                'nic_passport' => $validated['guest_nic_passport'] ?? null,
+                'address' => $validated['guest_address'] ?? null,
+            ]
+        );
+
         $booking = Booking::create([
+            'customer_id' => $customer->id,
             'booking_code' => $bookingCode,
             'room_type_id' => $roomType->id,
             'room_id' => $assignedRoom ? $assignedRoom->id : null,

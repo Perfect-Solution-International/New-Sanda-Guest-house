@@ -563,4 +563,16 @@ class ResortApplicationTest extends TestCase
         $response->assertSee('Rooms Available');
         $response->assertSee('Availability Timeline');
     }
+
+    public function test_database_has_normalized_rooms_bookings_customers_payments_and_admins_tables(): void
+    {
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('rooms'));
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('bookings'));
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('customers'));
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('payments'));
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('admins'));
+
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasColumn('bookings', 'customer_id'));
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasColumn('payments', 'booking_id'));
+    }
 }

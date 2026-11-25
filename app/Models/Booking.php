@@ -13,6 +13,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
+        'customer_id',
         'booking_code',
         'room_type_id',
         'room_id',
@@ -113,6 +114,16 @@ class Booking extends Model
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function customer(): BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function bookingAddons(): HasMany

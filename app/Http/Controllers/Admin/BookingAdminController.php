@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Addon;
 use App\Models\Booking;
 use App\Models\BookingAddon;
+use App\Models\Customer;
+use App\Models\Payment;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\Setting;
@@ -174,7 +176,18 @@ class BookingAdminController extends Controller
 
         $guestEmail = !empty($validated['guest_email']) ? trim($validated['guest_email']) : ('desk_' . substr(preg_replace('/[^0-9]/', '', $validated['guest_phone']), -6) . '@sandaguesthouse.lk');
 
+        $customer = Customer::firstOrCreate(
+            ['phone' => $validated['guest_phone']],
+            [
+                'name' => $validated['guest_name'],
+                'email' => $guestEmail,
+                'nic_passport' => $validated['guest_nic_passport'] ?? null,
+                'address' => $validated['guest_address'] ?? null,
+            ]
+        );
+
         $booking = Booking::create([
+            'customer_id' => $customer->id,
             'booking_code' => Booking::generateBookingCode(),
             'room_type_id' => $validated['room_type_id'],
             'room_id' => $validated['room_id'] ?? null,
@@ -220,6 +233,19 @@ class BookingAdminController extends Controller
         // Update room status if checked in
         if (!empty($validated['room_id']) && $validated['booking_status'] === 'checked_in') {
             Room::where('id', $validated['room_id'])->update(['status' => 'occupied']);
+        }
+
+        if ($advancePaid > 0) {
+            Payment::create([
+                'booking_id' => $booking->id,
+                'payment_reference' => Payment::generatePaymentReference('PAY-ADV'),
+                'amount' => $advancePaid,
+                'payment_type' => 'advance',
+                'payment_method' => $validated['payment_method'],
+                'payment_status' => 'completed',
+                'paid_at' => now(),
+                'notes' => 'Walk-in advance payment collected',
+            ]);
         }
 
         return redirect()->route('admin.bookings.show', $booking->id)->with('success', 'Reservation created successfully!');
