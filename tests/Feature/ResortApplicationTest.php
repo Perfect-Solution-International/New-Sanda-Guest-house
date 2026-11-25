@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class ResortApplicationTest extends TestCase
@@ -233,5 +234,33 @@ class ResortApplicationTest extends TestCase
 
         $response->assertRedirect('/admin');
         $this->assertAuthenticated();
+    }
+
+    public function test_admin_can_create_room_with_uploaded_image(): void
+    {
+        $admin = User::first();
+        $file = UploadedFile::fake()->create('test_deluxe_room.jpg', 100, 'image/jpeg');
+
+        $response = $this->actingAs($admin)->post('/admin/room-types', [
+            'name' => 'Royal Suite with Garden View',
+            'short_description' => 'A luxury stay with private balcony.',
+            'description' => 'Full detailed description for Royal Suite.',
+            'base_price_per_night' => 12500,
+            'max_adults' => 3,
+            'max_children' => 1,
+            'bed_type' => '1 King Bed + 1 Single Bed',
+            'room_size' => '400 sq ft',
+            'image_file' => $file,
+            'status' => 'active',
+        ]);
+
+        $response->assertRedirect('/admin/room-types');
+        $this->assertDatabaseHas('room_types', [
+            'name' => 'Royal Suite with Garden View',
+        ]);
+
+        $room = RoomType::where('name', 'Royal Suite with Garden View')->first();
+        $this->assertNotNull($room->image);
+        $this->assertStringContainsString('uploads/rooms/', $room->image);
     }
 }

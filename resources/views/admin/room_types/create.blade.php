@@ -5,45 +5,93 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
-    <form action="{{ route('admin.room-types.store') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.room-types.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category Name *</label>
-                <input type="text" name="name" required placeholder="e.g. Deluxe Family Villa" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Deluxe Family Villa" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Base Price Per Night (Rs.) *</label>
-                <input type="number" step="0.01" name="base_price_per_night" required placeholder="e.g. 25000" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" step="0.01" name="base_price_per_night" value="{{ old('base_price_per_night') }}" required placeholder="e.g. 25000" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Max Adults Capacity *</label>
-                <input type="number" name="max_adults" value="2" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" name="max_adults" value="{{ old('max_adults', 2) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Max Children Capacity *</label>
-                <input type="number" name="max_children" value="2" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" name="max_children" value="{{ old('max_children', 2) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Bed Configuration *</label>
-                <input type="text" name="bed_type" value="1 King Bed" required placeholder="e.g. 2 King Beds + 1 Single Bed" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="bed_type" value="{{ old('bed_type', '1 King Bed') }}" required placeholder="e.g. 2 King Beds + 1 Single Bed" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Room Area Size *</label>
-                <input type="text" name="room_size" value="450 sq ft" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="room_size" value="{{ old('room_size', '450 sq ft') }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
-            <div class="sm:col-span-2">
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Main Cover Photo Image URL</label>
-                <input type="text" name="image" value="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+
+            <!-- Main Cover Photo Upload & URL -->
+            <div class="sm:col-span-2 space-y-3 p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <div class="flex items-center justify-between">
+                    <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                        Main Cover Photo *
+                    </label>
+                    <span class="text-[11px] text-slate-500">File upload or URL</span>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                    <div>
+                        <label for="image_file" class="flex flex-col items-center justify-center p-5 border-2 border-dashed border-brand-300 hover:border-brand-700 rounded-2xl cursor-pointer bg-white transition text-center group shadow-sm">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-600 group-hover:scale-110 transition mb-2"></i>
+                            <span class="text-xs font-bold text-slate-800">Choose Image from Device</span>
+                            <span class="text-[11px] text-slate-500 mt-0.5">Click to browse PNG, JPG, WEBP</span>
+                            <input type="file" name="image_file" id="image_file" accept="image/*" class="hidden" onchange="previewMainImage(this)">
+                        </label>
+                    </div>
+
+                    <!-- Live Image Preview Container -->
+                    <div id="mainImagePreviewContainer" class="relative rounded-2xl overflow-hidden border border-slate-200 bg-white h-36 flex items-center justify-center shadow-inner">
+                        <img id="mainImagePreview" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80" alt="Preview" class="w-full h-full object-cover">
+                        <div class="absolute bottom-2 left-2 bg-brand-950/85 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm">
+                            Cover Preview
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Or Image URL input -->
+                <div class="pt-2 border-t border-slate-200/60">
+                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-1">Or paste Image URL directly</label>
+                    <input type="text" name="image" id="image_url" value="{{ old('image', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80') }}" placeholder="https://..." class="w-full border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-700 bg-white" oninput="updateUrlPreview(this.value)">
+                </div>
             </div>
+
+            <!-- Additional Gallery Photos Upload -->
+            <div class="sm:col-span-2 space-y-2 p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    Additional Gallery Photos (Optional)
+                </label>
+                <label for="gallery_files" class="flex items-center gap-3 p-3.5 border border-dashed border-slate-300 hover:border-brand-600 rounded-xl cursor-pointer bg-white transition shadow-sm">
+                    <i class="fa-solid fa-images text-2xl text-brand-600"></i>
+                    <div>
+                        <span class="text-xs font-bold text-slate-800">Select Multiple Gallery Photos</span>
+                        <span class="text-[10px] text-slate-400 block">Upload extra room views, bathroom, balcony, etc.</span>
+                    </div>
+                    <input type="file" name="gallery_files[]" id="gallery_files" multiple accept="image/*" class="hidden" onchange="previewGalleryImages(this)">
+                </label>
+                <div id="galleryPreviewContainer" class="flex flex-wrap gap-2 pt-2"></div>
+            </div>
+
             <div class="sm:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Short Description *</label>
-                <input type="text" name="short_description" required placeholder="Summary shown on cards..." class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="short_description" value="{{ old('short_description') }}" required placeholder="Summary shown on cards..." class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div class="sm:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Detailed Description *</label>
-                <textarea name="description" rows="4" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm"></textarea>
+                <textarea name="description" rows="4" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">{{ old('description') }}</textarea>
             </div>
         </div>
 
@@ -73,9 +121,44 @@
         </div>
 
         <div class="flex justify-between items-center pt-4">
-            <a href="{{ route('admin.room-types.index') }}" class="text-xs font-bold text-slate-500">Cancel</a>
-            <button type="submit" class="bg-brand-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs">Save Category</button>
+            <a href="{{ route('admin.room-types.index') }}" class="text-xs font-bold text-slate-500 hover:text-slate-700">Cancel</a>
+            <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">Save Category</button>
         </div>
     </form>
 </div>
+
+<script>
+function previewMainImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('mainImagePreview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function updateUrlPreview(url) {
+    if (url && url.startsWith('http')) {
+        document.getElementById('mainImagePreview').src = url;
+    }
+}
+
+function previewGalleryImages(input) {
+    const container = document.getElementById('galleryPreviewContainer');
+    container.innerHTML = '';
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'w-20 h-20 object-cover rounded-xl border border-slate-200 shadow-sm';
+                container.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+}
+</script>
 @endsection

@@ -36,6 +36,9 @@ class RoomTypeAdminController extends Controller
             'bed_type' => 'required|string|max:255',
             'room_size' => 'required|string|max:100',
             'image' => 'nullable|string|max:500',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:10240',
+            'gallery_files' => 'nullable|array',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:10240',
             'is_featured' => 'nullable|boolean',
             'status' => 'required|in:active,inactive',
             'amenities' => 'nullable|array',
@@ -44,6 +47,33 @@ class RoomTypeAdminController extends Controller
 
         $validated['slug'] = Str::slug($validated['name']) . '-' . rand(100, 999);
         $validated['is_featured'] = $request->has('is_featured');
+
+        // Handle uploaded cover photo
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/rooms'), $filename);
+            $validated['image'] = asset('uploads/rooms/' . $filename);
+        } elseif ($request->filled('image')) {
+            $validated['image'] = $request->input('image');
+        } else {
+            $validated['image'] = 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80';
+        }
+
+        // Handle uploaded gallery photos
+        if ($request->hasFile('gallery_files')) {
+            $galleryUrls = [];
+            foreach ($request->file('gallery_files') as $gFile) {
+                if ($gFile && $gFile->isValid()) {
+                    $gFilename = time() . '_' . uniqid() . '.' . $gFile->getClientOriginalExtension();
+                    $gFile->move(public_path('uploads/rooms'), $gFilename);
+                    $galleryUrls[] = asset('uploads/rooms/' . $gFilename);
+                }
+            }
+            if (!empty($galleryUrls)) {
+                $validated['gallery'] = $galleryUrls;
+            }
+        }
 
         $roomType = RoomType::create($validated);
 
@@ -73,6 +103,9 @@ class RoomTypeAdminController extends Controller
             'bed_type' => 'required|string|max:255',
             'room_size' => 'required|string|max:100',
             'image' => 'nullable|string|max:500',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:10240',
+            'gallery_files' => 'nullable|array',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:10240',
             'is_featured' => 'nullable|boolean',
             'status' => 'required|in:active,inactive',
             'amenities' => 'nullable|array',
@@ -80,6 +113,32 @@ class RoomTypeAdminController extends Controller
         ]);
 
         $validated['is_featured'] = $request->has('is_featured');
+
+        // Handle uploaded cover photo
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/rooms'), $filename);
+            $validated['image'] = asset('uploads/rooms/' . $filename);
+        } elseif ($request->filled('image')) {
+            $validated['image'] = $request->input('image');
+        } else {
+            $validated['image'] = $roomType->image;
+        }
+
+        // Handle uploaded gallery photos
+        if ($request->hasFile('gallery_files')) {
+            $existingGallery = is_array($roomType->gallery) ? $roomType->gallery : [];
+            foreach ($request->file('gallery_files') as $gFile) {
+                if ($gFile && $gFile->isValid()) {
+                    $gFilename = time() . '_' . uniqid() . '.' . $gFile->getClientOriginalExtension();
+                    $gFile->move(public_path('uploads/rooms'), $gFilename);
+                    $existingGallery[] = asset('uploads/rooms/' . $gFilename);
+                }
+            }
+            $validated['gallery'] = $existingGallery;
+        }
+
         $roomType->update($validated);
 
         if (isset($validated['amenities'])) {

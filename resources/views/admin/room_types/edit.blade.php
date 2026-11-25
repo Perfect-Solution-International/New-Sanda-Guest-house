@@ -5,46 +5,106 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
-    <form action="{{ route('admin.room-types.update', $roomType->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.room-types.update', $roomType->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PUT')
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category Name *</label>
-                <input type="text" name="name" value="{{ $roomType->name }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="name" value="{{ old('name', $roomType->name) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Base Price Per Night (Rs.) *</label>
-                <input type="number" step="0.01" name="base_price_per_night" value="{{ $roomType->base_price_per_night }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" step="0.01" name="base_price_per_night" value="{{ old('base_price_per_night', $roomType->base_price_per_night) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Max Adults *</label>
-                <input type="number" name="max_adults" value="{{ $roomType->max_adults }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" name="max_adults" value="{{ old('max_adults', $roomType->max_adults) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Max Children *</label>
-                <input type="number" name="max_children" value="{{ $roomType->max_children }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="number" name="max_children" value="{{ old('max_children', $roomType->max_children) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Bed Configuration *</label>
-                <input type="text" name="bed_type" value="{{ $roomType->bed_type }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="bed_type" value="{{ old('bed_type', $roomType->bed_type) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Room Area Size *</label>
-                <input type="text" name="room_size" value="{{ $roomType->room_size }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="room_size" value="{{ old('room_size', $roomType->room_size) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
-            <div class="sm:col-span-2">
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Main Cover Photo URL</label>
-                <input type="text" name="image" value="{{ $roomType->image }}" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+
+            <!-- Main Cover Photo Upload & URL -->
+            <div class="sm:col-span-2 space-y-3 p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <div class="flex items-center justify-between">
+                    <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                        Main Cover Photo *
+                    </label>
+                    <span class="text-[11px] text-slate-500">File upload or URL</span>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                    <div>
+                        <label for="image_file" class="flex flex-col items-center justify-center p-5 border-2 border-dashed border-brand-300 hover:border-brand-700 rounded-2xl cursor-pointer bg-white transition text-center group shadow-sm">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-600 group-hover:scale-110 transition mb-2"></i>
+                            <span class="text-xs font-bold text-slate-800">Upload New Image File</span>
+                            <span class="text-[11px] text-slate-500 mt-0.5">Click to browse PNG, JPG, WEBP</span>
+                            <input type="file" name="image_file" id="image_file" accept="image/*" class="hidden" onchange="previewMainImage(this)">
+                        </label>
+                    </div>
+
+                    <!-- Live Image Preview Container -->
+                    <div id="mainImagePreviewContainer" class="relative rounded-2xl overflow-hidden border border-slate-200 bg-white h-36 flex items-center justify-center shadow-inner">
+                        <img id="mainImagePreview" src="{{ $roomType->image }}" alt="Preview" class="w-full h-full object-cover">
+                        <div class="absolute bottom-2 left-2 bg-brand-950/85 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm">
+                            Current Cover
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Or Image URL input -->
+                <div class="pt-2 border-t border-slate-200/60">
+                    <label class="block text-[11px] font-semibold text-slate-500 uppercase mb-1">Or paste Image URL directly</label>
+                    <input type="text" name="image" id="image_url" value="{{ old('image', $roomType->image) }}" placeholder="https://..." class="w-full border border-slate-300 rounded-xl px-4 py-2 text-xs text-slate-700 bg-white" oninput="updateUrlPreview(this.value)">
+                </div>
             </div>
+
+            <!-- Additional Gallery Photos Upload -->
+            <div class="sm:col-span-2 space-y-2 p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                    Additional Gallery Photos (Optional)
+                </label>
+                
+                @if(!empty($roomType->gallery) && is_array($roomType->gallery))
+                    <div class="mb-2">
+                        <span class="text-[11px] font-semibold text-slate-500 block mb-1">Current Gallery:</span>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($roomType->gallery as $gImg)
+                                <img src="{{ $gImg }}" alt="Gallery" class="w-16 h-16 object-cover rounded-xl border border-slate-200 shadow-sm">
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <label for="gallery_files" class="flex items-center gap-3 p-3.5 border border-dashed border-slate-300 hover:border-brand-600 rounded-xl cursor-pointer bg-white transition shadow-sm">
+                    <i class="fa-solid fa-images text-2xl text-brand-600"></i>
+                    <div>
+                        <span class="text-xs font-bold text-slate-800">Add More Gallery Photos</span>
+                        <span class="text-[10px] text-slate-400 block">Select extra photos to add to this room's gallery</span>
+                    </div>
+                    <input type="file" name="gallery_files[]" id="gallery_files" multiple accept="image/*" class="hidden" onchange="previewGalleryImages(this)">
+                </label>
+                <div id="galleryPreviewContainer" class="flex flex-wrap gap-2 pt-2"></div>
+            </div>
+
             <div class="sm:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Short Description *</label>
-                <input type="text" name="short_description" value="{{ $roomType->short_description }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <input type="text" name="short_description" value="{{ old('short_description', $roomType->short_description) }}" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
             </div>
             <div class="sm:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Detailed Description *</label>
-                <textarea name="description" rows="4" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">{{ $roomType->description }}</textarea>
+                <textarea name="description" rows="4" required class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">{{ old('description', $roomType->description) }}</textarea>
             </div>
         </div>
 
@@ -75,9 +135,44 @@
         </div>
 
         <div class="flex justify-between items-center pt-4">
-            <a href="{{ route('admin.room-types.index') }}" class="text-xs font-bold text-slate-500">Cancel</a>
-            <button type="submit" class="bg-brand-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs">Update Category</button>
+            <a href="{{ route('admin.room-types.index') }}" class="text-xs font-bold text-slate-500 hover:text-slate-700">Cancel</a>
+            <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md transition">Update Category</button>
         </div>
     </form>
 </div>
+
+<script>
+function previewMainImage(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('mainImagePreview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function updateUrlPreview(url) {
+    if (url && url.startsWith('http')) {
+        document.getElementById('mainImagePreview').src = url;
+    }
+}
+
+function previewGalleryImages(input) {
+    const container = document.getElementById('galleryPreviewContainer');
+    container.innerHTML = '';
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'w-20 h-20 object-cover rounded-xl border border-slate-200 shadow-sm';
+                container.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+}
+</script>
 @endsection
