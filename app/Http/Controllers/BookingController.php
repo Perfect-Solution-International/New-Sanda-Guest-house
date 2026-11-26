@@ -203,6 +203,15 @@ class BookingController extends Controller
             ]
         );
 
+        // Management Blacklist Check
+        $blacklistedByNic = !empty($validated['guest_nic_passport']) 
+            ? Customer::where('is_blacklisted', true)->where('nic_passport', trim($validated['guest_nic_passport']))->first() 
+            : null;
+
+        if ($customer->is_blacklisted || $blacklistedByNic) {
+            return back()->withInput()->with('error', 'Online reservation is unavailable for this contact. Please contact Sanda Guest House reception directly at 077 987 6543 or via WhatsApp.');
+        }
+
         $booking = Booking::create([
             'customer_id' => $customer->id,
             'booking_code' => $bookingCode,

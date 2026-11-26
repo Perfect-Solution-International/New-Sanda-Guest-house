@@ -193,7 +193,7 @@
                 </div>
             </div>
 
-            <!-- Notes -->
+            <!-- Notes & Security Override -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Guest Special Requests</label>
@@ -203,6 +203,14 @@
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Internal Front Desk Notes</label>
                     <textarea name="admin_notes" rows="2" placeholder="Guest ID copy taken, advance verified..." class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">{{ old('admin_notes') }}</textarea>
                 </div>
+            </div>
+
+            <!-- Management Security Flag Override (Shown if needed) -->
+            <div class="bg-rose-50/70 p-3 rounded-xl border border-rose-200/80 flex items-center gap-3">
+                <input type="checkbox" name="override_blacklist" id="override_blacklist" value="1" class="w-4 h-4 text-rose-600 rounded">
+                <label for="override_blacklist" class="text-xs text-rose-900 font-semibold cursor-pointer">
+                    <span class="font-bold">Manager Override:</span> Allow reservation even if customer is on management warning / blacklist list.
+                </label>
             </div>
 
             <div class="pt-4 border-t border-slate-100 flex items-center justify-between">

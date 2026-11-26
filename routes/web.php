@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AddonAdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BookingAdminController;
+use App\Http\Controllers\Admin\CustomerAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InquiryAdminController;
 use App\Http\Controllers\Admin\ReviewAdminController;
@@ -69,6 +70,14 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::post('/bookings/{booking}/cancel', [BookingAdminController::class, 'cancel'])->name('bookings.cancel');
     Route::delete('/bookings/{booking}', [BookingAdminController::class, 'destroy'])->name('bookings.destroy');
     Route::get('/bookings/{booking}/invoice', [BookingAdminController::class, 'invoice'])->name('bookings.invoice');
+
+    // Customer CRM, History & Blacklist
+    Route::get('/customers', [CustomerAdminController::class, 'index'])->name('customers.index');
+    Route::get('/customers/{customer}', [CustomerAdminController::class, 'show'])->name('customers.show');
+    Route::put('/customers/{customer}', [CustomerAdminController::class, 'update'])->name('customers.update');
+    Route::post('/customers/{customer}/toggle-blacklist', [CustomerAdminController::class, 'toggleBlacklist'])->name('customers.toggle-blacklist');
+    Route::post('/customers/{customer}/toggle-vip', [CustomerAdminController::class, 'toggleVip'])->name('customers.toggle-vip');
+    Route::delete('/customers/{customer}', [CustomerAdminController::class, 'destroy'])->name('customers.destroy');
 
     // Room Types (Categories)
     Route::resource('room-types', RoomTypeAdminController::class);

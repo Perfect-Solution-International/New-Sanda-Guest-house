@@ -199,6 +199,11 @@ class BookingAdminController extends Controller
             ]
         );
 
+        // Blacklist Check for Admin Walk-in Booking
+        if ($customer->is_blacklisted && !$request->boolean('override_blacklist')) {
+            return back()->withInput()->with('error', "SECURITY WARNING: Guest '{$customer->name}' is on the MANAGEMENT BLACKLIST. Reason: {$customer->blacklist_reason}. Check 'Override Blacklist' below if authorized to proceed.");
+        }
+
         $booking = Booking::create([
             'customer_id' => $customer->id,
             'booking_code' => Booking::generateBookingCode(),

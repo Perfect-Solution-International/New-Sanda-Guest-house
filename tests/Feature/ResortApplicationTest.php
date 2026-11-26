@@ -753,4 +753,149 @@ class ResortApplicationTest extends TestCase
         $this->assertEquals(3, $bookingAddon->quantity);
         $this->assertEquals($addon->price * 3, $bookingAddon->subtotal);
     }
+
+    public function test_admin_can_view_customers_list_and_filter(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $vipCustomer = \App\Models\Customer::create([
+            'name' => 'VIP Customer Test',
+            'phone' => '+94 77 999 1111',
+            'email' => 'vip@test.com',
+            'is_vip' => true,
+        ]);
+
+        $blacklistedCustomer = \App\Models\Customer::create([
+            'name' => 'Blacklisted Guest Test',
+            'phone' => '+94 77 999 2222',
+            'email' => 'bad@test.com',
+            'is_blacklisted' => true,
+            'blacklist_reason' => 'Property damage on last stay',
+        ]);
+
+        $response = $this->get('/admin/customers');
+        $response->assertStatus(200);
+        $response->assertSee('VIP Customer Test');
+        $response->assertSee('Blacklisted Guest Test');
+        $response->assertSee('Guest Directory');
+
+        // Test VIP filter
+        $responseVip = $this->get('/admin/customers?filter=vip');
+        $responseVip->assertStatus(200);
+        $responseVip->assertSee('VIP Customer Test');
+        $responseVip->assertDontSee('Blacklisted Guest Test');
+
+        // Test Blacklist filter
+        $responseBlack = $this->get('/admin/customers?filter=blacklisted');
+        $responseBlack->assertStatus(200);
+        $responseBlack->assertSee('Blacklisted Guest Test');
+        $responseBlack->assertDontSee('VIP Customer Test');
+    }
+
+    public function test_admin_can_view_customer_profile_and_stay_history(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+        $room = Room::first();
+
+        $customer = \App\Models\Customer::create([
+            'name' => 'History Guest Test',
+            'phone' => '+94 77 888 3333',
+            'email' => 'history@test.com',
+            'special_preferences' => 'Prefers ground floor room',
+        ]);
+
+        $booking = Booking::create([
+            'customer_id' => $customer->id,
+            'booking_code' => 'NS-HIST-001',
+            'room_type_id' => $room->room_type_id,
+            'room_id' => $room->id,
+            'guest_name' => $customer->name,
+            'guest_email' => $customer->email,
+            'guest_phone' => $customer->phone,
+            'check_in_date' => now()->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDay()->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'nights' => 1,
+            'adults' => 2,
+            'room_rate' => 8000,
+            'room_subtotal' => 8000,
+            'total_amount' => 8000,
+            'advance_paid' => 4000,
+            'balance_due' => 4000,
+            'booking_status' => 'confirmed',
+            'payment_status' => 'partial',
+            'payment_method' => 'cash',
+        ]);
+
+        $response = $this->get("/admin/customers/{$customer->id}");
+        $response->assertStatus(200);
+        $response->assertSee('History Guest Test');
+        $response->assertSee('NS-HIST-001');
+        $response->assertSee('Prefers ground floor room');
+    }
+
+    public function test_admin_can_toggle_blacklist_and_vip_status(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $customer = \App\Models\Customer::create([
+            'name' => 'Toggle Status Test',
+            'phone' => '+94 77 555 4444',
+            'email' => 'toggle@test.com',
+        ]);
+
+        // 1. Toggle VIP
+        $this->post("/admin/customers/{$customer->id}/toggle-vip");
+        $this->assertTrue($customer->fresh()->is_vip);
+
+        // 2. Toggle Blacklist on
+        $this->post("/admin/customers/{$customer->id}/toggle-blacklist", [
+            'is_blacklisted' => 1,
+            'blacklist_reason' => 'Disruptive behavior',
+        ]);
+        $customer->refresh();
+        $this->assertTrue($customer->is_blacklisted);
+        $this->assertEquals('Disruptive behavior', $customer->blacklist_reason);
+
+        // 3. Toggle Blacklist off
+        $this->post("/admin/customers/{$customer->id}/toggle-blacklist", [
+            'is_blacklisted' => 0,
+        ]);
+        $this->assertFalse($customer->fresh()->is_blacklisted);
+    }
+
+    public function test_blacklisted_customer_cannot_book_online(): void
+    {
+        $blacklisted = \App\Models\Customer::create([
+            'name' => 'Blocked Book Test',
+            'phone' => '+94 77 000 9999',
+            'email' => 'blocked@test.com',
+            'is_blacklisted' => true,
+            'blacklist_reason' => 'Refused payment',
+        ]);
+
+        $roomType = RoomType::first();
+
+        $response = $this->post('/book', [
+            'room_type_id' => $roomType->id,
+            'guest_name' => 'Blocked Book Test',
+            'guest_phone' => '+94 77 000 9999',
+            'guest_email' => 'blocked@test.com',
+            'check_in_date' => now()->addDays(5)->format('Y-m-d'),
+            'check_in_time' => '14:00',
+            'check_out_date' => now()->addDays(6)->format('Y-m-d'),
+            'check_out_time' => '11:00',
+            'adults' => 2,
+            'payment_method' => 'cash',
+        ]);
+
+        $response->assertSessionHas('error');
+        $this->assertDatabaseMissing('bookings', [
+            'guest_phone' => '+94 77 000 9999',
+        ]);
+    }
 }

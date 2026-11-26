@@ -56,7 +56,19 @@
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div>
                         <span class="text-xs text-slate-400 block uppercase">Full Name</span>
-                        <strong class="text-slate-900">{{ $booking->guest_name }}</strong>
+                        <div class="flex items-center gap-2 flex-wrap mt-0.5">
+                            <strong class="text-slate-900">{{ $booking->guest_name }}</strong>
+                            @if($booking->customer)
+                                <a href="{{ route('admin.customers.show', $booking->customer) }}" class="text-[11px] bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold px-2 py-0.5 rounded border border-brand-200 transition flex items-center gap-1">
+                                    <i class="fa-solid fa-address-book text-[10px]"></i> View History
+                                </a>
+                            @endif
+                            @if($booking->customer?->is_vip)
+                                <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
+                                    <i class="fa-solid fa-crown text-[9px]"></i> VIP
+                                </span>
+                            @endif
+                        </div>
                     </div>
                     <div>
                         <span class="text-xs text-slate-400 block uppercase">Phone / WhatsApp</span>
