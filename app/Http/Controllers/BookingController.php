@@ -261,14 +261,11 @@ class BookingController extends Controller
 
     public function track(Request $request): View
     {
-        $prefillCode = $request->query('code', '');
-        $prefillPhone = $request->query('phone', '');
+        $prefillCode = trim($request->query('code', ''));
+        $prefillPhone = trim($request->query('phone', ''));
 
-        if (!empty($prefillCode) && !empty($prefillPhone)) {
-            $booking = Booking::with(['roomType', 'room', 'addons', 'payments'])
-                ->where('booking_code', trim($prefillCode))
-                ->where('guest_phone', 'like', '%' . trim($prefillPhone) . '%')
-                ->first();
+        if ($prefillCode !== '' || $prefillPhone !== '') {
+            $booking = $this->findBookingByCodeOrPhone($prefillCode, $prefillPhone);
 
             if ($booking) {
                 $settings = Setting::pluck('value', 'key');
@@ -281,35 +278,144 @@ class BookingController extends Controller
 
     public function checkStatus(Request $request): View|RedirectResponse
     {
-        $request->validate([
-            'booking_code' => 'required|string',
-            'phone' => 'required|string',
-        ]);
+        $code = trim($request->input('booking_code', ''));
+        $phone = trim($request->input('phone', ''));
 
-        $booking = Booking::with(['roomType', 'room', 'addons', 'payments'])
-            ->where('booking_code', trim($request->booking_code))
-            ->where('guest_phone', 'like', '%' . trim($request->phone) . '%')
-            ->first();
+        if ($code === '' && $phone === '') {
+            return back()->withInput()->with('error', 'Please enter your Booking Reference Number or registered Phone Number. (කරුණාකර ඔබගේ Booking Reference අංකය හෝ දුරකථන අංකය ඇතුළත් කරන්න).');
+        }
+
+        $booking = $this->findBookingByCodeOrPhone($code, $phone);
 
         if (!$booking) {
-            return back()->withInput()->with('error', 'No reservation found matching this Reference Number and Phone Number. Please check your details or contact resort reception.');
+            $searched = $code !== '' ? $code : $phone;
+            return back()->withInput()->with('error', "No reservation found matching '{$searched}'. Please check your reference code or contact Sanda Guest House reception (+94 77 987 6543 / WhatsApp).");
         }
 
         $settings = Setting::pluck('value', 'key');
         return view('public.booking.status_result', compact('booking', 'settings'));
     }
 
+    /**
+     * Smart flexible booking lookup by reference code, phone number, or both.
+     */
+    protected function findBookingByCodeOrPhone(?string $rawCode, ?string $rawPhone): ?Booking
+    {
+        $code = trim($rawCode ?? '');
+        $phone = trim($rawPhone ?? '');
+
+        if ($code === '' && $phone === '') {
+            return null;
+        }
+
+        // 1. If Booking Code is provided:
+        if ($code !== '') {
+            $cleanCode = strtoupper(preg_replace('/\s+/', '', $code));
+
+            $codeQuery = Booking::with(['roomType', 'room', 'addons', 'payments']);
+            $codeQuery->where(function ($q) use ($cleanCode) {
+                $q->where('booking_code', $cleanCode)
+                  ->orWhere('booking_code', 'like', '%' . $cleanCode)
+                  ->orWhere('booking_code', 'like', $cleanCode . '%');
+
+                if (!str_starts_with($cleanCode, 'NS-')) {
+                    $q->orWhere('booking_code', 'NS-2026-' . $cleanCode)
+                      ->orWhere('booking_code', 'NS-' . $cleanCode);
+                }
+            });
+
+            // If phone was ALSO entered, check if phone matches as well
+            if ($phone !== '') {
+                $bookingWithPhone = (clone $codeQuery);
+                $this->applyPhoneFilter($bookingWithPhone, $phone);
+                $found = $bookingWithPhone->latest('id')->first();
+                if ($found) {
+                    return $found;
+                }
+            }
+
+            // Fallback: If phone didn't strictly match or wasn't provided,
+            // return booking found by the unique booking code
+            $booking = $codeQuery->latest('id')->first();
+            if ($booking) {
+                return $booking;
+            }
+        }
+
+        // 2. If ONLY Phone is provided (no booking code)
+        if ($phone !== '') {
+            $phoneQuery = Booking::with(['roomType', 'room', 'addons', 'payments']);
+            $this->applyPhoneFilter($phoneQuery, $phone);
+            return $phoneQuery->latest('id')->first();
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper to apply flexible phone matching across various country codes and formatting.
+     */
+    protected function applyPhoneFilter($query, string $phone): void
+    {
+        $rawDigits = preg_replace('/[^0-9]/', '', $phone);
+        $last7 = strlen($rawDigits) >= 7 ? substr($rawDigits, -7) : $rawDigits;
+        $last9 = strlen($rawDigits) >= 9 ? substr($rawDigits, -9) : $rawDigits;
+
+        $query->where(function ($q) use ($phone, $rawDigits, $last7, $last9) {
+            $q->where('guest_phone', 'like', '%' . $phone . '%');
+
+            if ($rawDigits !== '') {
+                $q->orWhere('guest_phone', 'like', '%' . $rawDigits . '%');
+            }
+
+            if ($last9 !== '') {
+                $q->orWhere('guest_phone', 'like', '%' . $last9 . '%');
+            }
+
+            if ($last7 !== '') {
+                $q->orWhere('guest_phone', 'like', '%' . $last7 . '%')
+                  ->orWhereRaw("REPLACE(REPLACE(REPLACE(guest_phone, ' ', ''), '-', ''), '+', '') LIKE ?", ['%' . $last7 . '%']);
+            }
+        });
+    }
+
+    /**
+     * Check if user-provided phone loosely matches the booking's registered phone.
+     */
+    protected function isPhoneMatching(string $dbPhone, ?string $inputPhone): bool
+    {
+        if (empty($inputPhone)) {
+            return true;
+        }
+
+        $inputDigits = preg_replace('/[^0-9]/', '', $inputPhone);
+        $dbDigits = preg_replace('/[^0-9]/', '', $dbPhone);
+
+        if (empty($inputDigits)) {
+            return true;
+        }
+
+        $last7Input = strlen($inputDigits) >= 7 ? substr($inputDigits, -7) : $inputDigits;
+        $last7Db = strlen($dbDigits) >= 7 ? substr($dbDigits, -7) : $dbDigits;
+
+        return str_contains($dbDigits, $last7Input) 
+            || str_contains($inputDigits, $last7Db)
+            || str_contains($dbPhone, $inputPhone);
+    }
+
     public function requestCancellation(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'booking_id' => 'required|exists:bookings,id',
-            'phone' => 'required|string',
+            'phone' => 'nullable|string',
             'cancellation_reason' => 'required|string|max:500',
         ]);
 
-        $booking = Booking::where('id', $validated['booking_id'])
-            ->where('guest_phone', 'like', '%' . trim($validated['phone']) . '%')
-            ->firstOrFail();
+        $booking = Booking::findOrFail($validated['booking_id']);
+
+        if (!empty($validated['phone']) && !$this->isPhoneMatching($booking->guest_phone, $validated['phone'])) {
+            return back()->with('error', 'Phone verification failed for this cancellation request.');
+        }
 
         if (in_array($booking->booking_status, ['checked_in', 'checked_out'])) {
             return back()->with('error', 'In-house or completed stays cannot be cancelled online. Please speak directly with resort reception.');
@@ -338,7 +444,6 @@ class BookingController extends Controller
 
         return redirect()->route('booking.track', [
             'code' => $booking->booking_code,
-            'phone' => $booking->guest_phone,
         ])->with('success', 'Your reservation has been cancelled successfully. Front desk has been notified.');
     }
 
@@ -346,13 +451,15 @@ class BookingController extends Controller
     {
         $validated = $request->validate([
             'booking_id' => 'required|exists:bookings,id',
-            'phone' => 'required|string',
+            'phone' => 'nullable|string',
             'modification_note' => 'required|string|max:1000',
         ]);
 
-        $booking = Booking::where('id', $validated['booking_id'])
-            ->where('guest_phone', 'like', '%' . trim($validated['phone']) . '%')
-            ->firstOrFail();
+        $booking = Booking::findOrFail($validated['booking_id']);
+
+        if (!empty($validated['phone']) && !$this->isPhoneMatching($booking->guest_phone, $validated['phone'])) {
+            return back()->with('error', 'Phone verification failed for this special request.');
+        }
 
         if ($booking->booking_status === 'cancelled') {
             return back()->with('error', 'Cannot add requests to a cancelled reservation.');
@@ -368,7 +475,6 @@ class BookingController extends Controller
 
         return redirect()->route('booking.track', [
             'code' => $booking->booking_code,
-            'phone' => $booking->guest_phone,
         ])->with('success', 'Your special request has been sent to Sanda Guest House reception. Our team will review and update your stay.');
     }
 }

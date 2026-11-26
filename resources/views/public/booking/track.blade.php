@@ -29,30 +29,89 @@
                 </div>
             </div>
 
-            <form action="{{ route('booking.track.check') }}" method="POST" class="space-y-6">
+            <!-- Alerts / Notifications -->
+            @if(session('error'))
+                <div class="mb-6 bg-rose-50 border border-rose-300 text-rose-900 px-5 py-4 rounded-2xl text-xs sm:text-sm flex items-start gap-3 shadow-sm">
+                    <i class="fa-solid fa-circle-exclamation text-rose-600 text-base mt-0.5 flex-shrink-0"></i>
+                    <div>
+                        <strong class="font-bold block">Reservation Lookup Notice:</strong>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="mb-6 bg-emerald-50 border border-emerald-300 text-emerald-900 px-5 py-4 rounded-2xl text-xs sm:text-sm flex items-start gap-3 shadow-sm">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-base mt-0.5 flex-shrink-0"></i>
+                    <div>
+                        <strong class="font-bold block">Success:</strong>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="mb-6 bg-rose-50 border border-rose-300 text-rose-900 px-5 py-4 rounded-2xl text-xs sm:text-sm">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('booking.track.check') }}" method="POST" class="space-y-5" 
+                  x-data="{ code: '{{ old('booking_code', $prefillCode ?? '') }}', phone: '{{ old('phone', $prefillPhone ?? '') }}' }"
+                  @submit="if(!code.trim() && !phone.trim()){ alert('Please enter your Booking Reference Number or Phone Number. (කරුණාකර Reference අංකය හෝ දුරකථන අංකය ඇතුළත් කරන්න)'); $event.preventDefault(); }">
                 @csrf
 
+                <!-- Option 1: Booking Reference Number -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        Booking Reference Number *
-                    </label>
-                    <input type="text" name="booking_code" value="{{ old('booking_code', $prefillCode ?? '') }}" required placeholder="e.g. NS-2026-XXXX" 
-                           class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-mono uppercase tracking-wider focus:ring-2 focus:ring-brand-700 focus:outline-none">
-                    <span class="text-[11px] text-slate-400 mt-1 block">Sent upon booking submission (e.g. NS-2026-XXXX)</span>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                            <i class="fa-solid fa-ticket text-brand-700 mr-1"></i> Booking Reference Number
+                        </label>
+                        <span class="text-[10px] bg-brand-50 text-brand-800 font-semibold px-2 py-0.5 rounded-md">Fastest Option</span>
+                    </div>
+                    <input type="text" name="booking_code" x-model="code" placeholder="e.g. NS-2026-XXXX or 49311B" 
+                           class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm font-mono uppercase tracking-wider focus:ring-2 focus:ring-brand-700 focus:border-brand-700 focus:outline-none transition">
+                    <span class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-slate-400"></i>
+                        <span>Enter full code (e.g. <strong>NS-2026-XXXX</strong>) or just code suffix (e.g. <strong>XXXX</strong>)</span>
+                    </span>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                        <i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> Guest Phone or WhatsApp Number *
-                    </label>
-                    <input type="text" name="phone" value="{{ old('phone', $prefillPhone ?? '') }}" required placeholder="Phone number entered during booking" 
-                           class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
-                    <span class="text-[11px] text-slate-400 mt-1 block">The mobile number used when making the reservation</span>
+                <!-- Divider: OR -->
+                <div class="relative flex items-center py-1">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-3 text-slate-400 text-xs font-bold uppercase tracking-wider bg-white px-2 py-0.5 rounded border border-slate-100">
+                        OR / හෝ
+                    </span>
+                    <div class="flex-grow border-t border-slate-200"></div>
                 </div>
 
-                <button type="submit" class="w-full bg-brand-800 hover:bg-brand-900 text-white font-bold py-3.5 rounded-xl shadow-md transition text-sm flex items-center justify-center gap-2 group">
-                    <i class="fa-solid fa-magnifying-glass text-gold-400 group-hover:scale-110 transition-transform"></i> Access Guest Portal
-                </button>
+                <!-- Option 2: Guest Phone or WhatsApp Number -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">
+                        <i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> Registered Phone or WhatsApp Number
+                    </label>
+                    <input type="text" name="phone" x-model="phone" placeholder="e.g. 077 123 4567 or +94 77..." 
+                           class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-700 focus:border-brand-700 focus:outline-none transition">
+                    <span class="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-slate-400"></i>
+                        <span>Mobile number used when making the reservation</span>
+                    </span>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-brand-800 hover:bg-brand-900 text-white font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transition text-sm flex items-center justify-center gap-2 group cursor-pointer">
+                        <i class="fa-solid fa-magnifying-glass text-gold-400 group-hover:scale-110 transition-transform"></i>
+                        <span>Access Guest Portal & Details</span>
+                    </button>
+                    <p class="text-[11px] text-center text-slate-400 mt-2">
+                        ඔබගේ Reference Number එක හෝ දුරකථන අංකය ලබාදී තොරතුරු බලාගත හැක.
+                    </p>
+                </div>
             </form>
 
             <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">

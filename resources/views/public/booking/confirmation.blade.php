@@ -15,8 +15,13 @@
                 <p class="text-sm text-slate-200 max-w-lg mx-auto">
                     Thank you, <strong>{{ $booking->guest_name }}</strong>. Your reservation request for Sanda Guest House has been recorded.
                 </p>
-                <div class="inline-block bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-gold-400 font-mono text-base font-bold">
-                    Booking Code: {{ $booking->booking_code }}
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-gold-400 font-mono text-base font-bold" x-data="{ copied: false }">
+                    <span>Booking Code: <strong class="text-white">{{ $booking->booking_code }}</strong></span>
+                    <button type="button" @click="navigator.clipboard.writeText('{{ $booking->booking_code }}'); copied = true; setTimeout(() => copied = false, 2500)" 
+                            class="ml-2 text-xs bg-gold-400/20 hover:bg-gold-400/30 text-gold-300 px-2.5 py-1 rounded-lg border border-gold-400/30 transition flex items-center gap-1 font-sans cursor-pointer">
+                        <i :class="copied ? 'fa-solid fa-check text-emerald-400' : 'fa-regular fa-copy'"></i>
+                        <span x-text="copied ? 'Copied' : 'Copy'"></span>
+                    </button>
                 </div>
             </div>
 
@@ -107,8 +112,8 @@
                     <a href="https://wa.me/94779876543?text={{ urlencode('Hello Sanda Guest House, I have made a reservation with code: ' . $booking->booking_code . ' for ' . $booking->guest_name . '. Please confirm.') }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 shadow">
                         <i class="fa-brands fa-whatsapp text-lg"></i> Send Slip on WhatsApp
                     </a>
-                    <a href="{{ route('booking.track') }}" class="border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 ml-auto">
-                        <i class="fa-solid fa-magnifying-glass"></i> Track Reservation
+                    <a href="{{ route('booking.track', ['code' => $booking->booking_code]) }}" class="border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 ml-auto">
+                        <i class="fa-solid fa-magnifying-glass text-brand-700"></i> Track Reservation
                     </a>
                 </div>
             </div>

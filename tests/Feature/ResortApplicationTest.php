@@ -606,15 +606,33 @@ class ResortApplicationTest extends TestCase
             'payment_method' => 'cash',
         ]);
 
-        $response = $this->post('/track-booking', [
+        // 1. Lookup with reference code alone
+        $responseCodeOnly = $this->post('/track-booking', [
             'booking_code' => $booking->booking_code,
-            'phone' => $booking->guest_phone,
         ]);
+        $responseCodeOnly->assertStatus(200);
+        $responseCodeOnly->assertSee($booking->booking_code);
+        $responseCodeOnly->assertSee('Lookup Guest Test');
 
-        $response->assertStatus(200);
-        $response->assertSee($booking->booking_code);
-        $response->assertSee('Guest Self-Service Portal');
-        $response->assertSee('Lookup Guest Test');
+        // 2. Lookup with lowercase reference code
+        $responseLower = $this->post('/track-booking', [
+            'booking_code' => 'ns-test-lookup',
+        ]);
+        $responseLower->assertStatus(200);
+        $responseLower->assertSee($booking->booking_code);
+
+        // 3. Lookup with phone number alone (matching local format against international)
+        $responsePhoneOnly = $this->post('/track-booking', [
+            'phone' => '077 111 2233',
+        ]);
+        $responsePhoneOnly->assertStatus(200);
+        $responsePhoneOnly->assertSee($booking->booking_code);
+
+        // 4. Lookup via direct link GET /track-booking?code=...
+        $responseGet = $this->get('/track-booking?code=' . $booking->booking_code);
+        $responseGet->assertStatus(200);
+        $responseGet->assertSee($booking->booking_code);
+        $responseGet->assertSee('Guest Self-Service Portal');
     }
 
     public function test_guest_can_submit_special_modification_request(): void
