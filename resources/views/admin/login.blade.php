@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -64,25 +65,53 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-4">
+            <!-- Quick Default Credentials Notice with 1-Click Auto Fill -->
+            <div class="mb-5 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-xs space-y-2.5 shadow-xs">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-amber-950 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+                        <i class="fa-solid fa-key text-gold-600"></i> Default Admin Credentials (පෙරනිමි පිවිසුම)
+                    </span>
+                    <span class="text-[10px] bg-amber-200/80 text-amber-900 font-bold px-2 py-0.5 rounded-full">Super Admin</span>
+                </div>
+                <div class="space-y-1 text-slate-700 font-mono text-[11px] bg-white/80 p-2.5 rounded-xl border border-amber-100">
+                    <div>Email: <strong class="text-slate-900">shelinim.senevirathna@gmail.com</strong></div>
+                    <div>Default Password: <strong class="text-slate-900">admin123</strong></div>
+                </div>
+            </div>
+
+            <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-4"
+                  x-data="{ email: '{{ old('email', 'shelinim.senevirathna@gmail.com') }}', password: 'admin123' }">
                 @csrf
+                
+                <div class="flex items-center justify-end gap-1.5 pb-1">
+                    <button type="button" @click="email='shelinim.senevirathna@gmail.com'; password='admin123'" 
+                            class="text-[10px] text-amber-800 hover:text-amber-900 bg-amber-100/70 hover:bg-amber-100 font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1 border border-amber-300/60 cursor-pointer">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> Fill Shelini Login
+                    </button>
+                    <button type="button" @click="email='admin@sandaresort.com'; password='admin123'" 
+                            class="text-[10px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1 border border-slate-200 cursor-pointer">
+                        Fill Resort Admin
+                    </button>
+                </div>
+
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@example.com" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    <input type="email" name="email" x-model="email" required placeholder="admin@example.com" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
-                    <input type="password" name="password" required placeholder="••••••••" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    <input type="password" name="password" x-model="password" required placeholder="••••••••" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                    <span class="text-[10px] text-slate-400 mt-1 block">Default system password: <strong>admin123</strong></span>
                 </div>
 
                 <div class="flex items-center justify-between text-xs">
-                    <label class="flex items-center text-slate-600">
-                        <input type="checkbox" name="remember" class="rounded text-brand-700 focus:ring-brand-700 mr-2"> Remember login
+                    <label class="flex items-center text-slate-600 cursor-pointer">
+                        <input type="checkbox" name="remember" checked class="rounded text-brand-700 focus:ring-brand-700 mr-2"> Remember login
                     </label>
                 </div>
 
-                <button type="submit" class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-xl shadow-md transition text-sm flex items-center justify-center gap-2">
+                <button type="submit" class="w-full bg-brand-700 hover:bg-brand-800 text-white font-bold py-3 rounded-xl shadow-md transition text-sm flex items-center justify-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-right-to-bracket text-gold-400"></i> Sign In to Dashboard
                 </button>
             </form>

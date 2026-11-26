@@ -359,6 +359,17 @@ class ResortApplicationTest extends TestCase
         $this->assertAuthenticated();
     }
 
+    public function test_shelini_can_login_with_default_password(): void
+    {
+        $response = $this->post('/admin/login', [
+            'email' => 'shelinim.senevirathna@gmail.com',
+            'password' => 'admin123',
+        ]);
+
+        $response->assertRedirect('/admin');
+        $this->assertAuthenticated();
+    }
+
     public function test_admin_can_create_room_with_uploaded_image(): void
     {
         $admin = User::first();
