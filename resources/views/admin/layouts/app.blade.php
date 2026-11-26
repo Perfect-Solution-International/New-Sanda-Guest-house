@@ -105,6 +105,11 @@
                     <span>Guest Reviews</span>
                 </a>
 
+                <a href="{{ route('admin.reports.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition {{ request()->routeIs('admin.reports.*') ? 'bg-brand-800 text-gold-400 font-bold' : 'text-slate-300 hover:bg-brand-800/60 hover:text-white' }}">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                    <span>Reports &amp; Analytics</span>
+                </a>
+
                 <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition {{ request()->routeIs('admin.settings.*') ? 'bg-brand-800 text-gold-400 font-bold' : 'text-slate-300 hover:bg-brand-800/60 hover:text-white' }}">
                     <i class="fa-solid fa-sliders w-5 text-center"></i>
                     <span>Resort Settings</span>

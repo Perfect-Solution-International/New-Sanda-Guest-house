@@ -898,4 +898,66 @@ class ResortApplicationTest extends TestCase
             'guest_phone' => '+94 77 000 9999',
         ]);
     }
+
+    public function test_admin_can_view_reports_dashboard_with_filters(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $response = $this->get('/admin/reports');
+        $response->assertStatus(200);
+        $response->assertSee('Financial Reports');
+        $response->assertSee('Gross Revenue');
+        $response->assertSee('Occupancy Rate');
+
+        // Test custom preset filter
+        $responseToday = $this->get('/admin/reports?period=today');
+        $responseToday->assertStatus(200);
+        $responseToday->assertSee('Gross Revenue');
+    }
+
+    public function test_admin_can_export_bookings_csv(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $response = $this->get('/admin/reports/export-bookings');
+        $response->assertStatus(200);
+        $this->assertStringContainsString('text/csv', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString('sanda_bookings_', $response->headers->get('Content-Disposition'));
+    }
+
+    public function test_admin_can_export_revenue_csv(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $response = $this->get('/admin/reports/export-revenue');
+        $response->assertStatus(200);
+        $this->assertStringContainsString('text/csv', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString('sanda_revenue_summary_', $response->headers->get('Content-Disposition'));
+    }
+
+    public function test_admin_can_export_rooms_performance_csv(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $response = $this->get('/admin/reports/export-rooms');
+        $response->assertStatus(200);
+        $this->assertStringContainsString('text/csv', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString('sanda_room_performance_', $response->headers->get('Content-Disposition'));
+    }
+
+    public function test_admin_can_view_printable_executive_report(): void
+    {
+        $admin = User::first();
+        $this->actingAs($admin);
+
+        $response = $this->get('/admin/reports/print');
+        $response->assertStatus(200);
+        $response->assertSee('Sanda Guest House');
+        $response->assertSee('Executive Performance');
+        $response->assertSee('Gross Revenue');
+    }
 }

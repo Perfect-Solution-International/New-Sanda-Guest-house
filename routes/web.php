@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BookingAdminController;
 use App\Http\Controllers\Admin\CustomerAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InquiryAdminController;
+use App\Http\Controllers\Admin\ReportAdminController;
 use App\Http\Controllers\Admin\ReviewAdminController;
 use App\Http\Controllers\Admin\RoomAdminController;
 use App\Http\Controllers\Admin\RoomTypeAdminController;
@@ -104,6 +105,13 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::post('/reviews', [ReviewAdminController::class, 'store'])->name('reviews.store');
     Route::post('/reviews/{review}/toggle', [ReviewAdminController::class, 'toggleApproval'])->name('reviews.toggle');
     Route::delete('/reviews/{review}', [ReviewAdminController::class, 'destroy'])->name('reviews.destroy');
+
+    // Reports, Analytics & Exports
+    Route::get('/reports', [ReportAdminController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export-bookings', [ReportAdminController::class, 'exportBookingsCsv'])->name('reports.export-bookings');
+    Route::get('/reports/export-revenue', [ReportAdminController::class, 'exportRevenueCsv'])->name('reports.export-revenue');
+    Route::get('/reports/export-rooms', [ReportAdminController::class, 'exportRoomsCsv'])->name('reports.export-rooms');
+    Route::get('/reports/print', [ReportAdminController::class, 'printReport'])->name('reports.print');
 
     // Settings
     Route::get('/settings', [SettingAdminController::class, 'index'])->name('settings.index');
