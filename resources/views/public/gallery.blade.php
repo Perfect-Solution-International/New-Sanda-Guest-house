@@ -48,21 +48,16 @@
         <!-- Photos Grid -->
         @php
             $photos = [
-                ['url' => 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80', 'title' => 'Standard A/C Double Bedroom', 'category' => 'rooms', 'badge' => 'Double Bed'],
-                ['url' => 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80', 'title' => 'Family Suite with Two Double Beds', 'category' => 'rooms', 'badge' => 'Family A/C'],
-                ['url' => 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80', 'title' => 'Non-A/C Clean Budget Room', 'category' => 'rooms', 'badge' => 'Budget Group'],
-                ['url' => 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80', 'title' => 'Attached Bathroom with Hot Water Shower', 'category' => 'bathrooms', 'badge' => 'Hot Shower'],
-                ['url' => 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80', 'title' => 'Spotless Private Bathroom Vanity', 'category' => 'bathrooms', 'badge' => 'Sanitized'],
-                ['url' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80', 'title' => 'Resort Property Exterior & Garden', 'category' => 'exterior', 'badge' => 'Exterior'],
-                ['url' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80', 'title' => 'Peaceful River-Breeze Veranda', 'category' => 'exterior', 'badge' => 'Garden Veranda'],
-                ['url' => 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1200&q=80', 'title' => 'Secure 24/7 Gated Vehicle Parking Area', 'category' => 'parking', 'badge' => 'Secure Parking'],
-                ['url' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80', 'title' => 'Guest Dining & Common Seating Area', 'category' => 'parking', 'badge' => 'Common Lounge'],
+                ['url' => '/uploads/rooms/standard-ac-double-room.jpg', 'title' => 'Standard A/C Double Bedroom', 'category' => 'rooms', 'badge' => 'Double Bed'],
+                ['url' => '/uploads/gallery/bedroom-2.jpg', 'title' => 'Spacious Guest Bedroom', 'category' => 'rooms', 'badge' => 'Guest Room'],
+                ['url' => '/uploads/gallery/room-bathroom-door.jpg', 'title' => 'Private Room & Attached Bathroom Entrance', 'category' => 'bathrooms', 'badge' => 'Attached Bath'],
+                ['url' => '/uploads/gallery/exterior-parking.jpg', 'title' => 'Property Exterior & Secure Gated Parking', 'category' => 'exterior parking', 'badge' => 'Exterior & Parking'],
             ];
         @endphp
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             @foreach($photos as $photo)
-                <div x-show="activeCategory === 'all' || activeCategory === '{{ $photo['category'] }}'"
+                <div x-show="activeCategory === 'all' || '{{ $photo['category'] }}'.includes(activeCategory)"
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 scale-95"
                      x-transition:enter-end="opacity-100 scale-100"

@@ -20,8 +20,75 @@
     </div>
 </section>
 
-<!-- Main Booking App with Dark Cards Theme -->
-<section class="py-12 bg-[#04150e] min-h-screen text-slate-100" x-data="liveBookingApp()" x-init="initApp()">
+<!-- Main Booking App with Clean White Cards Theme -->
+<style>
+    .booking-light-theme {
+        background-color: #fcfaf7 !important;
+        color: #1e293b !important;
+    }
+    .booking-light-theme [class*="bg-[#0"],
+    .booking-light-theme .bg-gradient-to-b {
+        background-image: none !important;
+        background-color: #ffffff !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+    }
+    .booking-light-theme [class*="bg-[#0"] [class*="bg-[#0"] {
+        background-color: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: none;
+    }
+    .booking-light-theme [class*="bg-emerald-950"] {
+        background-color: #f0fdf4 !important;
+        border-color: #bbf7d0 !important;
+        color: #166534 !important;
+    }
+    .booking-light-theme [class*="bg-rose-950"] {
+        background-color: #fff1f2 !important;
+        border-color: #fecdd3 !important;
+        color: #9f1239 !important;
+    }
+    .booking-light-theme .text-white:not(button):not(a):not(.bg-brand-700):not(.bg-emerald-600) {
+        color: #0f172a !important;
+    }
+    .booking-light-theme [class*="text-slate-300"],
+    .booking-light-theme [class*="text-slate-400"],
+    .booking-light-theme [class*="text-emerald-100"],
+    .booking-light-theme [class*="text-emerald-200"] {
+        color: #475569 !important;
+    }
+    .booking-light-theme [class*="text-emerald-300"],
+    .booking-light-theme [class*="text-emerald-400"] {
+        color: #15803d !important;
+    }
+    .booking-light-theme [class*="text-gold-300"],
+    .booking-light-theme [class*="text-gold-400"] {
+        color: #b45309 !important;
+    }
+    .booking-light-theme .text-rose-300 {
+        color: #be123c !important;
+    }
+    .booking-light-theme [class*="border-emerald-500"],
+    .booking-light-theme [class*="border-emerald-800"] {
+        border-color: #e2e8f0 !important;
+    }
+    .booking-light-theme input:not([type="checkbox"]):not([type="radio"]),
+    .booking-light-theme select,
+    .booking-light-theme textarea {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+        color-scheme: light;
+    }
+    .booking-light-theme input::placeholder,
+    .booking-light-theme textarea::placeholder {
+        color: #94a3b8 !important;
+    }
+    .booking-light-theme button[type="submit"] {
+        color: #0e2d1c !important;
+    }
+</style>
+<section class="py-12 bg-[#fcfaf7] min-h-screen text-slate-800 booking-light-theme" x-data="liveBookingApp()" x-init="initApp()">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         <!-- Live Availability Metric Counter Cards (Dark Cards with Gold Accents) -->

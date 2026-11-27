@@ -101,9 +101,9 @@ class ResortDataSeeder extends Seeder
                 'max_children' => 1,
                 'bed_type' => '1 Double / King Bed',
                 'room_size' => '220 sq ft',
-                'image' => 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+                'image' => '/uploads/rooms/standard-ac-double-room.jpg',
                 'gallery' => [
-                    'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+                    '/uploads/rooms/standard-ac-double-room.jpg',
                     'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
                 ],
                 'is_featured' => true,
@@ -136,9 +136,9 @@ class ResortDataSeeder extends Seeder
                 'max_children' => 2,
                 'bed_type' => '2 Double Beds',
                 'room_size' => '320 sq ft',
-                'image' => 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80',
+                'image' => '/uploads/rooms/family-ac-room.jpg',
                 'gallery' => [
-                    'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80',
+                    '/uploads/rooms/family-ac-room.jpg',
                 ],
                 'is_featured' => true,
                 'status' => 'active',

@@ -48,15 +48,27 @@
                                     ];
                                 @endphp
                                 <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase border {{ $statusStyle[$room->status] ?? 'bg-slate-100' }}">
-                                    {{ $room->status }}
+                                    {{ $room->status === 'occupied' ? 'Booked / Occupied' : $room->status }}
                                 </span>
                             </td>
                             <td class="py-4 px-6 text-xs text-slate-500">
                                 {{ $room->notes ?? '-' }}
                             </td>
-                            <td class="py-4 px-6 text-right space-x-2">
+                            <td class="py-4 px-6 text-right space-x-2 whitespace-nowrap">
+                                <form action="{{ route('admin.rooms.toggle-status', $room->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @if($room->status === 'available')
+                                        <button type="submit" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition">
+                                            Mark Booked
+                                        </button>
+                                    @else
+                                        <button type="submit" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition">
+                                            Mark Available
+                                        </button>
+                                    @endif
+                                </form>
                                 <button @click="editRoom = {{ json_encode($room) }}; editModal = true" class="text-xs font-bold text-brand-700 hover:text-brand-900">
-                                    Edit Status
+                                    Edit
                                 </button>
                                 <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete room unit {{ $room->room_number }}?');">
                                     @csrf
@@ -103,8 +115,8 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Status *</label>
                     <select name="status" required class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm bg-white">
-                        <option value="available">Available (Clean & Ready)</option>
-                        <option value="occupied">Occupied</option>
+                        <option value="available">Available (Clean &amp; Ready)</option>
+                        <option value="occupied">Booked / Occupied</option>
                         <option value="cleaning">Cleaning / Housekeeping</option>
                         <option value="maintenance">Maintenance</option>
                     </select>
@@ -153,8 +165,8 @@
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Status *</label>
                     <select name="status" x-model="editRoom.status" required class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm bg-white">
-                        <option value="available">Available (Clean & Ready)</option>
-                        <option value="occupied">Occupied</option>
+                        <option value="available">Available (Clean &amp; Ready)</option>
+                        <option value="occupied">Booked / Occupied</option>
                         <option value="cleaning">Cleaning / Housekeeping</option>
                         <option value="maintenance">Maintenance</option>
                     </select>

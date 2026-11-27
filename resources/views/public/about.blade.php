@@ -43,7 +43,7 @@
             </div>
 
             <div class="space-y-6">
-                <img src="{{ asset('images/logo.png') }}" alt="Sanda Logo" class="max-h-48 mx-auto object-contain drop-shadow-md">
+                <img src="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}" alt="Sanda Logo" class="max-h-48 mx-auto object-contain drop-shadow-md">
                 <div class="grid grid-cols-2 gap-4">
                     <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Resort Grounds" class="rounded-2xl shadow h-48 w-full object-cover">
                     <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" alt="Clean Room" class="rounded-2xl shadow h-48 w-full object-cover">

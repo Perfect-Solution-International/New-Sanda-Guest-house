@@ -47,7 +47,7 @@
         <div class="flex items-start justify-between border-b-2 border-slate-900 pb-6 gap-4">
             <div class="space-y-1">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-12 w-auto object-contain">
+                    <img src="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}" alt="Sanda" class="h-12 w-auto object-contain">
                     <div>
                         <h1 class="font-serif font-bold text-2xl text-slate-900 leading-tight">Sanda Guest House</h1>
                         <p class="text-xs text-amber-700 font-bold tracking-widest uppercase">Executive Performance & Occupancy Report</p>

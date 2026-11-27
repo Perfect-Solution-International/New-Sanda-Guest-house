@@ -87,8 +87,10 @@ class BookingAvailabilityService
         // Fetch overlapping active bookings in this time range
         $overlappingBookings = Booking::overlapping($checkInAt, $checkOutAt, $excludeBookingId)->get();
 
-        // Room IDs physically occupied
-        $occupiedRoomIds = $overlappingBookings->whereNotNull('room_id')->pluck('room_id')->toArray();
+        // Room IDs physically occupied by overlapping bookings or marked non-available by admin
+        $bookingOccupiedIds = $overlappingBookings->whereNotNull('room_id')->pluck('room_id')->toArray();
+        $statusBlockedIds = $allRooms->where('status', '!=', 'available')->pluck('id')->toArray();
+        $occupiedRoomIds = array_values(array_unique(array_merge($bookingOccupiedIds, $statusBlockedIds)));
 
         // Count of unassigned bookings per room_type_id
         $unassignedCountsByType = $overlappingBookings->whereNull('room_id')
@@ -186,7 +188,7 @@ class BookingAvailabilityService
                 'room_type_id' => $room->room_type_id,
                 'room_type_name' => $room->roomType->name ?? 'Room',
                 'floor_wing' => $room->floor_wing ?: 'Ground Floor',
-                'is_available_in_slot' => !$isOccupiedInSelectedSlot && $room->status !== 'maintenance',
+                'is_available_in_slot' => !$isOccupiedInSelectedSlot && $room->status === 'available',
                 'status' => $room->status,
                 'booked_slots' => $bookedSlots,
             ];

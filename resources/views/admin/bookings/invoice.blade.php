@@ -42,7 +42,7 @@
         <!-- Official Letterhead -->
         <div class="flex items-start justify-between border-b-2 border-emerald-800 pb-6 mb-8">
             <div class="flex items-center gap-4">
-                <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-20 w-auto rounded border border-slate-200">
+                <img src="{{ asset('images/logo.png') }}?v={{ filemtime(public_path('images/logo.png')) }}" alt="Sanda" class="h-20 w-auto object-contain">
                 <div>
                     <h1 class="font-serif font-bold text-2xl text-slate-900">Sanda Guest House</h1>
                     <div class="text-xs text-slate-600">Sella Katharagama, Monaragala, Sri Lanka</div>

@@ -57,6 +57,16 @@ class RoomAdminController extends Controller
         return redirect()->route('admin.rooms.index')->with('success', "Room {$room->room_number} updated!");
     }
 
+    public function toggleStatus(Room $room): RedirectResponse
+    {
+        $newStatus = $room->status === 'available' ? 'occupied' : 'available';
+        $room->update(['status' => $newStatus]);
+
+        $label = $newStatus === 'occupied' ? 'Booked / Occupied' : 'Available';
+
+        return redirect()->route('admin.rooms.index')->with('success', "Room {$room->room_number} marked as {$label}.");
+    }
+
     public function destroy(Room $room): RedirectResponse
     {
         $num = $room->room_number;

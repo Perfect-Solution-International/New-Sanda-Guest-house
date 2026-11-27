@@ -59,7 +59,7 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Brand Name (Left-aligned) -->
                 <a href="{{ route('home') }}" class="flex items-center gap-3.5 flex-shrink-0 group">
-                    <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-12 w-auto object-contain transition group-hover:scale-105">
+                    <img src="{{ asset('images/logo-nobg.png') }}?v={{ filemtime(public_path('images/logo-nobg.png')) }}" alt="Sanda" class="h-12 w-auto object-contain transition group-hover:scale-105">
                     <div>
                         <div class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight leading-none group-hover:text-gold-300 transition">
                             Sanda
@@ -74,8 +74,7 @@
                 <nav class="hidden md:flex items-center gap-7">
                     <a href="{{ route('home') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('home') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Home</a>
                     <a href="{{ route('rooms.index') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('rooms.*') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Rooms and Rates</a>
-                    <a href="{{ route('facilities') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('facilities') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Facilities</a>
-                    <a href="{{ route('gallery') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('gallery') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Photos</a>
+                    <a href="{{ route('facilities') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('facilities') || request()->routeIs('gallery') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Facilities</a>
                     <a href="{{ route('about') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('about') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">About</a>
                     <a href="{{ route('contact') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('contact') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition">Contact</a>
                     <a href="{{ route('booking.track') }}" class="text-xs font-semibold uppercase tracking-[0.18em] {{ request()->routeIs('booking.track*') ? 'text-gold-400 border-b border-gold-400 pb-1' : 'text-slate-300 hover:text-white' }} transition flex items-center gap-1.5">
@@ -105,7 +104,6 @@
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Home</a>
             <a href="{{ route('rooms.index') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Rooms and Rates</a>
             <a href="{{ route('facilities') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Facilities</a>
-            <a href="{{ route('gallery') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Photos</a>
             <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">About Us</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-lg font-medium text-slate-200 hover:bg-white/10 hover:text-gold-400 text-sm">Contact and Location</a>
             <a href="{{ route('booking.track') }}" class="block px-3 py-2 rounded-lg font-medium text-gold-400 hover:bg-white/10 text-sm flex items-center gap-2">
@@ -197,7 +195,7 @@
                 <!-- Col 3: Brand & Hospitality Statement -->
                 <div class="md:col-span-3 space-y-4">
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo.png') }}" alt="Sanda" class="h-10 w-auto object-contain">
+                        <img src="{{ asset('images/logo-nobg.png') }}?v={{ filemtime(public_path('images/logo-nobg.png')) }}" alt="Sanda" class="h-10 w-auto object-contain">
                         <div>
                             <div class="text-xl font-serif font-bold text-white leading-none">Sanda</div>
                             <div class="text-[9px] font-semibold text-gold-400 uppercase tracking-[0.2em] mt-0.5">Guest House</div>

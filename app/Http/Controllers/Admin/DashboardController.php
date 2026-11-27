@@ -44,6 +44,10 @@ class DashboardController extends Controller
 
         $recentBookings = Booking::with(['roomType', 'room'])->latest()->take(6)->get();
         $unreadInquiries = Inquiry::where('status', 'unread')->count();
+        $roomTypes = RoomType::withCount([
+            'rooms',
+            'rooms as available_rooms_count' => fn ($q) => $q->where('status', 'available'),
+        ])->get();
 
         return view('admin.dashboard', compact(
             'totalBookings',
@@ -61,7 +65,8 @@ class DashboardController extends Controller
             'maintenanceRooms',
             'occupancyRate',
             'recentBookings',
-            'unreadInquiries'
+            'unreadInquiries',
+            'roomTypes'
         ));
     }
 

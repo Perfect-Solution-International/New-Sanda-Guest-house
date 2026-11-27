@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/facilities', [HomeController::class, 'facilities'])->name('facilities');
-Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
+Route::get('/gallery', fn () => redirect()->route('facilities'))->name('gallery');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'submitInquiry'])->name('contact.submit');
 
@@ -87,6 +87,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/rooms', [RoomAdminController::class, 'index'])->name('rooms.index');
     Route::post('/rooms', [RoomAdminController::class, 'store'])->name('rooms.store');
     Route::put('/rooms/{room}', [RoomAdminController::class, 'update'])->name('rooms.update');
+    Route::post('/rooms/{room}/toggle-status', [RoomAdminController::class, 'toggleStatus'])->name('rooms.toggle-status');
     Route::delete('/rooms/{room}', [RoomAdminController::class, 'destroy'])->name('rooms.destroy');
 
     // Addons / Safari & Tour Packages

@@ -9,9 +9,48 @@
         @csrf
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
+            <div class="relative"
+                 x-data="{
+                     open: false,
+                     value: @js(old('name', '')),
+                     options: @js($categorySuggestions),
+                     get filtered() {
+                         if (!this.value) return this.options;
+                         const q = this.value.toLowerCase();
+                         return this.options.filter(o => o.toLowerCase().includes(q));
+                     }
+                 }"
+                 @click.away="open = false">
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category Name *</label>
-                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Deluxe Family Villa" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm">
+                <div class="relative">
+                    <input type="text"
+                           name="name"
+                           x-model="value"
+                           @focus="open = true"
+                           @keydown.escape="open = false"
+                           autocomplete="off"
+                           required
+                           placeholder="Select or type (e.g. Deluxe Family Villa)"
+                           class="w-full border border-slate-300 rounded-xl pl-4 pr-10 py-2.5 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                    <button type="button"
+                            @click="open = !open"
+                            class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-slate-700"
+                            title="Show category options">
+                        <i class="fa-solid fa-chevron-down text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                    </button>
+                </div>
+                <div x-show="open"
+                     x-cloak
+                     class="absolute z-30 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg max-h-52 overflow-y-auto py-1">
+                    <template x-for="opt in (filtered.length ? filtered : options)" :key="opt">
+                        <button type="button"
+                                @click="value = opt; open = false"
+                                class="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-brand-50 hover:text-brand-800 transition flex items-center justify-between">
+                            <span x-text="opt"></span>
+                            <i x-show="value === opt" class="fa-solid fa-check text-xs text-brand-600"></i>
+                        </button>
+                    </template>
+                </div>
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Base Price Per Night (Rs.) *</label>

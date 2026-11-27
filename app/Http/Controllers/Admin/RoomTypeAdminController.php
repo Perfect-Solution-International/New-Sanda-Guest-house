@@ -21,7 +21,31 @@ class RoomTypeAdminController extends Controller
     public function create(): View
     {
         $amenities = Amenity::all();
-        return view('admin.room_types.create', compact('amenities'));
+        $categorySuggestions = $this->categorySuggestions();
+        return view('admin.room_types.create', compact('amenities', 'categorySuggestions'));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function categorySuggestions(): array
+    {
+        $presets = [
+            'Standard A/C Double Room',
+            'Budget Non-A/C Double Room',
+            'Family A/C Room (4-5 Guests)',
+            'Family Non-A/C Room (Budget Group)',
+            'Deluxe Family Villa',
+            'Superior Double Room',
+            'Triple A/C Room',
+        ];
+
+        return RoomType::query()
+            ->pluck('name')
+            ->merge($presets)
+            ->unique()
+            ->values()
+            ->all();
     }
 
     public function store(Request $request): RedirectResponse
@@ -88,7 +112,8 @@ class RoomTypeAdminController extends Controller
     {
         $amenities = Amenity::all();
         $roomType->load('amenities');
-        return view('admin.room_types.edit', compact('roomType', 'amenities'));
+        $categorySuggestions = $this->categorySuggestions();
+        return view('admin.room_types.edit', compact('roomType', 'amenities', 'categorySuggestions'));
     }
 
     public function update(Request $request, RoomType $roomType): RedirectResponse
