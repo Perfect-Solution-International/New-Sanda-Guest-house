@@ -195,6 +195,26 @@
 
                             <td class="py-4 px-6 text-right whitespace-nowrap">
                                 <div class="inline-flex items-center gap-1.5 justify-end">
+                                    <!-- Quick Check-In (for pending/confirmed) -->
+                                    @if(in_array($booking->booking_status, ['pending', 'confirmed']))
+                                        <form action="{{ route('admin.bookings.check-in', $booking->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            <button type="submit" title="Mark Guest Checked In" class="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg transition shadow-xs cursor-pointer">
+                                                <i class="fa-solid fa-right-to-bracket text-[11px]"></i> <span>Check In</span>
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    <!-- Quick Check-Out (for checked_in) -->
+                                    @if($booking->booking_status === 'checked_in')
+                                        <form action="{{ route('admin.bookings.check-out', $booking->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            <button type="submit" title="Mark Guest Checked Out" class="inline-flex items-center gap-1 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg transition shadow-xs cursor-pointer">
+                                                <i class="fa-solid fa-right-from-bracket text-[11px]"></i> <span>Check Out</span>
+                                            </button>
+                                        </form>
+                                    @endif
+
                                     <!-- View -->
                                     <a href="{{ route('admin.bookings.show', $booking->id) }}" title="View & Manage" class="inline-flex items-center gap-1 bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs px-2.5 py-1.5 rounded-lg transition shadow-xs">
                                         <i class="fa-solid fa-eye text-[11px]"></i> <span>View</span>

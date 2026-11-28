@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\BookingAddon;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\Review;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\Setting;
@@ -278,7 +279,8 @@ class BookingController extends Controller
 
             if ($booking) {
                 $settings = Setting::pluck('value', 'key');
-                return view('public.booking.status_result', compact('booking', 'settings'));
+                $hasSubmittedReview = $this->hasSubmittedReview($booking);
+                return view('public.booking.status_result', compact('booking', 'settings', 'hasSubmittedReview'));
             }
         }
 
@@ -302,7 +304,8 @@ class BookingController extends Controller
         }
 
         $settings = Setting::pluck('value', 'key');
-        return view('public.booking.status_result', compact('booking', 'settings'));
+        $hasSubmittedReview = $this->hasSubmittedReview($booking);
+        return view('public.booking.status_result', compact('booking', 'settings', 'hasSubmittedReview'));
     }
 
     /**
@@ -485,5 +488,55 @@ class BookingController extends Controller
         return redirect()->route('booking.track', [
             'code' => $booking->booking_code,
         ])->with('success', 'Your special request has been sent to Sanda Guest House reception. Our team will review and update your stay.');
+    }
+
+    public function submitReview(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'phone' => 'nullable|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'guest_location' => 'nullable|string|max:255',
+            'comment' => 'required|string|min:5|max:1000',
+        ]);
+
+        $booking = Booking::findOrFail($validated['booking_id']);
+
+        if (!empty($validated['phone']) && !$this->isPhoneMatching($booking->guest_phone, $validated['phone'])) {
+            return back()->with('error', 'Phone verification failed for submitting a review.');
+        }
+
+        if ($booking->booking_status !== 'checked_out') {
+            return back()->with('error', 'Reviews can only be submitted after check-out.');
+        }
+
+        if ($this->hasSubmittedReview($booking)) {
+            return redirect()->route('booking.track', [
+                'code' => $booking->booking_code,
+            ])->with('success', 'You have already submitted a review for this stay. Thank you!');
+        }
+
+        Review::create([
+            'guest_name' => $booking->guest_name,
+            'guest_location' => !empty($validated['guest_location']) ? trim($validated['guest_location']) : 'Sri Lanka',
+            'rating' => (int) $validated['rating'],
+            'comment' => trim($validated['comment']),
+            'stay_date' => Carbon::parse($booking->check_in_date)->format('M Y'),
+            'is_approved' => false,
+        ]);
+
+        return redirect()->route('booking.track', [
+            'code' => $booking->booking_code,
+        ])->with('success', 'Thank you for your feedback! Your review has been submitted and will appear on our website once approved by our team.');
+    }
+
+    protected function hasSubmittedReview(Booking $booking): bool
+    {
+        $stayDate = Carbon::parse($booking->check_in_date)->format('M Y');
+
+        return Review::query()
+            ->where('guest_name', $booking->guest_name)
+            ->where('stay_date', $stayDate)
+            ->exists();
     }
 }

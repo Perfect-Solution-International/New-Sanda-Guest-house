@@ -4,7 +4,7 @@
 @section('page_title', 'Business Reports & CSV Exports')
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-6" x-data="{ expenseModal: false }">
 
     <!-- Top Action & Overview Bar -->
     <div class="flex flex-wrap items-center justify-between gap-4">
@@ -186,6 +186,162 @@
             <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">Average Daily Rate</span>
             <strong class="text-xl sm:text-2xl font-serif font-bold text-purple-800 block mt-1">Rs. {{ number_format($adr) }}</strong>
             <span class="text-[10px] text-slate-400">RevPAR: Rs. {{ number_format($revpar) }}</span>
+        </div>
+    </div>
+
+    <!-- Net Profit & Expense Summary Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-500 block">Total Expenses (Selected Period)</span>
+                <strong class="text-2xl font-serif font-bold text-rose-600 block mt-1">Rs. {{ number_format($totalExpenses) }}</strong>
+                <span class="text-[11px] text-slate-400">{{ $expenses->count() }} recorded expense item(s)</span>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs flex items-center justify-between md:col-span-2">
+            <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-gold-600 block">Net Profit (Gross Revenue − Expenses)</span>
+                <strong class="text-2xl sm:text-3xl font-serif font-bold block mt-1 {{ $netProfit >= 0 ? 'text-emerald-500' : 'text-rose-500' }}">
+                    {{ $netProfit < 0 ? '-' : '' }}Rs. {{ number_format(abs($netProfit)) }}
+                </strong>
+                <span class="text-[11px] text-slate-400">
+                    Revenue Rs. {{ number_format($grossRevenue) }} − Expenses Rs. {{ number_format($totalExpenses) }}
+                </span>
+            </div>
+            <button type="button" @click="expenseModal = true" class="bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-plus"></i> Add Daily Expense
+            </button>
+        </div>
+    </div>
+
+    <!-- Daily Expenses Tracker Table -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h3 class="font-serif font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-gold-500"></i> Daily Expenses &amp; Operating Costs
+                </h3>
+                <p class="text-xs text-slate-500">Track electricity, water, laundry, maintenance, staff, and daily guest house expenses.</p>
+            </div>
+            @if($expensesByCategory->isNotEmpty())
+                <div class="flex flex-wrap gap-1.5">
+                    @foreach($expensesByCategory as $cat => $catSum)
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                            {{ $cat }}: Rs. {{ number_format($catSum) }}
+                        </span>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider text-[10px] font-bold">
+                        <th class="py-3 px-4">Date</th>
+                        <th class="py-3 px-4">Expense Title</th>
+                        <th class="py-3 px-4">Category</th>
+                        <th class="py-3 px-4">Notes</th>
+                        <th class="py-3 px-4 text-right">Amount</th>
+                        <th class="py-3 px-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($expenses as $expense)
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="py-3 px-4 font-mono text-slate-700 whitespace-nowrap">
+                                {{ $expense->expense_date->format('M d, Y') }}
+                            </td>
+                            <td class="py-3 px-4 font-semibold text-slate-900">
+                                {{ $expense->title }}
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                                    {{ $expense->category }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-slate-500">
+                                {{ $expense->notes ?? '-' }}
+                            </td>
+                            <td class="py-3 px-4 text-right font-mono font-bold text-rose-600">
+                                Rs. {{ number_format($expense->amount, 2) }}
+                            </td>
+                            <td class="py-3 px-4 text-right">
+                                <form action="{{ route('admin.reports.expenses.destroy', $expense->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete expense {{ $expense->title }}?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-xs font-bold text-rose-600 hover:text-rose-800 cursor-pointer">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-6 text-center text-slate-400">
+                                No expenses recorded for this period. Click <strong>+ Add Daily Expense</strong> to record electricity, laundry, or maintenance costs.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Daily Expense Modal -->
+    <div x-show="expenseModal" x-cloak class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200" @click.outside="expenseModal = false">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif font-bold text-xl text-slate-900">Add Daily Expense</h3>
+                <button type="button" @click="expenseModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form action="{{ route('admin.reports.expenses.store') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Expense Title *</label>
+                    <input type="text" name="title" required placeholder="e.g. CEB Electricity Bill / Linen Laundry" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category *</label>
+                        <select name="category" required class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white">
+                            <option value="Electricity">Electricity</option>
+                            <option value="Water">Water</option>
+                            <option value="Laundry">Laundry</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Staff">Staff / Salary</option>
+                            <option value="Supplies">Cleaning &amp; Supplies</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Date *</label>
+                        <input type="date" name="expense_date" value="{{ now()->format('Y-m-d') }}" required class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Amount (Rs.) *</label>
+                    <input type="number" step="0.01" min="0.01" name="amount" required placeholder="e.g. 4500" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Notes (Optional)</label>
+                    <input type="text" name="notes" placeholder="e.g. Invoice #123 or Room 02 AC service" class="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm">
+                </div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" @click="expenseModal = false" class="text-xs font-bold text-slate-500 px-4 py-2">Cancel</button>
+                    <button type="submit" class="bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold px-6 py-2.5 rounded-xl text-xs cursor-pointer">Save Expense</button>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -40,6 +40,7 @@ Route::get('/track-booking', [BookingController::class, 'track'])->name('booking
 Route::post('/track-booking', [BookingController::class, 'checkStatus'])->name('booking.track.check');
 Route::post('/track-booking/cancel', [BookingController::class, 'requestCancellation'])->name('booking.track.cancel');
 Route::post('/track-booking/modify', [BookingController::class, 'requestModification'])->name('booking.track.modify');
+Route::post('/track-booking/review', [BookingController::class, 'submitReview'])->name('booking.track.review');
 Route::match(['get', 'post'], '/api/availability', [BookingController::class, 'checkLiveAvailability'])->name('api.availability');
 
 /*
@@ -69,6 +70,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/bookings/{booking}/edit', [BookingAdminController::class, 'edit'])->name('bookings.edit');
     Route::put('/bookings/{booking}', [BookingAdminController::class, 'update'])->name('bookings.update');
     Route::post('/bookings/{booking}/cancel', [BookingAdminController::class, 'cancel'])->name('bookings.cancel');
+    Route::post('/bookings/{booking}/check-in', [BookingAdminController::class, 'checkIn'])->name('bookings.check-in');
+    Route::post('/bookings/{booking}/check-out', [BookingAdminController::class, 'checkOut'])->name('bookings.check-out');
     Route::delete('/bookings/{booking}', [BookingAdminController::class, 'destroy'])->name('bookings.destroy');
     Route::get('/bookings/{booking}/invoice', [BookingAdminController::class, 'invoice'])->name('bookings.invoice');
 
@@ -113,6 +116,8 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/reports/export-revenue', [ReportAdminController::class, 'exportRevenueCsv'])->name('reports.export-revenue');
     Route::get('/reports/export-rooms', [ReportAdminController::class, 'exportRoomsCsv'])->name('reports.export-rooms');
     Route::get('/reports/print', [ReportAdminController::class, 'printReport'])->name('reports.print');
+    Route::post('/reports/expenses', [ReportAdminController::class, 'storeExpense'])->name('reports.expenses.store');
+    Route::delete('/reports/expenses/{expense}', [ReportAdminController::class, 'destroyExpense'])->name('reports.expenses.destroy');
 
     // Settings
     Route::get('/settings', [SettingAdminController::class, 'index'])->name('settings.index');

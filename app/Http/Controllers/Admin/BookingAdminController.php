@@ -470,6 +470,32 @@ class BookingAdminController extends Controller
         return redirect()->route('admin.bookings.show', $booking->id)->with('success', 'Reservation updated successfully!');
     }
 
+    public function checkIn(Booking $booking): RedirectResponse
+    {
+        if ($booking->room_id) {
+            Room::where('id', $booking->room_id)->update(['status' => 'occupied']);
+        }
+
+        $booking->update([
+            'booking_status' => 'checked_in',
+        ]);
+
+        return redirect()->back()->with('success', "Reservation #{$booking->booking_code} marked as Checked In.");
+    }
+
+    public function checkOut(Booking $booking): RedirectResponse
+    {
+        if ($booking->room_id) {
+            Room::where('id', $booking->room_id)->update(['status' => 'available']);
+        }
+
+        $booking->update([
+            'booking_status' => 'checked_out',
+        ]);
+
+        return redirect()->back()->with('success', "Reservation #{$booking->booking_code} marked as Checked Out and room released to available.");
+    }
+
     public function cancel(Booking $booking): RedirectResponse
     {
         if ($booking->room_id) {

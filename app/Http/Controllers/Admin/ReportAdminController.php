@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Expense;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\Setting;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -150,6 +153,15 @@ class ReportAdminController extends Controller
 
         $roomTypes = RoomType::all();
 
+        $expenses = Expense::whereBetween('expense_date', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')])
+            ->orderByDesc('expense_date')
+            ->orderByDesc('id')
+            ->get();
+
+        $totalExpenses = (float) $expenses->sum('amount');
+        $netProfit = $grossRevenue - $totalExpenses;
+        $expensesByCategory = $expenses->groupBy('category')->map(fn ($group) => (float) $group->sum('amount'));
+
         return view('admin.reports.index', compact(
             'bookings',
             'totalBookings',
@@ -172,7 +184,11 @@ class ReportAdminController extends Controller
             'roomTypes',
             'startDate',
             'endDate',
-            'preset'
+            'preset',
+            'expenses',
+            'totalExpenses',
+            'netProfit',
+            'expensesByCategory'
         ));
     }
 
@@ -476,5 +492,29 @@ class ReportAdminController extends Controller
             'endDate',
             'preset'
         ));
+    }
+
+    public function storeExpense(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:100',
+            'amount' => 'required|numeric|min:0.01',
+            'expense_date' => 'required|date',
+            'notes' => 'nullable|string|max:500',
+        ]);
+
+        $validated['recorded_by'] = Auth::id();
+        Expense::create($validated);
+
+        return back()->with('success', "Expense '{$validated['title']}' (Rs. " . number_format((float) $validated['amount'], 2) . ') recorded successfully.');
+    }
+
+    public function destroyExpense(Expense $expense): RedirectResponse
+    {
+        $title = $expense->title;
+        $expense->delete();
+
+        return back()->with('success', "Expense '{$title}' deleted.");
     }
 }

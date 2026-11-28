@@ -294,6 +294,91 @@
                     </div>
                 @endif
 
+                <!-- Self-Service Action 3: Leave a Review (After Check-out) -->
+                @if($booking->booking_status === 'checked_out')
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gold-300/70" x-data="{ rating: 5, hoverRating: 0 }">
+                        <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-gold-600 block mb-1">Guest Feedback</span>
+                                <h3 class="text-lg font-serif font-bold text-slate-900 flex items-center gap-2">
+                                    <i class="fa-solid fa-star text-gold-500"></i> Share Your Stay Experience
+                                </h3>
+                                <p class="text-xs text-slate-500 mt-1">
+                                    We hope you enjoyed your stay at Sanda Guest House! Rate your experience below.
+                                </p>
+                            </div>
+                        </div>
+
+                        @if(!empty($hasSubmittedReview))
+                            <div class="mt-5 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3 text-emerald-800 text-xs">
+                                <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                <div>
+                                    <strong class="block font-bold">Thank you for your review!</strong>
+                                    <span>Your feedback has been received and will be published on our homepage once approved by our team.</span>
+                                </div>
+                            </div>
+                        @else
+                            <form action="{{ route('booking.track.review') }}" method="POST" class="mt-5 space-y-4">
+                                @csrf
+                                <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+                                <input type="hidden" name="phone" value="{{ $booking->guest_phone }}">
+                                <input type="hidden" name="rating" x-model="rating">
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                        Your Rating *
+                                    </label>
+                                    <div class="flex items-center gap-2">
+                                        @for($star = 1; $star <= 5; $star++)
+                                            <button type="button"
+                                                    @click="rating = {{ $star }}"
+                                                    @mouseenter="hoverRating = {{ $star }}"
+                                                    @mouseleave="hoverRating = 0"
+                                                    class="text-2xl transition transform hover:scale-110 focus:outline-none cursor-pointer"
+                                                    :class="(hoverRating || rating) >= {{ $star }} ? 'text-gold-500' : 'text-slate-300'">
+                                                <i class="fa-solid fa-star"></i>
+                                            </button>
+                                        @endfor
+                                        <span class="ml-2 text-xs font-semibold text-slate-600" x-text="rating + ' / 5 Stars'"></span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                        Your City / Country (Optional)
+                                    </label>
+                                    <input type="text"
+                                           name="guest_location"
+                                           value="{{ old('guest_location') }}"
+                                           placeholder="e.g. Colombo, Sri Lanka"
+                                           class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-xs focus:ring-2 focus:ring-brand-700 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                        Your Review *
+                                    </label>
+                                    <textarea name="comment"
+                                              rows="3"
+                                              required
+                                              minlength="5"
+                                              placeholder="Tell future families about the cleanliness, comfort, hospitality, or proximity to Sella Katharagama temple..."
+                                              class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-xs focus:ring-2 focus:ring-brand-700 focus:outline-none">{{ old('comment') }}</textarea>
+                                </div>
+
+                                <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                                    <span class="text-[11px] text-slate-400">
+                                        <i class="fa-solid fa-shield-check text-emerald-600 mr-1"></i> Published after staff approval
+                                    </span>
+                                    <button type="submit" class="bg-brand-700 hover:bg-brand-800 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-sm flex items-center gap-2 cursor-pointer">
+                                        <i class="fa-solid fa-paper-plane text-gold-400"></i> Submit Review
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
+                @endif
+
             </div>
 
             <!-- Right Column (Billing Summary & Concierge Actions) -->
